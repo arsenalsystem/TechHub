@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Definitivo: Navegação em RAM no Linux</title>
+    <style>
+        :root {
+            --deep-dark: #023e8a;
+            --electric-blue: #00b4d8;
+            --soft-blue: #caf0f8;
+            --text-main: #2b2d42;
+            --code-bg: #0d1117;
+            --white: #ffffff;
+            --accent: #48cae4;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: #f8fbff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #03045e 0%, #0077b6 100%);
+            color: var(--white);
+            padding: 4rem 1rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -50px auto 50px;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.1);
+            border-top: 4px solid var(--electric-blue);
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        h2 { color: var(--deep-dark); border-left: 4px solid var(--accent); padding-left: 15px; }
+        h3 { color: var(--electric-blue); margin-top: 1.5rem; }
+
+        .browser-context {
+            display: flex;
+            gap: 20px;
+            background: var(--soft-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: #a9b1d6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+
+        .code-comment { color: #565f89; font-style: italic; }
+        .code-cmd { color: #7ee787; font-weight: bold; }
+
+        .step-warning {
+            background-color: #fff9db;
+            border-left: 5px solid #fab005;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .grid-pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+
+        .pro { background: #e6fffa; border: 1px solid #38b2ac; padding: 15px; border-radius: 8px; }
+        .contra { background: #fff5f5; border: 1px solid #f56565; padding: 15px; border-radius: 8px; }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: #03045e;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .grid-pros-cons { grid-template-columns: 1fr; }
+            header { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Navegação em RAM (PSD)</h1>
+    <p>Otimização Extrema para Usuários Linux no Fluxo Moderno de I.A. e Web</p>
+</header>
+
+<div class="container">
+    
+    <!-- CONTEÚDO 1: CONTEXTO -->
+    <section class="card">
+        <h2>Por que RAM e não SSD?</h2>
+        <p>Hoje, o navegador é o nosso ambiente de desenvolvimento e interação com I.A. (ChatGPT, Claude, VS Code Web). Essas ferramentas geram milhares de pequenos arquivos de cache e logs por segundo.</p>
+        
+        <div class="browser-context">
+            <div>
+                <strong>🚀 Velocidade de Resposta:</strong> A RAM é centenas de vezes mais rápida que um SSD NVMe. Isso reduz o <em>input lag</em> em chats de I.A. e na escrita de código.
+            </div>
+        </div>
+        <p>O <strong>Profile-sync-daemon (PSD)</strong> gerencia seu perfil (extensões, cookies, cache) diretamente no <code>tmpfs</code> (memória RAM), sincronizando com o disco apenas quando necessário.</p>
+    </section>
+
+    <!-- CONTEÚDO 2: INSTALAÇÃO E COMANDOS -->
+    <section class="card">
+        <h2>Instalação e Configuração Passo a Passo</h2>
+        
+        <p>1. Instale o pacote base:</p>
+        <div class="code-block">
+            <span class="code-cmd">sudo apt install profile-sync-daemon</span>
+        </div>
+
+        <p>2. Execute a primeira verificação (O ponto crucial):</p>
+        <div class="code-block">
+            <span class="code-cmd">psd parse</span>
+        </div>
+        
+        <div class="step-warning">
+            <strong>⚠️ Observação importante:</strong> Na primeira vez, ele dirá que o arquivo <code>psd.conf</code> foi criado e pede para você editá-lo. Geralmente, as configurações padrão já detectam seus navegadores automaticamente, bastando rodar o comando novamente.
+        </div>
+
+        <p>3. Ative o serviço para o seu usuário:</p>
+        <div class="code-block">
+            <span class="code-comment"># Habilita para iniciar junto com o computador</span><br>
+            <span class="code-cmd">systemctl --user enable psd</span><br><br>
+            <span class="code-comment"># Inicia o serviço e move o perfil para a RAM agora</span><br>
+            <span class="code-cmd">systemctl --user start psd</span>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO 3: EXPLICAÇÃO DOS COMANDOS -->
+    <section class="card">
+        <h2>O que cada comando faz?</h2>
+        <ul>
+            <li><strong>psd parse:</strong> Atua como um "scanner". Ele verifica quais navegadores você instalou (Chrome, Firefox, Brave) e se o arquivo de configuração está correto.</li>
+            <li><strong>systemctl --user enable:</strong> Cria um link simbólico no sistema. Ele diz ao Linux: "Assim que o Rogoberto fizer login, prepare o ambiente de RAM".</li>
+            <li><strong>systemctl --user start:</strong> É o gatilho de execução. Ele pega a pasta do seu perfil no disco, joga para a memória RAM e faz o navegador "acreditar" que os arquivos ainda estão no mesmo lugar.</li>
+        </ul>
+    </section>
+
+    <!-- CONTEÚDO 4: PRÓS E CONTRAS -->
+    <section class="card">
+        <h2>Avaliação Técnica</h2>
+        <div class="grid-pros-cons">
+            <div class="pro">
+                <strong>✅ Prós</strong>
+                <ul>
+                    <li>Zero latência no carregamento de abas.</li>
+                    <li>Aumenta a vida útil do SSD (menos escritas de cache).</li>
+                    <li>Privacidade: Cache de I.A. fica na RAM volátil.</li>
+                    <li>Sincronização automática em segundo plano.</li>
+                </ul>
+            </div>
+            <div class="contra">
+                <strong>❌ Contras / Riscos</strong>
+                <ul>
+                    <li>Consome memória RAM física (use se tiver 8GB ou mais).</li>
+                    <li>Quedas bruscas de energia podem causar perda do histórico da última sessão.</li>
+                    <li>Exige um kernel Linux estável para gerenciar o <code>tmpfs</code>.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO 5: VERIFICAÇÃO -->
+    <section class="card">
+        <h2>Como saber se deu certo?</h2>
+        <p>Para confirmar que você está navegando na velocidade da RAM, use o comando de status:</p>
+        <div class="code-block">
+            <span class="code-cmd">systemctl --user status psd</span>
+        </div>
+        <p>Procure pelo texto <strong style="color: #2d6a4f;">● active (running)</strong>. Se ele estiver lá, seu navegador agora é uma turbina!</p>
+    </section>
+
+</div>
+<!-- NOVO BLOCO: REFERÊNCIA DE COMANDOS -->
+    <section class="card">
+        <h2>🚀 Guia de Referência Rápida</h2>
+        <p>Utilize estes comandos no terminal para gerenciar e monitorar seu Profile-sync-daemon.</p>
+
+        <h3>1. Diagnóstico e Status</h3>
+        <table style="width:100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+            <tr style="border-bottom: 1px solid var(--soft-blue);">
+                <td style="padding: 10px;"><code>psd parse</code> ou <code>psd p</code></td>
+                <td style="padding: 10px;"><strong>O mais importante:</strong> Mostra quais navegadores foram detectados e se já estão na RAM.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--soft-blue);">
+                <td style="padding: 10px;"><code>systemctl --user status psd</code></td>
+                <td style="padding: 10px;">Verifica se o serviço está ativo. <em>(Lembre-se: "active (exited)" significa sucesso!)</em></td>
+            </tr>
+        </table>
+
+        <h3>2. Gerenciamento do Serviço</h3>
+        <div class="code-block">
+            <span class="code-comment"># Inicia a sincronização agora</span><br>
+            <span class="code-cmd">systemctl --user start psd</span><br><br>
+            
+            <span class="code-comment"># Para o serviço e devolve os arquivos para o disco (segurança)</span><br>
+            <span class="code-cmd">systemctl --user stop psd</span><br><br>
+
+            <span class="code-comment"># Garante que o PSD ligará sozinho com o sistema</span><br>
+            <span class="code-cmd">systemctl --user enable psd</span><br><br>
+
+            <span class="code-comment"># Força uma gravação dos dados da RAM para o disco agora</span><br>
+            <span class="code-cmd">psd resync</span>
+        </div>
+
+        <h3>3. Configurações e Backups</h3>
+        <div style="background: #f1f3f5; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+            <p><strong>Configuração:</strong> <code>~/.config/psd/psd.conf</code><br>
+            <small>Edite este arquivo se quiser escolher navegadores específicos na linha <code>BROWSERS=(...)</code>.</small></p>
+            
+            <p><strong>Backups:</strong> <code>~/.config/psd/backups/</code><br>
+            <small>Onde o PSD guarda uma cópia de segurança antes de mover seu perfil.</small></p>
+        </div>
+    </section>
+<footer>
+    <p>Desenvolvido para entusiastas de Linux e Alta Performance.</p>
+</footer>
+
+</body>
+</html>
