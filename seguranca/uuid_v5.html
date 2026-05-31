@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>UUID Determinístico (Nativo & Permanente)</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 50px; background: #f4f4f9; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border: 1px solid #ccc; }
+        .result { background: #eee; padding: 15px; word-break: break-all; font-family: monospace; font-weight: bold; color: #2c3e50; border-radius: 4px; }
+        small { color: #666; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Gerador Independente</h2>
+    <p>Este código não usa bibliotecas externas. Ele usa a API nativa do seu navegador.</p>
+    
+    <label>Digite o nome:</label>
+    <input type="text" id="inputNome" placeholder="Ex: Felipe" oninput="gerarUUID()">
+    
+    <small>Chave Gerada:</small>
+    <div id="output" class="result">---</div>
+    
+    <p><small style="color: red;">Dica: Salve o "Namespace" abaixo. Ele é o que garante que seus IDs sejam únicos para o seu negócio.</small></p>
+</div>
+
+<script>
+/**
+ * ESTA É A LÓGICA PURA DO UUID v5 (RFC 4122)
+ * Não depende de ninguém, apenas da matemática e do padrão SHA-1.
+ */
+
+// 1. Defina um Namespace (Nunca mude isso após começar a usar o sistema!)
+const NAMESPACE = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"; 
+
+async function uuidv5(name, namespace) {
+    // Converte o namespace para bytes
+    const nsBytes = parseUUID(namespace);
+    // Converte o nome para bytes
+    const nameBytes = new TextEncoder().encode(name);
+    
+    // Combina os dois: [Namespace + Nome]
+    const data = new Uint8Array(nsBytes.length + nameBytes.length);
+    data.set(nsBytes);
+    data.set(nameBytes, nsBytes.length);
+
+    // Gera o Hash SHA-1 (Nativo do Navegador)
+    const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+    const hashBytes = new Uint8Array(hashBuffer);
+
+    // Ajusta os bits para ser um UUID v5 oficial (conforme RFC 4122)
+    hashBytes[6] = (hashBytes[6] & 0x0f) | 0x50; // Versão 5
+    hashBytes[8] = (hashBytes[8] & 0x3f) | 0x80; // Variante RFC 4122
+
+    // Converte para string hexadecimal formatada
+    return formatUUID(hashBytes);
+}
+
+// Funções auxiliares para manipular os bytes sem bibliotecas
+function parseUUID(uuid) {
+    const v = uuid.replace(/-/g, '');
+    const bytes = new Uint8Array(16);
+    for (let i = 0; i < 16; i++) {
+        bytes[i] = parseInt(v.substr(i * 2, 2), 16);
+    }
+    return bytes;
+}
+
+function formatUUID(bytes) {
+    const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    return `${hex.substr(0, 8)}-${hex.substr(8, 4)}-${hex.substr(12, 4)}-${hex.substr(16, 4)}-${hex.substr(20, 12)}`;
+}
+
+// Função de interface
+async function gerarUUID() {
+    const nome = document.getElementById('inputNome').value.trim().toLowerCase();
+    const output = document.getElementById('output');
+    
+    if (nome) {
+        const id = await uuidv5(nome, NAMESPACE);
+        output.innerText = id;
+    } else {
+        output.innerText = "---";
+    }
+}
+</script>
+
+</body>
+</html>
