@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Gestão de Contexto IA</title>
+    <style>
+        :root {
+            --blue-dark: #0d47a1;
+            --blue-medium: #1976d2;
+            --blue-light: #e3f2fd;
+            --blue-accent: #2196f3;
+            --text-color: #333;
+            --bg-color: #f0f4f8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--blue-dark);
+        }
+
+        h1 {
+            color: var(--blue-dark);
+            text-align: center;
+            border-bottom: 2px solid var(--blue-light);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--blue-medium);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .method-card {
+            background-color: var(--blue-light);
+            border-left: 5px solid var(--blue-accent);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        code {
+            background-color: #263238;
+            color: #80d8ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background-color: #263238;
+            color: #eceff1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            border: 1px solid var(--blue-dark);
+        }
+
+        .tip {
+            background-color: #bbdefb;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--blue-dark);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Estratégia de Contexto Persistente</h1>
+    
+    <p>Use este guia para manter a continuidade entre sessões de chat temporário, economizando tokens e tempo.</p>
+
+    <div class="method-card">
+        <h2>1. O Checkpoint de Fechamento</h2>
+        <p>Antes de fechar a sessão, peça para a IA gerar o "DNA" da conversa:</p>
+        <pre>"Gere um resumo técnico conciso (Markdown) para carregar em uma nova sessão. Inclua: Objetivos, Decisões, Variáveis e Próximos Passos."</pre>
+    </div>
+
+    <h2>2. Formatos de Arquivo Sugeridos</h2>
+    <p>Salve os dados em um arquivo <code>.txt</code> ou <code>.md</code> usando estruturas que a IA lê rapidamente:</p>
+    <ul>
+        <li><strong>Markdown:</strong> Para hierarquia e tópicos.</li>
+        <li><strong>JSON:</strong> Para dados brutos e parâmetros técnicos.</li>
+        <li><strong>Prompt Comprimido:</strong> Para máxima economia de espaço.</li>
+    </ul>
+
+    <div class="method-card">
+        <h2>3. O Bootstrap (Reinicialização)</h2>
+        <p>Ao iniciar o novo chat, use este comando de abertura:</p>
+        <pre>"Aja como meu assistente. Assuma o contexto abaixo e ignore saudações:
+
+[COLE O CONTEÚDO DO SEU ARQUIVO AQUI]"</pre>
+    </div>
+
+    <h2>4. Dicas de Ouro</h2>
+    <p class="tip">✦ Use a "Compressão de Prompt" para reduzir textos longos em instruções densas que apenas IAs interpretam bem.</p>
+    <p class="tip">✦ Mantenha um arquivo fixo de "Persona" com suas preferências de escrita e regras que nunca mudam.</p>
+
+    <footer>
+        Guia criado para otimização de fluxo de trabalho com LLMs.
+    </footer>
+</div>
+
+</body>
+</html>
