@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Dev: Alta Performance & Contexto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a192f;
+            --bg-card: #112240;
+            --blue-light: #64ffda;
+            --blue-mid: #0077b6;
+            --blue-bright: #00b4d8;
+            --text-main: #ccd6f6;
+            --text-dim: #8892b0;
+            --accent: #233554;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--blue-bright);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            border-left: 4px solid var(--blue-mid);
+        }
+
+        h2 {
+            color: var(--blue-light);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p { margin-bottom: 15px; }
+
+        .highlight { color: var(--blue-bright); font-weight: 600; }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0, 180, 216, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--blue-light);
+        }
+
+        pre {
+            background: #010c1e;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--accent);
+            margin: 15px 0;
+        }
+
+        .command-box {
+            font-family: 'Fira Code', monospace;
+            color: #e6edf3;
+            font-size: 0.9rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card-mini {
+            background: var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .pros { color: #a8ffb3; }
+        .cons { color: #ff9999; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        th { color: var(--blue-bright); font-size: 0.9rem; text-transform: uppercase; }
+
+        .philosophy {
+            background: linear-gradient(135deg, #112240 0%, #0077b6 100%);
+            border: none;
+            text-align: center;
+        }
+
+        .philosophy h2 { justify-content: center; color: white; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>DevOps & IA: Otimização de Fluxo</h1>
+        <p class="subtitle">Acelerando o desenvolvimento com PSD e Estratégia de Contexto Persistente</p>
+    </header>
+
+    <section>
+        <h2>🚀 Por que RAM e não SSD?</h2>
+        <p>Hoje, o navegador é o nosso ambiente de desenvolvimento principal. Ferramentas como <span class="highlight">ChatGPT, Claude e VS Code Web</span> geram milhares de logs e arquivos de cache por segundo.</p>
+        <ul>
+            <li><strong>Velocidade:</strong> A RAM é centenas de vezes mais rápida que um NVMe, eliminando <em>input lag</em>.</li>
+            <li><strong>Vida Útil:</strong> Reduz drasticamente o ciclo de escrita (TBW) no seu SSD físico.</li>
+            <li><strong>Privacidade:</strong> Cache volátil desaparece ao desligar, mantendo o sistema limpo.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>🛠️ Profile-sync-daemon (PSD)</h2>
+        <p>O PSD gerencia seu perfil (extensões, cookies, cache) diretamente no <code>tmpfs</code> (RAM), sincronizando com o disco apenas quando necessário.</p>
+        
+        <div class="card-mini">
+            <p><strong>1. Instalação:</strong> <code>sudo apt install profile-sync-daemon</code></p>
+            <p><strong>2. Verificação Inicial:</strong> <code>psd parse</code> (Gera o arquivo de configuração).</p>
+            <p><strong>3. Ativação:</strong></p>
+            <pre class="command-box">
+systemctl --user enable psd
+systemctl --user start psd</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>📊 Avaliação Técnica</h2>
+        <div class="grid">
+            <div class="card-mini">
+                <h3 class="pros">✅ Prós</h3>
+                <p>• Zero latência em abas.<br>• Sincronização em background.<br>• Menos aquecimento do SSD.</p>
+            </div>
+            <div class="card-mini">
+                <h3 class="cons">❌ Riscos</h3>
+                <p>• Consome RAM física.<br>• Quedas de energia perdem a sessão atual.<br>• Exige Kernel estável.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>🔍 Guia de Comandos Rápidos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Comando</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>psd p</code></td>
+                    <td>Diagnóstico: Mostra o que está na RAM.</td>
+                </tr>
+                <tr>
+                    <td><code>psd resync</code></td>
+                    <td>Força a gravação da RAM para o Disco agora.</td>
+                </tr>
+                <tr>
+                    <td><code>systemctl --user status psd</code></td>
+                    <td>Verifica se o serviço está rodando.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>🧠 Estratégia de Contexto Persistente</h2>
+        <p>Como o sistema desliga após <span class="highlight">15 minutos de inatividade</span>, a continuidade é mantida através do "DNA da Conversa".</p>
+        
+        <div class="card-mini">
+            <h3>1. O Checkpoint</h3>
+            <p>Antes de encerrar, solicite à IA: <em>"Gere um resumo técnico (Markdown) para carregar em uma nova sessão, incluindo Decisões, Variáveis e Próximos Passos."</em></p>
+            
+            <h3>2. O Bootstrap (Reinicialização)</h3>
+            <p>Ao abrir um novo chat, envie o comando de gatilho:</p>
+            <pre class="command-box">Aja como meu assistente. Assuma o contexto abaixo e ignore saudações: [COLE O CONTEÚDO AQUI]</pre>
+        </div>
+    </section>
+
+    <section class="philosophy">
+        <h2>🧑‍💻 O Desenvolvedor como Agente</h2>
+        <p>Este sistema não é apenas sobre ferramentas, mas sobre <strong>domínio técnico</strong>. Ao gerenciar a infraestrutura e o contexto, eu não dependo da IA para tudo; eu a utilizo como uma extensão da minha própria capacidade cognitiva.</p>
+        <p><em>"Compreender o desenvolvimento é ser o mestre da própria ferramenta."</em></p>
+    </section>
+</div>
+
+</body>
+</html>
