@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Note - Editor de Texto Puro</title>
+    <style>
+        :root {
+            --primary-blue: #0d47a1;
+            --medium-blue: #1976d2;
+            --light-blue: #e3f2fd;
+            --accent-blue: #00bcd4;
+            --bg-color: #f0f4f8;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .info-bar {
+            background-color: var(--light-blue);
+            border-left: 5px solid var(--medium-blue);
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+        }
+
+        textarea {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid var(--medium-blue);
+            border-radius: 8px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            background-color: white;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 8px rgba(0, 188, 212, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-save {
+            background-color: var(--medium-blue);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-clear {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-clear:hover {
+            background-color: #d1e3f8;
+        }
+
+        footer {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Blue Note: Editor Volátil</h1>
+    </header>
+
+    <div class="container">
+        <div class="info-bar">
+            <strong>Privacidade Ativa:</strong> Este editor funciona apenas na memória RAM. Nada é salvo no cache do navegador. Ao salvar, os metadados são descartados.
+        </div>
+
+        <textarea id="texto" placeholder="Digite ou cole seu texto aqui..."></textarea>
+
+        <div class="controls">
+            <button class="btn-clear" onclick="limparTela()">Limpar Tela</button>
+            <button class="btn-save" onclick="salvarArquivo()">
+                💾 Salvar Diretamente no Pendrive
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        Processamento 100% Local | Sem Cookies | Sem Metadados
+    </footer>
+
+    <script>
+        // Função para salvar o arquivo diretamente
+        async function salvarArquivo() {
+            const conteudo = document.getElementById('texto').value;
+
+            if (!conteudo) {
+                alert("Não há texto para salvar.");
+                return;
+            }
+
+            try {
+                // Abre o seletor de arquivos do sistema
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: 'documento_limpo.txt',
+                    types: [{
+                        description: 'Arquivo de Texto Simples',
+                        accept: {'text/plain': ['.txt']},
+                    }],
+                });
+
+                // Cria o stream de escrita
+                const writable = await handle.createWritable();
+                
+                // Escreve apenas os caracteres (Plain Text)
+                // Isso garante que não haja cabeçalhos de metadados como em PDF ou DOCX
+                await writable.write(conteudo);
+                await writable.close();
+
+                alert("Arquivo gravado com sucesso no destino selecionado!");
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    alert("Erro ao salvar: " + err.message);
+                }
+            }
+        }
+
+        function limparTela() {
+            if (confirm("Deseja apagar tudo? O texto será removido da memória RAM.")) {
+                document.getElementById('texto').value = '';
+            }
+        }
+
+        // Aviso de segurança ao tentar fechar a página
+        window.onbeforeunload = function() {
+            if (document.getElementById('texto').value !== "") {
+                return "Você perderá o que digitou se sair sem salvar.";
+            }
+        };
+    </script>
+</body>
+</html>
