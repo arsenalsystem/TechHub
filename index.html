@@ -84,7 +84,7 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
             padding: 8px;
             border-radius: 6px;
             transition: background 0.2s;
@@ -93,10 +93,6 @@
         .link-item:hover {
             background-color: var(--light-blue);
             color: var(--primary-blue);
-        }
-
-        .link-item i {
-            font-size: 1.2rem;
         }
 
         .badge {
@@ -121,34 +117,11 @@
 
     <header>
         <h1>Painel de Ferramentas Estáticas</h1>
-        <p>Acesso rápido aos módulos de automação, segurança e desenvolvimento</p>
+        <p>Acesso rápido aos módulos de automação, desenvolvimento e segurança</p>
     </header>
 
     <div class="container">
         
-        <!-- Categoria: Segurança -->
-        <div class="category-card">
-            <h2 class="category-title">🛡️ Segurança</h2>
-            <ul>
-                <li>
-                    <a href="seguranca/sem_meta_dados.html" class="link-item">
-                        <span>Editor sem Metadados</span>
-                        <span class="badge">Privado</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="seguranca/navegação_em_RAM_PSD.html" class="link-item">
-                        <span>Navegação em RAM PSD</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="seguranca/uuid_v5.html" class="link-item">
-                        <span>Gerador UUID v5</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
         <!-- Categoria: Automação -->
         <div class="category-card">
             <h2 class="category-title">🤖 Automação</h2>
@@ -156,6 +129,7 @@
                 <li>
                     <a href="automacao/evo_api_vps.html" class="link-item">
                         <span>Evo API VPS</span>
+                        <span class="badge">API</span>
                     </a>
                 </li>
             </ul>
@@ -168,6 +142,38 @@
                 <li>
                     <a href="desenvolvimento/contextualizacao_chat_temporario.html" class="link-item">
                         <span>Chat Temporário Contextual</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="desenvolvimento/modo_de_desenvolver.html" class="link-item">
+                        <span>Modo de Desenvolver</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Categoria: Segurança -->
+        <div class="category-card">
+            <h2 class="category-title">🛡️ Segurança</h2>
+            <ul>
+                <li>
+                    <a href="seguranca/gerenciador_senhas_seguras.html" class="link-item">
+                        <span>Gerenciador de Senhas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="seguranca/navegação_em_RAM_PSD.html" class="link-item">
+                        <span>Navegação em RAM PSD</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="seguranca/sem_meta_dados.html" class="link-item">
+                        <span>Limpeza de Metadados</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="seguranca/uuid_v5.html" class="link-item">
+                        <span>Gerador UUID v5</span>
                     </a>
                 </li>
             </ul>
