@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeBlue - Gerenciador de Acessos</title>
+    <title>SafeBlue - Vault</title>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -12,37 +12,33 @@
             --text: #1e293b;
             --white: #ffffff;
             --danger: #ef4444;
-            --success: #22c55e;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
             padding: 20px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1000px; margin: 0 auto; }
 
+        /* Estilos Visuais (Tela) */
         header {
             background-color: var(--primary);
             color: var(--white);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
             text-align: center;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .card {
             background: var(--white);
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
@@ -53,11 +49,7 @@
             margin-bottom: 15px;
         }
 
-        @media (max-width: 600px) {
-            .form-group { grid-template-columns: 1fr; }
-        }
-
-        input, textarea {
+        input {
             width: 100%;
             padding: 10px;
             border: 1px solid #bfdbfe;
@@ -71,7 +63,6 @@
             border: none;
             border-radius: 6px;
             font-weight: bold;
-            transition: opacity 0.2s;
         }
 
         .btn-primary { background-color: var(--secondary); color: white; }
@@ -81,8 +72,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
+            margin-top: 10px;
         }
 
         th, td {
@@ -93,42 +83,67 @@
 
         th { background-color: #dbeafe; color: var(--primary); }
 
-        .master-pass-area {
-            background: #dbeafe;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid var(--secondary);
-        }
-
         .password-visible {
             font-family: monospace;
             font-weight: bold;
-            color: var(--primary);
-            background: #f1f5f9;
-            padding: 4px 8px;
-            border-radius: 4px;
+            color: #000;
         }
 
+        /* --- CONFIGURAÇÃO DE IMPRESSÃO (O CORAÇÃO DA SUA SOLICITAÇÃO) --- */
         @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .card { box-shadow: none; border: 1px solid #ccc; }
+            /* Esconde absolutamente tudo que não for a tabela */
+            header, .no-print, .master-pass-area, h3, .card:not(#tableCard) {
+                display: none !important;
+            }
+
+            body, .container {
+                background: white;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+            #tableCard {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            table {
+                width: 100%;
+                border: 1px solid #000;
+            }
+
+            th, td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                color: black !important;
+            }
+
+            th {
+                background-color: #f2f2f2 !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            /* Esconde a coluna de ações (botão excluir) na impressão */
+            .col-acoes {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
+    <header class="no-print">
         <h1>SafeBlue Vault</h1>
-        <p>Armazenamento Local Criptografado</p>
+        <p>Dados Criptografados Localmente</p>
     </header>
 
-    <!-- Senha Mestra -->
-    <div class="master-pass-area no-print" id="setupArea">
+    <!-- Login / Chave Mestra -->
+    <div class="card master-pass-area no-print" id="setupArea">
         <h3>🔑 Chave de Criptografia</h3>
-        <p>Digite uma senha mestra. Ela será usada para criptografar/descriptografar seus dados. <strong>Se você esquecer, os dados serão perdidos.</strong></p>
+        <p>Digite sua senha para desbloquear e ler os dados:</p>
         <div style="display: flex; gap: 10px;">
             <input type="password" id="masterPassword" placeholder="Sua Senha Mestra">
             <button class="btn-primary" onclick="initVault()">Desbloquear</button>
@@ -136,38 +151,38 @@
     </div>
 
     <div id="mainContent" style="display: none;">
-        <!-- Formulário -->
+        <!-- Formulário de Cadastro -->
         <div class="card no-print">
             <h3>Adicionar Novo Acesso</h3>
             <div class="form-group">
-                <input type="text" id="site" placeholder="Site/Serviço (ex: Gmail)">
-                <input type="text" id="username" placeholder="Usuário/Acessos">
-                <input type="text" id="password" placeholder="Senha (Ficará visível na lista)">
-                <input type="text" id="description" placeholder="Descrição Curta">
+                <input type="text" id="site" placeholder="Site/Serviço">
+                <input type="text" id="username" placeholder="Usuário">
+                <input type="text" id="password" placeholder="Senha">
+                <input type="text" id="description" placeholder="Descrição">
             </div>
-            <button class="btn-primary" onclick="saveData()">Salvar no Banco</button>
+            <button class="btn-primary" onclick="saveData()">Salvar Dados</button>
         </div>
 
-        <!-- Ações -->
-        <div class="no-print" style="margin-bottom: 20px; display: flex; gap: 10px;">
-            <button class="btn-export" onclick="exportJSON()">Exportar JSON</button>
+        <!-- Botões de Ação -->
+        <div class="no-print" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn-export" onclick="exportJSON()">Exportar Backup (JSON)</button>
             <input type="file" id="importFile" style="display: none;" onchange="importJSON(event)">
-            <button class="btn-export" onclick="document.getElementById('importFile').click()">Importar JSON</button>
-            <button class="btn-primary" onclick="window.print()">🖨️ Imprimir Lista</button>
+            <button class="btn-export" onclick="document.getElementById('importFile').click()">Importar Backup</button>
+            <button class="btn-primary" style="background-color: #059669;" onclick="window.print()">🖨️ Imprimir Tabela</button>
         </div>
 
-        <!-- Tabela -->
-        <div class="card">
-            <h3>Seus Acessos</h3>
+        <!-- Tabela de Dados -->
+        <div class="card" id="tableCard">
+            <h3 class="no-print">Lista de Acessos</h3>
             <div style="overflow-x: auto;">
-                <table>
+                <table id="myTable">
                     <thead>
                         <tr>
                             <th>Site</th>
                             <th>Acessos</th>
                             <th>Senha (Visível)</th>
                             <th>Descrição</th>
-                            <th class="no-print">Ações</th>
+                            <th class="col-acoes no-print">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="dataTable"></tbody>
@@ -180,54 +195,40 @@
 <script>
     let db;
     let cryptoKey;
-    const DB_NAME = "SafeBlueDB";
+    const DB_NAME = "SafeBlueDB_v2";
     const STORE_NAME = "credentials";
 
-    // --- SEGURANÇA E CRIPTOGRAFIA ---
+    // Criptografia robusta
     async function deriveKey(password) {
         const encoder = new TextEncoder();
-        const salt = encoder.encode("safeblue-salt-123"); // Salt fixo para este app
-        const baseKey = await crypto.subtle.importKey(
-            "raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]
-        );
+        const salt = encoder.encode("salt-estatico-para-o-vault");
+        const baseKey = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveKey"]);
         return crypto.subtle.deriveKey(
             { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
-            baseKey,
-            { name: "AES-GCM", length: 256 },
-            false, ["encrypt", "decrypt"]
+            baseKey, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
         );
     }
 
     async function encryptData(text) {
+        if(!text) text = " ";
         const iv = crypto.getRandomValues(new Uint8Array(12));
         const encoded = new TextEncoder().encode(text);
-        const ciphertext = await crypto.subtle.encrypt(
-            { name: "AES-GCM", iv }, cryptoKey, encoded
-        );
-        return {
-            iv: Array.from(iv),
-            data: Array.from(new Uint8Array(ciphertext))
-        };
+        const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, encoded);
+        return { iv: Array.from(iv), data: Array.from(new Uint8Array(ciphertext)) };
     }
 
     async function decryptData(obj) {
         try {
             const iv = new Uint8Array(obj.iv);
             const data = new Uint8Array(obj.data);
-            const decrypted = await crypto.subtle.decrypt(
-                { name: "AES-GCM", iv }, cryptoKey, data
-            );
+            const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, cryptoKey, data);
             return new TextDecoder().decode(decrypted);
-        } catch (e) {
-            return "ERRO DE DESCRIPTOGRAFIA";
-        }
+        } catch (e) { return "Erro: Senha Incorreta"; }
     }
 
-    // --- BANCO DE DADOS (INDEXEDDB) ---
     async function initVault() {
         const pass = document.getElementById('masterPassword').value;
-        if (pass.length < 4) return alert("Senha muito curta!");
-        
+        if (!pass) return alert("Digite a senha!");
         cryptoKey = await deriveKey(pass);
         
         const request = indexedDB.open(DB_NAME, 1);
@@ -247,10 +248,8 @@
             site: await encryptData(document.getElementById('site').value),
             username: await encryptData(document.getElementById('username').value),
             password: await encryptData(document.getElementById('password').value),
-            description: await encryptData(document.getElementById('description').value),
-            date: new Date().toISOString()
+            description: await encryptData(document.getElementById('description').value)
         };
-
         const tx = db.transaction(STORE_NAME, "readwrite");
         tx.objectStore(STORE_NAME).add(entry);
         tx.oncomplete = () => {
@@ -263,18 +262,15 @@
         const tbody = document.getElementById('dataTable');
         tbody.innerHTML = "";
         const tx = db.transaction(STORE_NAME, "readonly");
-        const store = tx.objectStore(STORE_NAME);
-        const request = store.getAll();
-
-        request.onsuccess = async () => {
-            for (const item of request.result) {
+        tx.objectStore(STORE_NAME).getAll().onsuccess = async (e) => {
+            for (const item of e.target.result) {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${await decryptData(item.site)}</td>
                     <td>${await decryptData(item.username)}</td>
-                    <td><span class="password-visible">${await decryptData(item.password)}</span></td>
+                    <td class="password-visible">${await decryptData(item.password)}</td>
                     <td>${await decryptData(item.description)}</td>
-                    <td class="no-print">
+                    <td class="col-acoes no-print">
                         <button class="btn-danger" onclick="deleteItem(${item.id})">Excluir</button>
                     </td>
                 `;
@@ -283,49 +279,33 @@
     }
 
     function deleteItem(id) {
-        if (!confirm("Excluir este registro?")) return;
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        tx.objectStore(STORE_NAME).delete(id);
-        tx.oncomplete = loadTable;
+        if (confirm("Deseja apagar este registro?")) {
+            const tx = db.transaction(STORE_NAME, "readwrite");
+            tx.objectStore(STORE_NAME).delete(id);
+            tx.oncomplete = loadTable;
+        }
     }
 
-    // --- IMPORTAÇÃO / EXPORTAÇÃO ---
-    async function exportJSON() {
+    function exportJSON() {
         const tx = db.transaction(STORE_NAME, "readonly");
         tx.objectStore(STORE_NAME).getAll().onsuccess = (e) => {
-            const data = JSON.stringify(e.target.result);
-            const blob = new Blob([data], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([JSON.stringify(e.target.result)], { type: "application/json" });
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_safeblue_${new Date().getTime()}.json`;
+            a.href = URL.createObjectURL(blob);
+            a.download = "backup_senhas.json";
             a.click();
         };
     }
 
     function importJSON(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
         const reader = new FileReader();
-        reader.onload = async (e) => {
-            try {
-                const data = JSON.parse(e.target.result);
-                const tx = db.transaction(STORE_NAME, "readwrite");
-                const store = tx.objectStore(STORE_NAME);
-                data.forEach(item => {
-                    delete item.id; // Deixa o IndexedDB gerar novos IDs
-                    store.add(item);
-                });
-                tx.oncomplete = () => {
-                    alert("Importado com sucesso!");
-                    loadTable();
-                };
-            } catch (err) {
-                alert("Erro ao importar arquivo. Certifique-se que é um JSON válido.");
-            }
+        reader.onload = (e) => {
+            const data = JSON.parse(e.target.result);
+            const tx = db.transaction(STORE_NAME, "readwrite");
+            data.forEach(item => { delete item.id; tx.objectStore(STORE_NAME).add(item); });
+            tx.oncomplete = () => { alert("Importado!"); loadTable(); };
         };
-        reader.readAsText(file);
+        reader.readAsText(event.target.files[0]);
     }
 </script>
 
