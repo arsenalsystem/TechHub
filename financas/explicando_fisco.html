@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entenda a Malha Fina e o Pix</title>
+    <style>
+        :root {
+            --blue-dark: #1a3a5f;
+            --blue-medium: #2c5282;
+            --blue-light: #ebf8ff;
+            --blue-accent: #4299e1;
+            --text-color: #2d3748;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--blue-dark);
+            color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--blue-accent);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 1rem auto 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--blue-medium);
+        }
+
+        h2 {
+            color: var(--blue-dark);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 span {
+            background: var(--blue-light);
+            color: var(--blue-medium);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background-color: var(--blue-light);
+            border: 1px dashed var(--blue-accent);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-note {
+            background-color: var(--blue-dark);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 3rem;
+        }
+
+        strong {
+            color: var(--blue-dark);
+        }
+
+        .footer-note strong {
+            color: var(--blue-accent);
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>A Realidade da Fiscalização Financeira</h1>
+    <p>Por que movimentações comuns de PF raramente caem na malha fina? Entenda os critérios de relevância e o foco da Receita Federal.</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2><span>1</span> Foco em Crimes e Grandes Sonegadores</h2>
+        <p>A Receita Federal possui recursos limitados e utiliza Inteligência Artificial para selecionar alvos estratégicos. O objetivo principal não é o cidadão comum, mas sim:</p>
+        <ul>
+            <li><strong>Contas "Fantasmas":</strong> Fluxos de milhões que entram e saem em minutos.</li>
+            <li><strong>Lavagem de Dinheiro:</strong> Ocultação de patrimônio por facções ou uso de CPFs "laranjas".</li>
+        </ul>
+        <div class="highlight-box">
+            Se você movimenta entre <strong>R$ 6.000 e R$ 15.000</strong> por mês como autônomo ou rachando contas, você está na base da pirâmide. O custo operacional para te fiscalizar é maior do que o imposto a ser arrecadado.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><span>2</span> Malha Fina por "Denúncia" Cruzada</h2>
+        <p>A malha fina tradicional de Pessoa Física (PF) raramente trava por olhar o extrato, mas sim pelo cruzamento de declarações entre duas partes:</p>
+        <p><em>Exemplo:</em> Você declara um pagamento médico para deduzir imposto, mas o médico não declara o recebimento. O sistema trava ambos os CPFs na hora.</p>
+        <p>No caso do <strong>Pix ou boleto</strong>, não há uma "contraparte" declarando a transação individualmente. O banco envia apenas o valor global, o que torna difícil travar o sistema sem uma discrepância absurda.</p>
+    </div>
+
+    <div class="card">
+        <h2><span>3</span> Quando o problema realmente acontece?</h2>
+        <p>Existem três cenários específicos onde a movimentação bancária acende o alerta vermelho:</p>
+        <ul>
+            <li><strong>Variação Patrimonial Incompatível:</strong> O gatilho não é o Pix em si, mas o que você compra. Comprar um imóvel ou carro de luxo sem renda declarada avisa o fisco via DIMOB ou DOI.</li>
+            <li><strong>Profissionais Liberais:</strong> Médicos e advogados que recebem altos valores de clientes (que declaram o gasto) mas não emitem recibo ou Carnê-Leão.</li>
+            <li><strong>Contas de Passagem:</strong> Emprestar o CPF para terceiros movimentarem centenas de milhares de reais. O volume extremo acende o alerta.</li>
+        </ul>
+    </div>
+
+    <div class="footer-note">
+        <h2>Resumo Prático</h2>
+        <p>Na teoria, qualquer irregularidade pode gerar autuação. Na prática, a Receita Federal calibra seus "supercomputadores" para <strong>pescar tubarões</strong>, permitindo que as pequenas movimentações do dia a dia passem fora do foco principal.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
