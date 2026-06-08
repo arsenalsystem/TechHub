@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fechamento de Vendas Agro - Oficial</title>
+    <title>Estudo de Viabilidade Financeira - Agro</title>
+    
+    <!-- Favicon Temático -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2610/2610309.png">
+
     <style>
         :root {
             --primary: #003366;
             --secondary: #00509d;
-            --accent: #e7f0f8;
-            --border: #dee2e6;
-            --text: #333;
+            --accent: #f0f4f8;
+            --border: #ced4da;
+            --text-dark: #212529;
+            --danger: #cc0000;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #555;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #444;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -27,145 +32,163 @@
             min-height: 297mm;
             background: white;
             padding: 15mm;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             border-bottom: 3px solid var(--primary);
-            padding-bottom: 15px;
+            padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
-        .header-title h1 {
+        .logo-area h1 {
             color: var(--primary);
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
             text-transform: uppercase;
         }
 
-        .auth-stamp {
-            text-align: right;
+        .logo-area p {
+            margin: 5px 0 0 0;
             font-size: 11px;
-            color: #555;
-            line-height: 1.4;
+            color: #666;
         }
 
-        /* Área de Inputs */
-        .input-panel {
+        .auth-data {
+            text-align: right;
+            font-size: 10px;
+            color: #444;
+            line-height: 1.4;
+            font-family: monospace;
+        }
+
+        /* Painel de Inputs */
+        .input-box {
             background: var(--accent);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            border: 1px solid #c0d4e4;
+            gap: 12px;
+            border: 1px solid #d1d9e0;
         }
 
         .form-group { display: flex; flex-direction: column; }
         .form-group.full { grid-column: span 3; }
         
         label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 4px;
-            text-transform: uppercase;
+            margin-bottom: 3px;
         }
 
         input {
-            padding: 8px;
-            border: 1px solid #99bcda;
+            padding: 6px;
+            border: 1px solid var(--border);
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
+        }
+
+        /* Informações do Avaliado no Documento */
+        .info-avaliado-doc {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         /* Tabela */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         th {
             background-color: var(--primary);
             color: white;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
-            font-size: 13px;
+            font-size: 11px;
+            text-transform: uppercase;
         }
 
         td {
-            padding: 10px 12px;
+            padding: 10px;
             border-bottom: 1px solid var(--border);
-            font-size: 14px;
+            font-size: 13px;
+            color: var(--text-dark);
         }
 
-        .row-subtotal {
-            background-color: #f8f9fa;
+        .font-bold { font-weight: bold; }
+        
+        .row-result {
+            background-color: var(--primary) !important;
+        }
+        
+        .row-result td {
+            color: #ffffff !important;
             font-weight: bold;
-            color: #000;
+            font-size: 15px;
         }
 
-        .row-final {
-            background-color: var(--primary);
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
+        .disclaimer {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 12px;
+            font-size: 10px;
+            color: #555;
+            text-align: justify;
+            line-height: 1.5;
         }
 
-        .row-final td { border: none; }
-
-        /* Rodapé e Assinatura */
-        .signature-area {
-            margin-top: 40px;
+        .signature-section {
             display: flex;
             justify-content: space-between;
+            margin: 30px 0;
         }
 
-        .sig-box {
-            border-top: 1px solid #000;
+        .sig-line {
             width: 45%;
+            border-top: 1px solid #000;
             text-align: center;
             padding-top: 5px;
-            font-size: 12px;
-            margin-top: 40px;
+            font-size: 11px;
         }
 
-        .verification-footer {
-            margin-top: 40px;
-            padding: 15px;
-            border: 1px dashed var(--primary);
-            font-size: 10px;
-            color: #444;
-            background: #fafafa;
-        }
-
-        .no-print {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        button {
+        .btn-print {
             background: var(--primary);
             color: white;
-            padding: 12px 25px;
+            padding: 10px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 16px;
         }
 
         @media print {
+            @page { margin: 0; }
             body { background: white; padding: 0; }
-            .page { box-shadow: none; width: 100%; margin: 0; padding: 10mm; }
-            .input-panel, .no-print { display: none; }
-            button { display: none; }
+            .page { 
+                box-shadow: none; 
+                width: 100%; 
+                margin: 0; 
+                padding: 10mm; 
+                min-height: auto; 
+                height: auto; 
+            }
+            .input-box, .btn-print { display: none; }
+            .disclaimer { border: none; }
         }
     </style>
 </head>
@@ -173,175 +196,210 @@
 
 <div class="page">
     <header>
-        <div class="header-title">
-            <h1>Demonstrativo de Resultados Agro</h1>
-            <small>Cálculo de Margem Líquida e Comissionamento</small>
+        <div class="logo-area">
+            <h1>ESTUDO DE VIABILIDADE FINANCEIRA</h1>
+            <p>Consultoria Técnica e Operacional</p>
         </div>
-        <div class="auth-stamp">
-            <strong>CÓDIGO DE AUTENTICIDADE</strong><br>
-            <span id="cod-hash">---</span><br>
-            Data: <span id="txt-data"></span> | Hora: <span id="txt-hora"></span>
+        <div class="auth-data">
+            <strong>AUTENTICAÇÃO DIGITAL</strong><br>
+            ID: <span id="val-hash">GERANDO...</span><br>
+            EMISSÃO: <span id="val-timestamp">---</span>
         </div>
     </header>
 
-    <!-- Painel de entrada de dados -->
-    <div class="input-panel">
+    <!-- Painel de Inputs (Oculto na impressão) -->
+    <div class="input-box">
         <div class="form-group full">
-            <label>Nome do Consultor / Vendedor:</label>
-            <input type="text" id="vendedor" placeholder="Nome Completo" oninput="calcular()">
+            <label>NOME DO CONSULTOR FINANCEIRO:</label>
+            <input type="text" id="in_vendedor" placeholder="Nome do Consultor" onkeyup="calcular()">
+        </div>
+        <div class="form-group full" style="border-top: 1px solid #ccc; padding-top: 10px; margin-top: 5px;">
+            <label>NOME / RAZÃO SOCIAL DO AVALIADO:</label>
+            <input type="text" id="in_avaliado_nome" placeholder="Cliente ou Empresa" onkeyup="calcular()">
+        </div>
+        <div class="form-group full">
+            <label id="lbl_avaliado_doc">CPF / CNPJ DO AVALIADO:</label>
+            <input type="text" id="in_avaliado_doc" placeholder="000.000.000-00" oninput="mascaraDoc(this); calcular()">
         </div>
         <div class="form-group">
-            <label>1. Total Geral Estimado (R$):</label>
-            <input type="number" id="val_estimado" value="0" oninput="calcular()">
+            <label>TOTAL ESTIMADO (R$):</label>
+            <input type="number" id="in_estimado" value="10000" oninput="calcular()">
         </div>
         <div class="form-group">
-            <label>2. Inadimplência do Mês (R$):</label>
-            <input type="number" id="val_inadimplencia" value="0" oninput="calcular()">
+            <label>INADIMPLÊNCIA (R$):</label>
+            <input type="number" id="in_inadimplencia" value="500" oninput="calcular()">
         </div>
         <div class="form-group">
-            <label style="color: #d9534f;">= FATURAMENTO REAL (Calculado)</label>
-            <input type="text" id="val_real_display" disabled style="background: #eee; font-weight: bold;">
-        </div>
-        
-        <div class="form-group">
-            <label>CMV / Pagto Fornecedor (%):</label>
-            <input type="number" id="p_cmv" value="80" oninput="calcular()">
+            <label>CMV / FORNECEDOR (%):</label>
+            <input type="number" id="in_p_cmv" value="80" oninput="calcular()">
         </div>
         <div class="form-group">
-            <label>Comissão (%):</label>
-            <input type="number" id="p_comissao" value="3" oninput="calcular()">
+            <label>COMISSÃO (%) :</label>
+            <input type="number" id="in_p_com" value="3" oninput="calcular()">
         </div>
         <div class="form-group">
-            <label>Despesas Operacionais (%):</label>
-            <input type="number" id="p_despesas" value="5" oninput="calcular()">
+            <label>DESPESAS (%) :</label>
+            <input type="number" id="in_p_desp" value="5" oninput="calcular()">
         </div>
     </div>
 
-    <!-- Tabela Resultante -->
+    <!-- Informações do Avaliado (Visível no Documento) -->
+    <div class="info-avaliado-doc">
+        <strong>Avaliado:</strong> <span id="out_avaliado_nome">---</span><br>
+        <strong id="out_lbl_doc">CPF/CNPJ:</strong> <span id="out_avaliado_doc">---</span>
+    </div>
+
+    <!-- Tabela -->
     <table>
         <thead>
             <tr>
-                <th>DESCRIÇÃO DOS LANÇAMENTOS</th>
-                <th style="width: 120px;">REF (%)</th>
-                <th style="width: 200px;">TOTAL (R$)</th>
+                <th>Especificação Técnica</th>
+                <th style="width: 80px;">Base %</th>
+                <th style="width: 160px;">Valor (R$)</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Total Geral Estimado de Faturamento</td>
+                <td>Volume Bruto Estimado</td>
                 <td>-</td>
-                <td id="res-estimado">R$ 0,00</td>
+                <td id="res_estimado">R$ 0,00</td>
             </tr>
             <tr>
-                <td>(-) Inadimplência Identificada no Período</td>
-                <td>-</td>
-                <td id="res-inadimplencia" style="color: red;">R$ 0,00</td>
+                <td>(-) Inadimplência do Período</td>
+                <td id="res_p_inad">0,00%</td>
+                <td id="res_v_inad" style="color: var(--danger);">R$ 0,00</td>
             </tr>
-            <tr class="row-subtotal">
+            <tr style="background:#f8f9fa; font-weight:bold;">
                 <td>FATURAMENTO REAL (Base de Cálculo)</td>
                 <td>100%</td>
-                <td id="res-faturamento-real">R$ 0,00</td>
+                <td id="res_real">R$ 0,00</td>
             </tr>
             <tr>
-                <td>Custo de Mercadoria (Pagamento Fornecedor)</td>
-                <td id="tab-p-cmv">0%</td>
-                <td id="res-cmv">R$ 0,00</td>
+                <td>Custo Mercadoria (Fornecedor)</td>
+                <td id="res_p_cmv">0%</td>
+                <td id="res_v_cmv">R$ 0,00</td>
             </tr>
             <tr>
-                <td>Comissão Técnica de Vendas</td>
-                <td id="tab-p-com">0%</td>
-                <td id="res-com">R$ 0,00</td>
+                <td>Comissão de Vendas</td>
+                <td id="res_p_com">0%</td>
+                <td id="res_v_com">R$ 0,00</td>
             </tr>
             <tr>
-                <td>Despesas Operacionais e Logística</td>
-                <td id="tab-p-des">0%</td>
-                <td id="res-des">R$ 0,00</td>
+                <td>Despesas Logísticas/Operacionais</td>
+                <td id="res_p_desp">0%</td>
+                <td id="res_v_desp">R$ 0,00</td>
+            </tr>
+            <tr class="row-result">
+                <td>RESULTADO LÍQUIDO DA OPERAÇÃO</td>
+                <td id="res_p_lucro">0%</td>
+                <td id="res_v_lucro">R$ 0,00</td>
             </tr>
         </tbody>
-        <tfoot>
-            <tr class="row-final">
-                <td>LUCRO LÍQUIDO ESTIMADO</td>
-                <td id="res-p-lucro">0%</td>
-                <td id="res-v-lucro">R$ 0,00</td>
-            </tr>
-        </tfoot>
     </table>
 
-    <p style="margin-top: 20px;"><strong>Consultor Responsável:</strong> <span id="out-vendedor">___________________________</span></p>
+    <p><strong>Consultor Financeiro:</strong> <span id="out_vendedor">___________________________</span></p>
 
-    <div class="signature-area">
-        <div class="sig-box">Assinatura do Consultor</div>
-        <div class="sig-box">Assinatura da Gerência</div>
+    <div class="signature-section">
+        <div class="sig-line">Assinatura do Consultor</div>
+        <div class="sig-line">Assinatura do Avaliado</div>
     </div>
 
-    <div class="verification-footer">
-        <strong>SISTEMA DE INTEGRIDADE AGRO:</strong> Este documento contém carimbo de tempo eletrônico. Qualquer alteração nos valores após a impressão invalida o código de autenticidade acima. 
-        O cálculo baseia-se na subtração da inadimplência do valor estimado para obter a base real de aplicação das margens de custo.
+    <div class="disclaimer">
+        <strong>NOTA DE RESPONSABILIDADE:</strong> Documento gerado por consultor financeiro para fins de análise de viabilidade e risco da movimentação financeira. Os cálculos utilizam a dedução da inadimplência do montante bruto para estabelecer o faturamento real antes da aplicação dos custos operacionais. Este relatório visa subsidiar decisões estratégicas e comprovar a rentabilidade estimada da operação.
     </div>
 
-    <div class="no-print">
-        <button onclick="window.print()">IMPRIMIR RELATÓRIO</button>
+    <div style="text-align: center; margin-top: 20px;" class="no-print">
+        <button class="btn-print" onclick="window.print()">IMPRIMIR RELATÓRIO</button>
     </div>
 </div>
 
 <script>
-    function fMoeda(v) {
+    function fmt(v) {
         return v.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
 
-    function calcular() {
-        // Entradas
-        const nome = document.getElementById('vendedor').value;
-        const vEstimado = parseFloat(document.getElementById('val_estimado').value) || 0;
-        const vInadimp = parseFloat(document.getElementById('val_inadimplencia').value) || 0;
-        
-        const pCmv = parseFloat(document.getElementById('p_cmv').value) || 0;
-        const pCom = parseFloat(document.getElementById('p_comissao').value) || 0;
-        const pDes = parseFloat(document.getElementById('p_despesas').value) || 0;
+    function mascaraDoc(i) {
+        let v = i.value.replace(/\D/g, '');
+        const lblInput = document.getElementById('lbl_avaliado_doc');
+        const lblOutput = document.getElementById('out_lbl_doc');
 
-        // Lógica: Faturamento Real = Estimado - Inadimplência
-        const vFaturamentoReal = vEstimado - vInadimp;
-        document.getElementById('val_real_display').value = fMoeda(vFaturamentoReal);
-
-        // Deduções baseadas no Faturamento Real
-        const vCmv = vFaturamentoReal * (pCmv / 100);
-        const vCom = vFaturamentoReal * (pCom / 100);
-        const vDes = vFaturamentoReal * (pDes / 100);
-        
-        const vLucro = vFaturamentoReal - (vCmv + vCom + vDes);
-        const pLucro = vFaturamentoReal > 0 ? (vLucro / vFaturamentoReal) * 100 : 0;
-
-        // Atualizar Tela/Tabela
-        document.getElementById('res-estimado').innerText = fMoeda(vEstimado);
-        document.getElementById('res-inadimplencia').innerText = "- " + fMoeda(vInadimp);
-        document.getElementById('res-faturamento-real').innerText = fMoeda(vFaturamentoReal);
-        
-        document.getElementById('tab-p-cmv').innerText = pCmv + "%";
-        document.getElementById('res-cmv').innerText = fMoeda(vCmv);
-        
-        document.getElementById('tab-p-com').innerText = pCom + "%";
-        document.getElementById('res-com').innerText = fMoeda(vCom);
-        
-        document.getElementById('tab-p-des').innerText = pDes + "%";
-        document.getElementById('res-des').innerText = fMoeda(vDes);
-
-        document.getElementById('res-p-lucro').innerText = pLucro.toFixed(2) + "%";
-        document.getElementById('res-v-lucro').innerText = fMoeda(vLucro);
-        
-        document.getElementById('out-vendedor').innerText = nome || "___________________________";
-
-        // Autenticação
-        const agora = new Date();
-        document.getElementById('txt-data').innerText = agora.toLocaleDateString('pt-br');
-        document.getElementById('txt-hora').innerText = agora.toLocaleTimeString('pt-br');
-        
-        // Gerar Hash de Segurança
-        const hashBase = nome + vEstimado + vInadimp + vLucro + agora.getTime();
-        document.getElementById('cod-hash').innerText = btoa(hashBase).substring(0, 20).toUpperCase();
+        if (v.length <= 11) {
+            // CPF
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            lblInput.innerText = "CPF DO AVALIADO:";
+            lblOutput.innerText = "CPF:";
+        } else {
+            // CNPJ
+            v = v.slice(0, 14); // Limita ao tamanho do CNPJ
+            v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            v = v.replace(/(\d{4})(\d)/, '$1-$2');
+            lblInput.innerText = "CNPJ DO AVALIADO:";
+            lblOutput.innerText = "CNPJ:";
+        }
+        i.value = v;
     }
 
-    // Inicializar
-    calcular();
+    function calcular() {
+        try {
+            // Pegar valores dos inputs
+            const nomeConsultor = document.getElementById('in_vendedor').value || "---";
+            const avaliadoNome = document.getElementById('in_avaliado_nome').value || "---";
+            const avaliadoDoc = document.getElementById('in_avaliado_doc').value || "---";
+            
+            const vEstimado = parseFloat(document.getElementById('in_estimado').value) || 0;
+            const vInadimp = parseFloat(document.getElementById('in_inadimplencia').value) || 0;
+            const pCmv = parseFloat(document.getElementById('in_p_cmv').value) || 0;
+            const pCom = parseFloat(document.getElementById('in_p_com').value) || 0;
+            const pDes = parseFloat(document.getElementById('in_p_desp').value) || 0;
+
+            // Cálculos
+            const vFaturamentoReal = vEstimado - vInadimp;
+            const pInadRelativa = vEstimado > 0 ? (vInadimp / vEstimado) * 100 : 0;
+            const vCmv = vFaturamentoReal * (pCmv / 100);
+            const vCom = vFaturamentoReal * (pCom / 100);
+            const vDes = vFaturamentoReal * (pDes / 100);
+            const vLucro = vFaturamentoReal - (vCmv + vCom + vDes);
+            const pLucro = vFaturamentoReal > 0 ? (vLucro / vFaturamentoReal) * 100 : 0;
+
+            // Atualizar Documento (Labels)
+            document.getElementById('out_avaliado_nome').innerText = avaliadoNome;
+            document.getElementById('out_avaliado_doc').innerText = avaliadoDoc;
+            document.getElementById('out_vendedor').innerText = nomeConsultor;
+
+            // Atualizar Tabela
+            document.getElementById('res_estimado').innerText = fmt(vEstimado);
+            document.getElementById('res_p_inad').innerText = pInadRelativa.toFixed(2) + "%";
+            document.getElementById('res_v_inad').innerText = "- " + fmt(vInadimp);
+            document.getElementById('res_real').innerText = fmt(vFaturamentoReal);
+            document.getElementById('res_p_cmv').innerText = pCmv + "%";
+            document.getElementById('res_v_cmv').innerText = fmt(vCmv);
+            document.getElementById('res_p_com').innerText = pCom + "%";
+            document.getElementById('res_v_com').innerText = fmt(vCom);
+            document.getElementById('res_p_desp').innerText = pDes + "%";
+            document.getElementById('res_v_desp').innerText = fmt(vDes);
+            document.getElementById('res_p_lucro').innerText = pLucro.toFixed(2) + "%";
+            document.getElementById('res_v_lucro').innerText = fmt(vLucro);
+
+            // Gerar Data e Hash
+            const agora = new Date();
+            document.getElementById('val-timestamp').innerText = agora.toLocaleString('pt-br');
+            
+            // Hash inclui dados do consultor, do avaliado e valores
+            const hashInput = nomeConsultor + avaliadoNome + vEstimado.toString() + vLucro.toString() + agora.getMinutes().toString();
+            const hashFinal = btoa(unescape(encodeURIComponent(hashInput))).substring(0, 16).toUpperCase();
+            document.getElementById('val-hash').innerText = hashFinal;
+
+        } catch (e) {
+            console.error("Erro no cálculo: ", e);
+        }
+    }
+
+    // Executar cálculo ao abrir a página
+    window.onload = calcular;
 </script>
 
 </body>
