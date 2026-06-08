@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechamento de Vendas Agro - Oficial</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #00509d;
+            --accent: #e7f0f8;
+            --border: #dee2e6;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #555;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-title h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .auth-stamp {
+            text-align: right;
+            font-size: 11px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Área de Inputs */
+        .input-panel {
+            background: var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            border: 1px solid #c0d4e4;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: span 3; }
+        
+        label {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #99bcda;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .row-subtotal {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .row-final {
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .row-final td { border: none; }
+
+        /* Rodapé e Assinatura */
+        .signature-area {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sig-box {
+            border-top: 1px solid #000;
+            width: 45%;
+            text-align: center;
+            padding-top: 5px;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+
+        .verification-footer {
+            margin-top: 40px;
+            padding: 15px;
+            border: 1px dashed var(--primary);
+            font-size: 10px;
+            color: #444;
+            background: #fafafa;
+        }
+
+        .no-print {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .page { box-shadow: none; width: 100%; margin: 0; padding: 10mm; }
+            .input-panel, .no-print { display: none; }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+    <header>
+        <div class="header-title">
+            <h1>Demonstrativo de Resultados Agro</h1>
+            <small>Cálculo de Margem Líquida e Comissionamento</small>
+        </div>
+        <div class="auth-stamp">
+            <strong>CÓDIGO DE AUTENTICIDADE</strong><br>
+            <span id="cod-hash">---</span><br>
+            Data: <span id="txt-data"></span> | Hora: <span id="txt-hora"></span>
+        </div>
+    </header>
+
+    <!-- Painel de entrada de dados -->
+    <div class="input-panel">
+        <div class="form-group full">
+            <label>Nome do Consultor / Vendedor:</label>
+            <input type="text" id="vendedor" placeholder="Nome Completo" oninput="calcular()">
+        </div>
+        <div class="form-group">
+            <label>1. Total Geral Estimado (R$):</label>
+            <input type="number" id="val_estimado" value="0" oninput="calcular()">
+        </div>
+        <div class="form-group">
+            <label>2. Inadimplência do Mês (R$):</label>
+            <input type="number" id="val_inadimplencia" value="0" oninput="calcular()">
+        </div>
+        <div class="form-group">
+            <label style="color: #d9534f;">= FATURAMENTO REAL (Calculado)</label>
+            <input type="text" id="val_real_display" disabled style="background: #eee; font-weight: bold;">
+        </div>
+        
+        <div class="form-group">
+            <label>CMV / Pagto Fornecedor (%):</label>
+            <input type="number" id="p_cmv" value="80" oninput="calcular()">
+        </div>
+        <div class="form-group">
+            <label>Comissão (%):</label>
+            <input type="number" id="p_comissao" value="3" oninput="calcular()">
+        </div>
+        <div class="form-group">
+            <label>Despesas Operacionais (%):</label>
+            <input type="number" id="p_despesas" value="5" oninput="calcular()">
+        </div>
+    </div>
+
+    <!-- Tabela Resultante -->
+    <table>
+        <thead>
+            <tr>
+                <th>DESCRIÇÃO DOS LANÇAMENTOS</th>
+                <th style="width: 120px;">REF (%)</th>
+                <th style="width: 200px;">TOTAL (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Geral Estimado de Faturamento</td>
+                <td>-</td>
+                <td id="res-estimado">R$ 0,00</td>
+            </tr>
+            <tr>
+                <td>(-) Inadimplência Identificada no Período</td>
+                <td>-</td>
+                <td id="res-inadimplencia" style="color: red;">R$ 0,00</td>
+            </tr>
+            <tr class="row-subtotal">
+                <td>FATURAMENTO REAL (Base de Cálculo)</td>
+                <td>100%</td>
+                <td id="res-faturamento-real">R$ 0,00</td>
+            </tr>
+            <tr>
+                <td>Custo de Mercadoria (Pagamento Fornecedor)</td>
+                <td id="tab-p-cmv">0%</td>
+                <td id="res-cmv">R$ 0,00</td>
+            </tr>
+            <tr>
+                <td>Comissão Técnica de Vendas</td>
+                <td id="tab-p-com">0%</td>
+                <td id="res-com">R$ 0,00</td>
+            </tr>
+            <tr>
+                <td>Despesas Operacionais e Logística</td>
+                <td id="tab-p-des">0%</td>
+                <td id="res-des">R$ 0,00</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="row-final">
+                <td>LUCRO LÍQUIDO ESTIMADO</td>
+                <td id="res-p-lucro">0%</td>
+                <td id="res-v-lucro">R$ 0,00</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p style="margin-top: 20px;"><strong>Consultor Responsável:</strong> <span id="out-vendedor">___________________________</span></p>
+
+    <div class="signature-area">
+        <div class="sig-box">Assinatura do Consultor</div>
+        <div class="sig-box">Assinatura da Gerência</div>
+    </div>
+
+    <div class="verification-footer">
+        <strong>SISTEMA DE INTEGRIDADE AGRO:</strong> Este documento contém carimbo de tempo eletrônico. Qualquer alteração nos valores após a impressão invalida o código de autenticidade acima. 
+        O cálculo baseia-se na subtração da inadimplência do valor estimado para obter a base real de aplicação das margens de custo.
+    </div>
+
+    <div class="no-print">
+        <button onclick="window.print()">IMPRIMIR RELATÓRIO</button>
+    </div>
+</div>
+
+<script>
+    function fMoeda(v) {
+        return v.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    }
+
+    function calcular() {
+        // Entradas
+        const nome = document.getElementById('vendedor').value;
+        const vEstimado = parseFloat(document.getElementById('val_estimado').value) || 0;
+        const vInadimp = parseFloat(document.getElementById('val_inadimplencia').value) || 0;
+        
+        const pCmv = parseFloat(document.getElementById('p_cmv').value) || 0;
+        const pCom = parseFloat(document.getElementById('p_comissao').value) || 0;
+        const pDes = parseFloat(document.getElementById('p_despesas').value) || 0;
+
+        // Lógica: Faturamento Real = Estimado - Inadimplência
+        const vFaturamentoReal = vEstimado - vInadimp;
+        document.getElementById('val_real_display').value = fMoeda(vFaturamentoReal);
+
+        // Deduções baseadas no Faturamento Real
+        const vCmv = vFaturamentoReal * (pCmv / 100);
+        const vCom = vFaturamentoReal * (pCom / 100);
+        const vDes = vFaturamentoReal * (pDes / 100);
+        
+        const vLucro = vFaturamentoReal - (vCmv + vCom + vDes);
+        const pLucro = vFaturamentoReal > 0 ? (vLucro / vFaturamentoReal) * 100 : 0;
+
+        // Atualizar Tela/Tabela
+        document.getElementById('res-estimado').innerText = fMoeda(vEstimado);
+        document.getElementById('res-inadimplencia').innerText = "- " + fMoeda(vInadimp);
+        document.getElementById('res-faturamento-real').innerText = fMoeda(vFaturamentoReal);
+        
+        document.getElementById('tab-p-cmv').innerText = pCmv + "%";
+        document.getElementById('res-cmv').innerText = fMoeda(vCmv);
+        
+        document.getElementById('tab-p-com').innerText = pCom + "%";
+        document.getElementById('res-com').innerText = fMoeda(vCom);
+        
+        document.getElementById('tab-p-des').innerText = pDes + "%";
+        document.getElementById('res-des').innerText = fMoeda(vDes);
+
+        document.getElementById('res-p-lucro').innerText = pLucro.toFixed(2) + "%";
+        document.getElementById('res-v-lucro').innerText = fMoeda(vLucro);
+        
+        document.getElementById('out-vendedor').innerText = nome || "___________________________";
+
+        // Autenticação
+        const agora = new Date();
+        document.getElementById('txt-data').innerText = agora.toLocaleDateString('pt-br');
+        document.getElementById('txt-hora').innerText = agora.toLocaleTimeString('pt-br');
+        
+        // Gerar Hash de Segurança
+        const hashBase = nome + vEstimado + vInadimp + vLucro + agora.getTime();
+        document.getElementById('cod-hash').innerText = btoa(hashBase).substring(0, 20).toUpperCase();
+    }
+
+    // Inicializar
+    calcular();
+</script>
+
+</body>
+</html>
