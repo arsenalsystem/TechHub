@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Roteiro da Oração Viva</title>
+    <style>
+        :root {
+            --primary-blue: #1a3a5f;
+            --secondary-blue: #4a90e2;
+            --light-blue: #f0f7ff;
+            --accent-blue: #d1e3fa;
+            --text-color: #2c3e50;
+            --instruction-color: #5d6d7e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border-top: 10px solid var(--primary-blue);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent-blue);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            font-size: 2.2em;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid var(--secondary-blue);
+            background-color: var(--light-blue);
+            border-radius: 0 8px 8px 0;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            font-size: 1.4em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 span {
+            background: var(--primary-blue);
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            font-size: 0.8em;
+        }
+
+        .instruction {
+            font-style: italic;
+            color: var(--instruction-color);
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .prayer-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.25em;
+            color: var(--primary-blue);
+            display: block;
+            margin: 15px 0;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .prayer-text::before {
+            content: '"';
+            font-size: 2em;
+            position: absolute;
+            left: -5px;
+            top: -10px;
+            color: var(--accent-blue);
+        }
+
+        .pause-box {
+            background-color: white;
+            border: 1px dashed var(--secondary-blue);
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #444;
+            border-radius: 5px;
+        }
+
+        .pause-box strong {
+            color: var(--secondary-blue);
+        }
+
+        @media print {
+            body { background: white; }
+            .container { 
+                box-shadow: none; 
+                margin: 0; 
+                width: 100%; 
+                max-width: 100%;
+                border-top: none;
+            }
+            .step { 
+                page-break-inside: avoid; 
+                background: none;
+                border: 1px solid #eee;
+                border-left: 4px solid var(--primary-blue);
+            }
+            .pause-box { background: #f9f9f9; border: 1px solid #ccc; }
+            button { display: none; }
+        }
+
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .print-btn:hover {
+            background: var(--secondary-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">Imprimir Roteiro</button>
+
+    <div class="container">
+        <header>
+            <h1>O Roteiro da Oração Viva</h1>
+        </header>
+
+        <!-- Passo 1 -->
+        <div class="step">
+            <h2><span>1</span> O Limiar (Purificação)</h2>
+            <span class="instruction">Diga em voz baixa ou mentalmente:</span>
+            <span class="prayer-text">
+                "Neste momento, eu abro mão de todos os julgamentos. Eu perdoo quem me feriu, eu me perdoo por minhas falhas e libero qualquer peso que não pertence à minha essência. Eu limpo o altar do meu coração para que apenas a Verdade permaneça."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa de 30 segundos]:</strong> Imagine uma luz branca lavando seus pensamentos e saindo pelos seus pés, levando toda a 'estática' e tensões do dia.
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="step">
+            <h2><span>2</span> O Alinhamento (Bio-Presença)</h2>
+            <span class="instruction">Instrução: Coloque a mão direita sobre o centro do peito (coração).</span>
+            <span class="prayer-text">
+                "Eu estou presente aqui e agora. Eu sinto o sopro da vida (o Ruach) entrando em meus pulmões. Meu corpo é o templo, minha respiração é o incenso."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa]:</strong> Respire profundamente 3 vezes. Sinta o calor da sua mão penetrando no peito. Tente sentir a batida do seu coração até que ela se acalme.
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="step">
+            <h2><span>3</span> A Doxologia (Adoração e Grandiosidade)</h2>
+            <span class="instruction">Olhe para o vasto (ou visualize o cosmos):</span>
+            <span class="prayer-text">
+                "Fonte de Tudo o que Existe, Inteligência Infinita que sustenta as galáxias e o núcleo dos átomos. Tu és a luz que nunca se apaga, o som que preenche o vazio. A Tua glória está em tudo o que vejo e em tudo o que sou."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa]:</strong> Sinta-se expandir. Tente sentir como se você fosse tão grande quanto o céu, fundindo-se com essa grandeza.
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div class="step">
+            <h2><span>4</span> A Entrega (Humildade e Insignificância)</h2>
+            <span class="prayer-text">
+                "Diante da Tua imensidão, eu reconheço que sou como uma gota no oceano. Sozinho, nada posso; minhas mãos são pequenas, meu tempo é breve. Eu me rendo à Tua condução, pois Tu conheces o caminho que eu ainda não vi."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa]:</strong> Relaxe os ombros totalmente. Sinta o alívio de não ter que controlar o universo. Deixe o peso do mundo cair de suas costas.
+            </div>
+        </div>
+
+        <!-- Passo 5 -->
+        <div class="step">
+            <h2><span>5</span> A Ressonância (Gratidão Antecipada)</h2>
+            <span class="prayer-text">
+                "Obrigado pelo fôlego, pela jornada e pelas lições. Obrigado porque a solução já existe no Teu Reino antes mesmo de eu formular a pergunta. Eu agradeço pela paz que já começa a inundar minhas células agora."
+            </span>
+            <div class="pause-box">
+                <strong>[Ação Interna]:</strong> Não agradeça apenas com palavras. Procure na memória uma sensação de vitória ou alegria que você já viveu e traga esse sentimento para o agora.
+            </div>
+        </div>
+
+        <!-- Passo 6 -->
+        <div class="step">
+            <h2><span>6</span> A Co-Criação (Petição Alinhada)</h2>
+            <span class="prayer-text">
+                "Pai/Mãe Divino(a), que o meu desejo de <strong>[Diga seu desejo]</strong> seja filtrado pela Tua Sabedoria. Se isso trouxer harmonia para mim e para o mundo, que se manifeste. Que a minha vontade e a Tua sejam uma só nota em uma mesma canção."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa de Visualização]:</strong> Veja o seu desejo realizado, mas não veja como um filme. Sinta o cheiro, sinta a paz de 'já ter acontecido'. Sorria internamente.
+            </div>
+        </div>
+
+        <!-- Passo 7 -->
+        <div class="step">
+            <h2><span>7</span> O Selo e o Vácuo (Selagem e Escuta)</h2>
+            <span class="prayer-text">
+                "Amém. Está feito. Está firme. Está selado no Espírito."
+            </span>
+            <div class="pause-box">
+                <strong>[Pausa Final de 2 minutos - O MAIS IMPORTANTE]:</strong><br>
+                Não diga mais nada. Permaneça em silêncio absoluto. Não busque pensamentos. Apenas 'ouça' o silêncio dentro de você. É neste vácuo que a semente da oração é plantada no solo do Divino. Se algum pensamento vier, apenas o deixe passar como uma nuvem e volte para o silêncio.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
