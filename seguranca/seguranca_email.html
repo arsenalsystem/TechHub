@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Privacidade: E-mail no Tails</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #121212;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: #bb86fc;
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #03dac6;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+        h3 {
+            color: #cf6679;
+        }
+        .intro {
+            background: #2c2c2c;
+            padding: 15px;
+            border-left: 5px solid #bb86fc;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .method {
+            background: #252525;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .highlight {
+            color: #ffb74d;
+            font-weight: bold;
+        }
+        .warning-box {
+            background: #442c2e;
+            border: 1px solid #cf6679;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .golden-rule {
+            background: #1b3321;
+            border: 1px solid #4caf50;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background: #333;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #03dac6;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🛡️ Manual de E-mail Anônimo no Tails</h1>
+
+    <div class="intro">
+        O e-mail é o maior <strong>"dedo-duro"</strong> da internet. Se você usa o Tails para ser anônimo, mas faz login no seu Gmail pessoal, o Google saberá quem você é, apenas verá uma localização diferente.
+    </div>
+
+    <p>Para se cadastrar em I.A.s ou sites no Tails, use estas três formas (da mais segura para a menos segura):</p>
+
+    <!-- Método 1 -->
+    <div class="method">
+        <h2>1. E-mails Descartáveis</h2>
+        <p>Ideal para cadastros rápidos onde você não precisa salvar histórico.</p>
+        <ul>
+            <li><strong>Como fazer:</strong> No Tor Browser, acesse <code>temp-mail.org</code> ou <code>guerrillamail.com</code>.</li>
+            <li><strong>Vantagem:</strong> Anonimato total. O e-mail dura de 10 a 60 minutos.</li>
+            <li><span class="highlight">Risco:</span> Se perder a senha do site cadastrado, não há como recuperar o acesso.</li>
+        </ul>
+    </div>
+
+    <!-- Método 2 -->
+    <div class="method">
+        <h2>2. Identidade Tails (Permanente)</h2>
+        <p>Para contas de I.A. onde você deseja salvar conversas e histórico sem revelar sua identidade real.</p>
+        <p><strong>Serviços Recomendados:</strong> ProtonMail ou Tuta (focados em privacidade).</p>
+        
+        <div class="golden-rule">
+            <strong>🌟 Regra de Ouro:</strong>
+            <ul>
+                <li>Crie a conta <strong>exclusivamente</strong> dentro do Tails.</li>
+                <li>Nunca use nome, data de nascimento ou telefone real.</li>
+                <li><strong>Nunca</strong> acesse esse e-mail fora do Tails. Caso contrário, seu IP real será vinculado à conta.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Método 3 -->
+    <div class="method">
+        <h2>3. O Desafio do Telefone</h2>
+        <p>Muitas I.A.s exigem SMS, o que vincula o cadastro ao seu CPF através do chip.</p>
+        <ul>
+            <li><strong>SMS Online:</strong> Sites como <code>receive-smss.com</code> oferecem números públicos (podem estar bloqueados por I.A.s).</li>
+            <li><strong>Chip Descartável:</strong> Comprar um chip pré-pago apenas para ativação e descartá-lo em seguida.</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2>📋 Resumo de Ação</h2>
+    <ul>
+        <li><strong>Pesquisa ultra-sensível:</strong> Use I.A.s sem login (DuckDuckGo AI).</li>
+        <li><strong>Conta de I.A. Persistente:</strong> Crie um <code>Proton.me</code> no Tails + Salve a senha no <code>KeePassXC</code>.</li>
+    </ul>
+
+    <div class="warning-box">
+        <h3>⚠️ Aviso Importante</h3>
+        Acessar Gmail ou Outlook normal no Tails pode bloquear sua conta. O sistema detectará o acesso via Tor como "suspeito" e exigirá confirmação por telefone, quebrando seu anonimato.
+    </div>
+
+    <footer>
+        <p>Recomendação: No Tails, aja como um "fantasma".<br>
+        Sua identidade em Juazeiro não deve cruzar com sua identidade no Tails.</p>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia I.A. Local: Ollama e Modelos Uncensored</title>
+    <style>
+        :root {
+            --bg-color: #0a192f;
+            --container-bg: #112240;
+            --primary-blue: #64ffda; /* Aqua/Cyan para detalhes */
+            --electric-blue: #0077ff;
+            --text-main: #ccd6f6;
+            --text-dim: #8892b0;
+            --code-bg: #020c1b;
+            --accent-blue: #1e3a8a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--accent-blue);
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--electric-blue);
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--electric-blue);
+            border-bottom: 1px solid var(--accent-blue);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: "❯";
+            margin-right: 10px;
+            font-size: 0.8em;
+            color: var(--primary-blue);
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #1e3a8a 0%, #112240 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary-blue);
+            position: relative;
+            margin: 15px 0;
+            border: 1px solid #233554;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(2, 12, 27, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .warning-box {
+            background-color: #1a1a1a;
+            border: 1px dashed #ff4d4d;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        .hardware-badge {
+            display: inline-block;
+            background: var(--electric-blue);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        strong { color: var(--primary-blue); }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Controle Total: I.A. Local</h1>
+    <p class="subtitle">A Fronteira Final da Soberania Tecnológica</p>
+
+    <div class="intro-box">
+        Rodar I.A. localmente transforma seu PC em um servidor privado de inteligência, sem depender de nuvem, internet ou empresas do Vale do Silício.
+        <br>
+        <span class="hardware-badge">Ryzen 5 + 16GB RAM Detectados</span>
+        <p>Você tem a máquina perfeita para modelos de até <strong>8 bilhões de parâmetros (8B)</strong>.</p>
+    </div>
+
+    <h2>1. O que é o Ollama?</h2>
+    <p>É a ferramenta que simplifica a execução de modelos pesados de I.A. no Linux. Ele elimina a necessidade de configurar bibliotecas complexas, resolvendo tudo em um comando.</p>
+    
+    <div class="code-block">
+        <span class="code-header">Terminal Bash - Instalação</span>
+        curl -fsSL https://ollama.com/install.sh | sh
+    </div>
+
+    <h2>2. Por que modelos "Uncensored"?</h2>
+    <p>Diferente do ChatGPT, esses modelos pulam a etapa de <strong>Alinhamento (RLHF)</strong>, também conhecida como "Lobotomia Digital".</p>
+    <ul>
+        <li><strong>Pré-treino:</strong> A I.A. aprende tudo na internet (neutro).</li>
+        <li><strong>Sem Filtros:</strong> Removem as travas que dão "lição de moral" no usuário.</li>
+    </ul>
+    <p>Enquanto uma I.A. comum daria um sermão sobre segurança, a <strong>Uncensored</strong> fornece a informação técnica solicitada.</p>
+
+    <h2>3. Como rodar o Dolphin (Sem Filtros)</h2>
+    <p>O <strong>Dolphin-Llama3</strong> é um dos modelos mais potentes e livres atualmente.</p>
+    
+    <div class="code-block">
+        <span class="code-header">Terminal Bash - Execução</span>
+        ollama run dolphin-llama3
+    </div>
+    <p><small>*Download aproximado: 4.7GB.</small></p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>✅ Vantagens</h3>
+            <ul>
+                <li>Privacidade 100% (Offline).</li>
+                <li>Sem respostas "politicamente corretas".</li>
+                <li>Análise de dados sensíveis segura.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>❌ Riscos</h3>
+            <ul>
+                <li>Sem filtros de segurança.</li>
+                <li>Rastro de arquivos no SSD.</li>
+                <li>Possíveis alucinações técnicas.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>5. Interface Visual</h2>
+    <p>Para uma experiência similar ao ChatGPT, você pode conectar o Ollama ao <strong>Open WebUI</strong> ou <strong>AnythingLLM</strong> para usar via navegador.</p>
+
+    <div class="warning-box">
+        <strong>⚠️ CONSELHO TÉCNICO:</strong> Com 16GB de RAM, mantenha-se em modelos <strong>8B</strong> ou <strong>13B</strong>. Modelos de 70B farão seu sistema entrar em "swap" e travar completamente.
+    </div>
+
+    <footer>
+        No <strong>Tails</strong>: Privacidade de Conexão. | No <strong>Ubuntu Local</strong>: Liberdade de Dados.
+    </footer>
+</div>
+
+</body>
+</html>
