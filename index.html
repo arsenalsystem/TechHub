@@ -3,187 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub de Ferramentas - Privado</title>
+    <title>Sumário de Arquivos</title>
     <style>
-        :root {
-            --primary-blue: #0d47a1;
-            --medium-blue: #1976d2;
-            --light-blue: #e3f2fd;
-            --bg-color: #f0f4f8;
-            --text-color: #2c3e50;
-            --card-bg: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: var(--primary-blue);
-            color: white;
-            width: 100%;
-            padding: 2rem 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding-bottom: 50px;
-        }
-
-        .category-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-top: 5px solid var(--medium-blue);
-            transition: transform 0.2s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .category-title {
-            color: var(--primary-blue);
-            font-size: 1.4rem;
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--light-blue);
-            padding-bottom: 10px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0 0 0;
-        }
-
-        li {
-            margin-bottom: 12px;
-        }
-
-        .link-item {
-            text-decoration: none;
-            color: var(--medium-blue);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-
-        .link-item:hover {
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-        }
-
-        .badge {
-            font-size: 0.7rem;
-            background: var(--light-blue);
-            color: var(--primary-blue);
-            padding: 2px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f4f4f9; }
+        h1 { color: #333; border-bottom: 2px solid #333; }
+        h2 { color: #0056b3; margin-top: 30px; text-transform: capitalize; }
+        ul { list-style: none; padding-left: 0; }
+        li { background: #fff; margin-bottom: 8px; padding: 10px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        a { text-decoration: none; color: #444; font-weight: 500; display: block; }
+        a:hover { color: #0056b3; }
+        .footer { margin-top: 50px; font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Painel de Ferramentas Estáticas</h1>
-        <p>Acesso rápido aos módulos de automação, desenvolvimento e segurança</p>
-    </header>
+    <h1>Índice de Projetos</h1>
 
-    <div class="container">
-        
-        <!-- Categoria: Automação -->
-        <div class="category-card">
-            <h2 class="category-title">🤖 Automação</h2>
-            <ul>
-                <li>
-                    <a href="automacao/evo_api_vps.html" class="link-item">
-                        <span>Evo API VPS</span>
-                        <span class="badge">API</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Automação -->
+    <h2>Automacao</h2>
+    <ul>
+        <li><a href="automacao/evo_api_vps.html">Evo API VPS</a></li>
+        <li><a href="automacao/modo_oracao.html">Modo Oração</a></li>
+    </ul>
 
-        <!-- Categoria: Desenvolvimento -->
-        <div class="category-card">
-            <h2 class="category-title">💻 Desenvolvimento</h2>
-            <ul>
-                <li>
-                    <a href="desenvolvimento/contextualizacao_chat_temporario.html" class="link-item">
-                        <span>Chat Temporário Contextual</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="desenvolvimento/modo_de_desenvolver.html" class="link-item">
-                        <span>Modo de Desenvolver</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Desenvolvimento -->
+    <h2>Desenvolvimento</h2>
+    <ul>
+        <li><a href="desenvolvimento/contextualizacao_chat_temporario.html">Contextualização Chat Temporário</a></li>
+        <li><a href="desenvolvimento/modo_de_desenvolver.html">Modo de Desenvolver</a></li>
+    </ul>
 
-        <!-- Categoria: Segurança -->
-        <div class="category-card">
-            <h2 class="category-title">🛡️ Segurança</h2>
-            <ul>
-                <li>
-                    <a href="seguranca/gerenciador_senhas_seguras.html" class="link-item">
-                        <span>Gerenciador de Senhas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="seguranca/navegação_em_RAM_PSD.html" class="link-item">
-                        <span>Navegação em RAM PSD</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="seguranca/sem_meta_dados.html" class="link-item">
-                        <span>Limpeza de Metadados</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="seguranca/uuid_v5.html" class="link-item">
-                        <span>Gerador UUID v5</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Finanças -->
+    <h2>Financas</h2>
+    <ul>
+        <li><a href="financas/balancete.html">Balancete</a></li>
+        <li><a href="financas/explicando_fisco.html">Explicando Fisco</a></li>
+    </ul>
 
+    <!-- Segurança -->
+    <h2>Seguranca</h2>
+    <ul>
+        <li><a href="seguranca/gerenciador_senhas_seguras.html">Gerenciador de Senhas Seguras</a></li>
+        <li><a href="seguranca/ia_rodando_localmente.html">IA Rodando Localmente</a></li>
+        <li><a href="seguranca/navegação_em_RAM_PSD.html">Navegação em RAM PSD</a></li>
+        <li><a href="seguranca/seguranca_email.html">Segurança de E-mail</a></li>
+        <li><a href="seguranca/sem_meta_dados.html">Sem Meta Dados</a></li>
+        <li><a href="seguranca/uuid_v5.html">UUID v5</a></li>
+    </ul>
+
+    <div class="footer">
+        <p><a href="README.md">📄 Ver README.md</a></p>
     </div>
-
-    <footer>
-        &copy; Laboratório Digital - Ferramentas de Uso Pessoal
-    </footer>
 
 </body>
 </html>
