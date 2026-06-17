@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumo Estratégico - Cursor, Migração e Infraestrutura</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 20px auto; padding: 20px; }
+        h1 { border-bottom: 2px solid #333; }
+        h2 { background: #eee; padding: 10px; border-left: 5px solid #333; }
+        h3 { color: #d35400; }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        .warning { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; font-weight: bold; }
+        .highlight { background: #e8f4fd; border: 1px solid #d1e9f9; padding: 10px; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>Guia de Sobrevivência e Migração: Web2py para Django com Cursor</h1>
+
+    <!-- SEÇÃO 1: CURSOR AI -->
+    <h2>1. Planos e Limites do Cursor AI</h2>
+    <ul>
+        <li><strong>Plano Hobby (Grátis):</strong> 
+            <ul>
+                <li>50 consultas Premium (Claude 3.5 Sonnet / GPT-4o) por mês.</li>
+                <li>2.000 conclusões de código (Cursor Tab).</li>
+                <li>Bloqueio rígido após o fim dos créditos (não há modo lento).</li>
+                <li><strong>Risco:</strong> Criar várias contas pode gerar banimento por Hardware ID.</li>
+            </ul>
+        </li>
+        <li><strong>Plano Pro (US$ 20/mês):</strong> 
+            <ul>
+                <li>500 consultas Premium "Fast".</li>
+                <li><strong>Consultas ilimitadas no modo "Slow"</strong> (após gastar as 500).</li>
+                <li>Uso ilimitado do Cursor Tab.</li>
+                <li>Modo de Privacidade (dados não são usados para treino).</li>
+            </ul>
+        </li>
+        <li><strong>API Keys Próprias:</strong> 
+            <ul>
+                <li>Paga direto para OpenAI/Anthropic.</li>
+                <li>Sem limite de mensagens, mas custo pode disparar (tokens de contexto são caros).</li>
+                <li><strong>Desvantagem:</strong> Perde o Cursor Tab (auto-complete nativo).</li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- SEÇÃO 2: FINANCEIRO E REPASSE -->
+    <h2>2. Financeiro e Repasse ao Cliente</h2>
+    <div class="highlight">
+        <p><strong>Custo estimado do Pro em Reais:</strong> R$ 110,00 a R$ 120,00 (considerando dólar a R$ 5,20 + IOF de 4,38% + Spread bancário).</p>
+        <p><strong>Estratégia de Repasse:</strong> Embutir como "Custo de Infraestrutura" ou "Taxa de Produtividade". Se o Cursor economizar 2-3 horas de trabalho no mês, ele já está pago.</p>
+    </div>
+
+    <!-- SEÇÃO 3: INFRAESTRUTURA E BARATEAMENTO -->
+    <h2>3. Infraestrutura: Saindo do PythonAnywhere</h2>
+    <p>Objetivo: Reduzir custo fixo e aumentar performance.</p>
+    <table>
+        <tr>
+            <th>Opção</th>
+            <th>Custo Médio</th>
+            <th>Vantagem</th>
+            <th>Desvantagem</th>
+        </tr>
+        <tr>
+            <td>PythonAnywhere (Pago)</td>
+            <td>US$ 5 - 50+</td>
+            <td>Gerenciado, fácil configuração.</td>
+            <td>Caro conforme escala, rígido, sem VPN real.</td>
+        </tr>
+        <tr>
+            <td>VPS (Hetzner / DigitalOcean)</td>
+            <td>US$ 4 - 6</td>
+            <td>Muito barato, poder total, roda tudo (Docker, VPN, etc).</td>
+            <td>Exige configuração manual (Linux).</td>
+        </tr>
+        <tr>
+            <td>Oracle Cloud (Free Tier)</td>
+            <td>R$ 0,00</td>
+            <td>Melhor hardware grátis.</td>
+            <td>Difícil de conseguir conta.</td>
+        </tr>
+    </table>
+
+    <h3>A Solução VPN + SSH:</h3>
+    <ul>
+        <li><strong>Tailscale:</strong> Usar como VPN gratuita para criar rede privada entre seu PC e a VPS.</li>
+        <li><strong>Segurança:</strong> Fechar as portas do servidor e acessar apenas via IP do Tailscale.</li>
+        <li><strong>Cursor Remote SSH:</strong> Conectar o Cursor diretamente na VPS via SSH (IP da VPN) para editar código em tempo real.</li>
+    </ul>
+
+    <!-- SEÇÃO 4: MIGRAÇÃO TÉCNICA -->
+    <h2>4. Estratégia de Migração: Web2py -> Django</h2>
+    <div class="warning">
+        Problema atual: Web2py está lento e o ecossistema é legado.
+    </div>
+    
+    <h3>Passos sugeridos:</h3>
+    <ol>
+        <li><strong>Mapeamento de Banco:</strong> Usar o comando <code>python manage.py inspectdb</code> no Django para gerar os modelos baseados no banco atual do Web2py.</li>
+        <li><strong>Padrão Estrangulador:</strong> Migrar por módulos. Manter o Web2py rodando e subir partes novas em Django no mesmo servidor.</li>
+        <li><strong>Nginx como Proxy:</strong> Configurar o Nginx para mandar <code>/sistema/antigo</code> para o Web2py e
