@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Segurança de Dados</title>
+    <style>
+        :root {
+            --bg-principal: #f0f4f8;
+            --azul-escuro: #0f172a;
+            --azul-card: #ffffff;
+            --azul-primario: #2563eb;
+            --azul-hover: #1d4ed8;
+            --azul-claro: #dbeafe;
+            --azul-texto: #1e3a8a;
+            --texto-corpo: #334155;
+            --borda: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-corpo);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--azul-escuro), var(--azul-primario));
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Seção da Sequência de Estudos */
+        .sequencia-box {
+            background: var(--azul-claro);
+            border-left: 5px solid var(--azul-primario);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .sequencia-box h2 {
+            color: var(--azul-texto);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .badge-step {
+            background-color: var(--azul-card);
+            color: var(--azul-primario);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 1px solid var(--azul-primario);
+            display: flex;
+            align-items: center;
+        }
+
+        .badge-step::after {
+            content: " →";
+            margin-left: 8px;
+            color: var(--azul-escuro);
+        }
+
+        .badge-step:last-child::after {
+            content: "";
+        }
+
+        /* Grid de Níveis */
+        .trilha-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--azul-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--azul-claro);
+            padding-bottom: 10px;
+        }
+
+        .nivel-badge {
+            background-color: var(--azul-primario);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .card-title {
+            color: var(--azul-escuro);
+            font-size: 1.3rem;
+            font-weight: 700;
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .card-desc {
+            font-style: italic;
+            color: #64748b;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--azul-texto);
+            margin: 12px 0 6px 0;
+            font-weight: bold;
+        }
+
+        .topicos-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .topicos-list li {
+            background-color: #f1f5f9;
+            color: var(--texto-corpo);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid var(--borda);
+        }
+
+        .meta-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--borda);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .meta-box ul {
+            padding-left: 20px;
+        }
+
+        .alert-text {
+            color: #b91c1c;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Trilha de Segurança de Dados</h1>
+            <p>Guia estruturado do básico ao avançado para proteção de aplicações e sistemas SaaS</p>
+        </header>
+
+        <div class="sequencia-box" id="sequencia-container">
+            <h2>Ordem Recomendada de Estudo</h2>
+            <div class="badges-container" id="sequencia-badges"></div>
+        </div>
+
+        <div class="trilha-grid" id="trilha-cards"></div>
+    </div>
+
+    <script>
+        // O JSON fornecido embutido diretamente na aplicação
+        const dadosTrilha = {
+  "trilha": [
+    {
+      "nivel": 1,
+      "titulo": "Fundamentos de Computação e Redes",
+      "descricao": "Base necessária para compreender como sistemas web funcionam e se comunicam.",
+      "topicos": [
+        "TCP/IP",
+        "DNS",
+        "HTTP/HTTPS",
+        "TLS/SSL",
+        "Certificados digitais",
+        "Portas e protocolos",
+        "NAT",
+        "VPN",
+        "Firewalls",
+        "Proxy reverso",
+        "Load Balancer"
+      ],
+      "objetivo": "Entender exatamente o que acontece quando um navegador acessa um site.",
+      "ferramentas": [
+        "Wireshark",
+        "tcpdump",
+        "curl",
+        "Postman"
+      ]
+    },
+    {
+      "nivel": 2,
+      "titulo": "Segurança Web Básica",
+      "descricao": "Estudo das vulnerabilidades mais comuns em aplicações web.",
+      "referencias": [
+        {
+          "nome": "OWASP Top 10",
+          "organizacao": "OWASP"
+        }
+      ],
+      "topicos": [
+        "Broken Access Control",
+        "Cryptographic Failures",
+        "Injection",
+        "Insecure Design",
+        "Security Misconfiguration",
+        "Vulnerable Components",
+        "Authentication Failures",
+        "Software Integrity Failures",
+        "Logging Failures",
+        "SSRF"
+      ],
+      "objetivo": "Entender como explorar vulnerabilidades de forma controlada e como corrigi-las.",
+      "pratica": [
+        "DVWA",
+        "OWASP Juice Shop",
+        "WebGoat"
+      ]
+    },
+    {
+  "nivel": 3,
+  "titulo": "Autenticação e Autorização",
+  "descricao": "Muitos sistemas SaaS falham aqui.",
+  "topicos": [
+    "Sessões",
+    "Cookies",
+    "JWT",
+    "OAuth2",
+    "OpenID Connect",
+    "SSO",
+    "MFA",
+    "Passkeys",
+    "RBAC",
+    "ABAC"
+  ],
+  "perguntas": [
+    "Como impedir um cliente de acessar dados de outro?",
+    "Como revogar um JWT?",
+    "Como proteger sessões roubadas?"
+  ]
+},
+{
+  "nivel": 4,
+  "titulo": "Criptografia",
+  "descricao": "Sem exageros matemáticos no início.",
+  "topicos": [
+    "Hash",
+    "Salt",
+    "HMAC",
+    "SHA-256",
+    "bcrypt",
+    "Argon2",
+    "AES",
+    "RSA",
+    "ECC",
+    "Assinaturas digitais"
+  ],
+  "voce_precisa_saber": [
+    "Quando criptografar",
+    "Quando hashear",
+    "Quando assinar"
+  ],
+  "observacao": "Muitos desenvolvedores confundem os três."
+},
+{
+  "nivel": 5,
+  "titulo": "Banco de Dados Seguro",
+  "topicos": [
+    "SQL Injection",
+    "ORM Security",
+    "Prepared Statements",
+    "Segregação de permissões",
+    "Auditoria",
+    "Backup seguro",
+    "Criptografia em repouso"
+  ],
+  "django": [
+    "ORM",
+    "CSRF",
+    "Permission System",
+    "Middleware"
+  ]
+},
+{
+  "nivel": 6,
+  "titulo": "Linux",
+  "descricao": "Praticamente obrigatório.",
+  "topicos": [
+    "Usuários",
+    "Grupos",
+    "Permissões",
+    "chmod",
+    "chown",
+    "sudo",
+    "systemd",
+    "logs",
+    "SSH",
+    "Fail2Ban"
+  ],
+  "depois": [
+    "Docker",
+    "Containers",
+    "Namespaces",
+    "Cgroups"
+  ]
+},
+{
+  "nivel": 7,
+  "titulo": "Segurança de APIs",
+  "descricao": "Muito importante para SaaS.",
+  "topicos": [
+    "REST",
+    "GraphQL",
+    "API Keys",
+    "OAuth",
+    "Rate Limiting",
+    "Idempotência",
+    "Replay Attacks"
+  ],
+  "ferramentas": [
+    "Burp Suite",
+    "Postman",
+    "Insomnia"
+  ]
+},
+{
+  "nivel": 8,
+  "titulo": "Cloud Security",
+  "descricao": "Hoje quase todo SaaS roda em nuvem.",
+  "topicos": [
+    "IAM",
+    "VPC",
+    "Security Groups",
+    "Secrets Management",
+    "WAF",
+    "Object Storage",
+    "KMS"
+  ],
+  "plataformas": [
+    "AWS",
+    "Google Cloud",
+    "Microsoft Azure"
+  ]
+},
+{
+  "nivel": 9,
+  "titulo": "DevSecOps",
+  "descricao": "Onde o mercado está indo.",
+  "topicos": [
+    "CI/CD seguro",
+    "SAST",
+    "DAST",
+    "Dependency Scanning",
+    "Secret Scanning",
+    "Container Scanning"
+  ],
+  "ferramentas": [
+    "GitHub Actions",
+    "SonarQube",
+    "Trivy"
+  ]
+},
+{
+  "nivel": 10,
+  "titulo": "Pentest",
+  "descricao": "Agora você começa a pensar como atacante.",
+  "ferramentas": [
+    "Burp Suite",
+    "Nmap",
+    "Metasploit"
+  ],
+  "topicos": [
+    "Reconhecimento",
+    "Enumeração",
+    "Exploração",
+    "Pós-exploração"
+  ],
+  "importante": [
+    "Saber pentest não significa saber construir sistemas seguros.",
+    "Muitos pentesters não sabem arquitetura."
+  ]
+},
+{
+  "nivel": 11,
+  "titulo": "Arquitetura Segura",
+  "descricao": "Aqui você se diferencia.",
+  "topicos": [
+    "Threat Modeling",
+    "STRIDE",
+    "Zero Trust",
+    "Defense in Depth",
+    "Least Privilege",
+    "Secure SDLC"
+  ],
+  "pergunta_central": "Se um invasor comprometer qualquer parte do sistema, quanto estrago ele consegue causar?"
+},
+{
+  "nivel": 12,
+  "titulo": "Segurança para SaaS",
+  "descricao": "O que você provavelmente precisa.",
+  "contexto": "Se você está construindo SaaS com Django e integrações financeiras (Asaas, pagamentos, cobranças), eu focaria em:",
+  "topicos": [
+    "Autenticação",
+    "Controle de acesso multiempresa (multi-tenant)",
+    "Gestão de segredos",
+    "Logs e auditoria",
+    "Backups",
+    "Segurança de APIs",
+    "Rate limiting",
+    "Criptografia",
+    "Segurança em nuvem",
+    "Monitoramento"
+  ],
+  "exemplos_de_falhas_criticas": [
+    "Usuário da empresa A vê dados da empresa B.",
+    "Chave da API do Asaas exposta.",
+    "Webhook sem validação.",
+    "Endpoint administrativo acessível por cliente comum.",
+    "Backup armazenado sem criptografia."
+  ]
+},
+{
+  "sequencia_de_estudo": [
+    "Redes",
+    "HTTP/HTTPS",
+    "Linux",
+    "OWASP Top 10",
+    "Django Security",
+    "Banco de Dados Seguro",
+    "Autenticação/Autorização",
+    "Criptografia",
+    "APIs",
+    "Docker",
+    "Cloud",
+    "DevSecOps",
+    "Pentest",
+    "Arquitetura Segura"
+  ]
+}
+  ]
+};
+
+        // Renderizar Sequência de Estudos
+        const sequenciaDados = dadosTrilha.trilha.find(item => item.sequencia_de_estudo);
+        const badgesContainer = document.getElementById('sequencia-badges');
+        
+        if (sequenciaDados) {
+            sequenciaDados.sequencia_de_estudo.forEach(item => {
+                const badge = document.createElement('span');
+                badge.className = 'badge-step';
+                badge.innerText = item;
+                badgesContainer.appendChild(badge);
+            });
+        }
+
+        // Renderizar Níveis da Trilha
+        const cardsContainer = document.getElementById('trilha-cards');
+        const niveis = dadosTrilha.trilha.filter(item => item.nivel);
+
+        niveis.forEach(dados => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            // Estrutura HTML dinâmica baseada nas chaves existentes no JSON
+            let htmlInterno = `
+                <div class="card-header">
+                    <span class="nivel-badge">Nível ${dados.nivel}</span>
+                    <h3 class="card-title">${dados.titulo}</h3>
+                </div>
+            `;
+
+            if (dados.descricao) {
+                htmlInterno += `<p class="card-desc">${dados.descricao}</p>`;
+            }
+
+            if (dados.contexto) {
+                htmlInterno += `<p class="card-desc" style="color: var(--azul-texto); font-weight:500;">${dados.contexto}</p>`;
+            }
+
+            if (dados.topicos && dados.topicos.length > 0) {
+                htmlInterno += `<div class="section-title">Tópicos</div>`;
+                htmlInterno += `<ul class="topicos-list">`;
+                dados.topicos.forEach(t => htmlInterno += `<li>${t}</li>`);
+                htmlInterno += `</ul>`;
+            }
+
+            // Bloco dinâmico de metadados inferiores (Objetivos, Ferramentas, Alertas)
+            let metaHtml = '';
+
+            if (dados.objetivo) {
+                metaHtml += `<div><strong>Objetivo:</strong> ${dados.objetivo}</div>`;
+            }
+
+            if (dados.pergunta_central) {
+                metaHtml += `<div><strong>Pergunta Central:</strong> <em>"${dados.pergunta_central}"</em></div>`;
+            }
+
+            if (dados.ferramentas && dados.ferramentas.length > 0) {
+                metaHtml += `<div><strong>Ferramentas:</strong> ${dados.ferramentas.join(', ')}</div>`;
+            }
+
+            if (dados.pratica && dados.pratica.length > 0) {
+                metaHtml += `<div><strong>Para Praticar:</strong> ${dados.pratica.join(', ')}</div>`;
+            }
+
+            if (dados.django && dados.django.length > 0) {
+                metaHtml += `<div><strong>No Django focar em:</strong> ${dados.django.join(', ')}</div>`;
+            }
+
+            if (dados.depois && dados.depois.length > 0) {
+                metaHtml += `<div><strong>Próximo passo:</strong> ${dados.depois.join(', ')}</div>`;
+            }
+
+            if (dados.perguntas && dados.perguntas.length > 0) {
+                metaHtml += `<div><strong>Perguntas Críticas:</strong><ul>`;
+                dados.perguntas.forEach(p => metaHtml += `<li>${p}</li>`);
+                metaHtml += `</ul></div>`;
+            }
+
+            if (dados.voce_precisa_saber && dados.voce_precisa_saber.length > 0) {
+                metaHtml += `<div><strong>Você precisa saber diferenciar:</strong> ${dados.voce_precisa_saber.join(', ')}</div>`;
+            }
+
+            if (dados.exemplos_de_falhas_criticas && dados.exemplos_de_falhas_criticas.length > 0) {
+                metaHtml += `<div><strong class="alert-text">Falhas Críticas Comuns (SaaS):</strong><ul class="alert-text" style="padding-left:20px;">`;
+                dados.exemplos_de_falhas_criticas.forEach(f => metaHtml += `<li>${f}</li>`);
+                metaHtml += `</ul></div>`;
+            }
+
+            if (dados.observacao) {
+                metaHtml += `<div class="alert-text" style="margin-top:5px;">⚠️ ${dados.observacao}</div>`;
+            }
+
+            if (dados.importante && dados.importante.length > 0) {
+                metaHtml += `<div class="alert-text" style="margin-top:5px;">⚠️ <strong>Aviso:</strong> ${dados.importante.join(' ')}</div>`;
+            }
+
+            if (metaHtml) {
+                htmlInterno += `<div class="meta-box">${metaHtml}</div>`;
+            }
+
+            card.innerHTML = htmlInterno;
+            cardsContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
