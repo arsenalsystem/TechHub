@@ -33,13 +33,13 @@ Este arquivo consolida os Requisitos do Sistema, as Regras de Desenvolvimento (D
   * **Interface de Instalação:** Na tela inicial, exibir um botão/modal nativo, bonito, limpo e altamente intuitivo com instruções específicas de instalação baseadas no dispositivo detectado (ex: "Clique em Compartilhar e Adicionar à Tela de Início" no Safari/iOS; ou botão direto de instalação no Chrome/Android).
 
 ### 1.5 Controle de Acessos, Sessão Única e Proteção Contra Ataques
-* **Objetivo: Garantir a integridade das contas de usuário e a estabilidade do servidor contra abusos de requisições ou ataques de força bruta.
+* **Objetivo:** Garantir a integridade das contas de usuário e a estabilidade do servidor contra abusos de requisições ou ataques de força bruta.
 
-* **Diretriz Técnica:
+* **Diretriz Técnica:**
 
   * Sessão Única por Usuário (Derrubar Login Anterior): Implementar uma lógica no momento do login que verifique se o usuário já possui uma sessão ativa em outro dispositivo ou navegador. Caso exista, a   * sessão antiga deve ser invalidada automaticamente no banco de dados/cache (usando o sistema de sessões do Django ou Redis), permitindo o acesso apenas na máquina mais recente.
 
-"Proteção de IP e Rate Limiting (Bloqueio de Ataques): Utilizar uma camada de Rate Limiting (com pacotes como django-ratelimit ou através do servidor ASGI/Nginx) para monitorar o volume de requisições por endereço IP.
+  * **Proteção de IP e Rate Limiting (Bloqueio de Ataques):** Utilizar uma camada de Rate Limiting (com pacotes como django-ratelimit ou através do servidor ASGI/Nginx) para monitorar o volume de requisições por endereço IP.
 
 Regra de Bloqueio: Se um único IP exceder um limite seguro de requisições por minuto (ex: tentativas consecutivas de login inválido ou varreduras automatizadas), o IP deve ser temporariamente bloqueado (blacklist) por um período determinado. As rotas sensíveis, como login e recuperação de senha, devem ter limites ainda mais rigorosos.
 ---
