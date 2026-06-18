@@ -41,7 +41,7 @@ Este arquivo consolida os Requisitos do Sistema, as Regras de Desenvolvimento (D
 
   * **Proteção de IP e Rate Limiting (Bloqueio de Ataques):** Utilizar uma camada de Rate Limiting (com pacotes como django-ratelimit ou através do servidor ASGI/Nginx) para monitorar o volume de requisições por endereço IP.
 
-Regra de Bloqueio: Se um único IP exceder um limite seguro de requisições por minuto (ex: tentativas consecutivas de login inválido ou varreduras automatizadas), o IP deve ser temporariamente bloqueado (blacklist) por um período determinado. As rotas sensíveis, como login e recuperação de senha, devem ter limites ainda mais rigorosos.
+  * **Regra de Bloqueio:** Se um único IP exceder um limite seguro de requisições por minuto (ex: tentativas consecutivas de login inválido ou varreduras automatizadas), o IP deve ser temporariamente bloqueado (blacklist) por um período determinado. As rotas sensíveis, como login e recuperação de senha, devem ter limites ainda mais rigorosos.
 ---
 
 ## 2. Regras Globais de Código (Rules)
