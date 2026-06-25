@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de QR Code Pix</title>
+    <!-- Fonte Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Biblioteca QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #0056b3;
+            --light-blue: #e7f1ff;
+            --dark-blue: #003d80;
+            --white: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #007bff 0%, #003d80 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--white);
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-blue);
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-blue);
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        #result-area {
+            margin-top: 30px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .copy-area {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            border: 1px dashed #ccc;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .copy-area::after {
+            content: "Clique para copiar 'Pix Copia e Cola'";
+            display: block;
+            font-size: 10px;
+            margin-top: 5px;
+            color: var(--primary-blue);
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerador de QR Pix</h1>
+        <p>Preencha os dados abaixo para gerar seu QR Code de recebimento.</p>
+
+        <div class="form-group">
+            <label for="pix-key">Chave Pix (E-mail, CPF, CNPJ ou Telefone)</label>
+            <input type="text" id="pix-key" placeholder="Ex: sua@chave.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Nome do Beneficiário</label>
+            <input type="text" id="name" placeholder="Ex: Joao Silva" required>
+        </div>
+
+        <div class="form-group">
+            <label for="city">Cidade</label>
+            <input type="text" id="city" placeholder="Ex: SAO PAULO" required>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Valor (Opcional)</label>
+            <input type="number" id="amount" placeholder="Ex: 50.00" step="0.01">
+        </div>
+
+        <button onclick="generatePix()">Gerar QR Code</button>
+
+        <div id="result-area">
+            <div id="qrcode"></div>
+            <div class="copy-area" id="payload-text" onclick="copyToClipboard()">
+                <!-- O código payload aparecerá aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let qr = null;
+
+        function generatePix() {
+            const key = document.getElementById('pix-key').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const amount = document.getElementById('amount').value;
+
+            if (!key || !name || !city) {
+                alert("Por favor, preencha a chave, o nome e a cidade.");
+                return;
+            }
+
+            // Gerar a Payload (String do Pix)
+            const payload = new PixPayload(key, name, city, amount).getPayload();
+
+            // Exibir área de resultado
+            document.getElementById('result-area').style.display = 'flex';
+            document.getElementById('payload-text').innerText = payload;
+
+            // Limpar QR anterior e gerar novo
+            const qrElement = document.getElementById('qrcode');
+            qrElement.innerHTML = '';
+            qr = new QRCode(qrElement, {
+                text: payload,
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.M
+            });
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('payload-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Código 'Pix Copia e Cola' copiado com sucesso!");
+            });
+        }
+
+        // Lógica de construção do BR Code (Pix)
+        class PixPayload {
+            constructor(key, name, city, amount) {
+                this.key = key;
+                this.name = name;
+                this.city = city;
+                this.amount = amount ? parseFloat(amount).toFixed(2) : null;
+                
+                this.ID_PAYLOAD_FORMAT_INDICATOR = '00';
+                this.ID_MERCHANT_ACCOUNT_INFORMATION = '26';
+                this.ID_MERCHANT_ACCOUNT_INFORMATION_GUI = '00';
+                this.ID_MERCHANT_ACCOUNT_INFORMATION_KEY = '01';
+                this.ID_MERCHANT_CATEGORY_CODE = '52';
+                this.ID_TRANSACTION_CURRENCY = '53';
+                this.ID_TRANSACTION_AMOUNT = '54';
+                this.ID_COUNTRY_CODE = '58';
+                this.ID_MERCHANT_NAME = '59';
+                this.ID_MERCHANT_CITY = '60';
+                this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE = '62';
+                this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE_TXID = '05';
+                this.ID_CRC16 = '63';
+            }
+
+            _getValue(id, value) {
+                const len = value.length.toString().padStart(2, '0');
+                return id + len + value;
+            }
+
+            getPayload() {
+                let payload = this._getValue(this.ID_PAYLOAD_FORMAT_INDICATOR, '01');
+                
+                // Informações da conta
+                const merchantAccount = 
+                    this._getValue(this.ID_MERCHANT_ACCOUNT_INFORMATION_GUI, 'br.gov.bcb.pix') +
+                    this._getValue(this.ID_MERCHANT_ACCOUNT_INFORMATION_KEY, this.key);
+                
+                payload += this._getValue(this.ID_MERCHANT_ACCOUNT_INFORMATION, merchantAccount);
+                payload += this._getValue(this.ID_MERCHANT_CATEGORY_CODE, '0000');
+                payload += this._getValue(this.ID_TRANSACTION_CURRENCY, '986');
+
+                if (this.amount && this.amount > 0) {
+                    payload += this._getValue(this.ID_TRANSACTION_AMOUNT, this.amount);
+                }
+
+                payload += this._getValue(this.ID_COUNTRY_CODE, 'BR');
+                payload += this._getValue(this.ID_MERCHANT_NAME, this.name.substring(0, 25));
+                payload += this._getValue(this.ID_MERCHANT_CITY, this.city.substring(0, 15));
+                
+                // TxID (Obrigatório, usamos *** para estático sem identificador)
+                const txid = this._getValue(this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE_TXID, '***');
+                payload += this._getValue(this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE, txid);
+
+                // CRC16
+                payload += this.ID_CRC16 + '04';
+                payload += this._calculateCRC16(payload);
+
+                return payload;
+            }
+
+            _calculateCRC16(payload) {
+                let crc = 0xFFFF;
+                const polynomial = 0x1021;
+
+                for (let i = 0; i < payload.length; i++) {
+                    let b = payload.charCodeAt(i);
+                    for (let j = 0; j < 8; j++) {
+                        let bit = ((b >> (7 - j) & 1) == 1);
+                        let c15 = ((crc >> 15 & 1) == 1);
+                        crc <<= 1;
+                        if (c15 ^ bit) crc ^= polynomial;
+                    }
+                }
+                crc &= 0xFFFF;
+                return crc.toString(16).toUpperCase().padStart(4, '0');
+            }
+        }
+    </script>
+</body>
+</html>
