@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Ordem de Serviço PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0369a1;
+            --primary-light: #e0f2fe;
+            --dark: #0f172a;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --success: #16a34a;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Painel de Controle */
+        #control-panel {
+            max-width: 850px;
+            margin: 0 auto 30px auto;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+
+        label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline-color: var(--primary);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border);
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .btn-add { background: var(--primary); color: white; }
+        .btn-print { background: var(--dark); color: white; flex-grow: 1; justify-content: center; font-size: 1rem; }
+        .btn-export { background: var(--success); color: white; }
+        .btn-import { background: var(--warning); color: white; }
+        .btn-clear { background: #64748b; color: white; }
+        .btn-remove { background: transparent; color: var(--danger); padding: 5px; }
+
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* Estilo da OS */
+        .os-card {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .header-bar {
+            background: var(--primary);
+            padding: 30px 40px;
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-bar h1 { margin: 0; font-size: 1.4rem; }
+
+        .vehicle-info {
+            padding: 20px 40px;
+            background: var(--primary-light);
+            display: flex;
+            gap: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-group label { display: block; color: var(--primary); }
+        .info-group span { font-weight: 600; color: var(--dark); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            padding: 15px 40px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td { padding: 12px 40px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .category-title { background: #f8fafc; font-weight: 700; color: var(--primary); font-size: 0.8rem; }
+        .text-right { text-align: right; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+
+        .summary-section {
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            background: #fcfcfc;
+        }
+
+        .subtotals { width: 55%; }
+        .subtotal-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.9rem; color: var(--text-light); }
+
+        .grand-total {
+            text-align: right;
+            background: var(--dark);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 8px;
+            min-width: 220px;
+        }
+        .grand-total label { display: block; font-size: 0.75rem; opacity: 0.7; margin-bottom: 5px; color: white; }
+        .grand-total span { font-size: 1.8rem; font-weight: 700; color: #7dd3fc; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            #control-panel, .btn-remove { display: none !important; }
+            .os-card { border: none; box-shadow: none; width: 100%; max-width: 100%; }
+            @page { margin: 1cm; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="control-panel">
+        <h2 style="margin-top:0; color: var(--primary); display: flex; align-items: center; gap: 10px;">🛠️ Sistema de Orçamentos</h2>
+        
+        <!-- Dados do Cabeçalho -->
+        <div class="form-grid">
+            <div class="input-group">
+                <label>Nº Pedido</label>
+                <input type="text" id="in-pedido" placeholder="Ex: 001">
+            </div>
+            <div class="input-group">
+                <label>Cliente</label>
+                <input type="text" id="in-cliente" placeholder="Nome do Cliente">
+            </div>
+            <div class="input-group">
+                <label>Veículo / Descrição</label>
+                <input type="text" id="in-veiculo" placeholder="Modelo e Ano">
+            </div>
+            <div class="input-group">
+                <label>Vendedor</label>
+                <input type="text" id="in-vendedor" placeholder="Nome do Vendedor">
+            </div>
+        </div>
+
+        <!-- Adicionar Itens -->
+        <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr auto; align-items: end;">
+            <div class="input-group">
+                <label>Descrição do Item</label>
+                <input type="text" id="item-desc" placeholder="Ex: Óleo 5W30">
+            </div>
+            <div class="input-group">
+                <label>Tipo</label>
+                <select id="item-tipo">
+                    <option value="peça">Peça</option>
+                    <option value="serviço">Serviço</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Qtd</label>
+                <input type="number" id="item-qtd" value="1">
+            </div>
+            <div class="input-group">
+                <label>Valor Unit.</label>
+                <input type="number" id="item-val" placeholder="0.00">
+            </div>
+            <button class="btn-add" onclick="addItem()">＋ Add</button>
+        </div>
+
+        <!-- Barra de Ações -->
+        <div class="toolbar">
+            <button class="btn-print" onclick="window.print()">🖨️ Imprimir Orçamento</button>
+            <button class="btn-export" onclick="exportData()">💾 Exportar Backup</button>
+            <button class="btn-import" onclick="document.getElementById('file-input').click()">📂 Importar</button>
+            <button class="btn-clear" onclick="clearAll()">✨ Novo Orçamento</button>
+            <input type="file" id="file-input" style="display:none" accept=".json" onchange="importData(event)">
+        </div>
+    </div>
+
+    <!-- DOCUMENTO VISUAL -->
+    <div class="os-card">
+        <div class="header-bar">
+            <div>
+                <h1>ORDEM DE SERVIÇO</h1>
+                <small style="opacity: 0.8;">#PEDIDO-<span id="display-pedido">---</span></small>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-weight: 600;">Auto Peças</div>
+                <small>Emissão: <span id="display-data"></span></small>
+            </div>
+        </div>
+
+        <div class="vehicle-info">
+            <div class="info-group">
+                <label>Cliente</label>
+                <span id="display-cliente">---</span>
+            </div>
+            <div class="info-group">
+                <label>Veículo</label>
+                <span id="display-veiculo">---</span>
+            </div>
+            <div class="info-group">
+                <label>Vendedor</label>
+                <span id="display-vendedor">---</span>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição do Item / Serviço</th>
+                    <th class="text-right">Qtd</th>
+                    <th class="text-right">Unitário</th>
+                    <th class="text-right">Total</th>
+                    <th class="text-right btn-remove" style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+
+        <div class="summary-section">
+            <div class="subtotals">
+                <div class="subtotal-row">
+                    <span>Total de Peças:</span>
+                    <strong class="font-mono" id="total-pecas">R$ 0,00</strong>
+                </div>
+                <div class="subtotal-row">
+                    <span>Total de Mão de Obra:</span>
+                    <strong class="font-mono" id="total-servicos">R$ 0,00</strong>
+                </div>
+                <div class="subtotal-row" style="margin-top: 10px; font-size: 0.75rem; border-top: 1px dashed #ccc; padding-top: 10px;">
+                    <span>* Garantia de 3 meses (Peças originais conforme fabricante).</span>
+                </div>
+            </div>
+
+            <div class="grand-total">
+                <label>TOTAL GERAL</label>
+                <span id="total-geral">R$ 0,00</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let items = [];
+        const STORAGE_KEY = 'orcamento_auto_data';
+
+        // Inicialização
+        window.onload = () => {
+            document.getElementById('display-data').innerText = new Date().toLocaleDateString('pt-BR');
+            loadFromLocalStorage();
+            
+            // Listeners para salvar automaticamente o cabeçalho
+            ['in-pedido', 'in-cliente', 'in-veiculo', 'in-vendedor'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    updateDisplay();
+                    saveToLocalStorage();
+                });
+            });
+        };
+
+        function updateDisplay() {
+            document.getElementById('display-pedido').innerText = document.getElementById('in-pedido').value || '---';
+            document.getElementById('display-cliente').innerText = document.getElementById('in-cliente').value || '---';
+            document.getElementById('display-veiculo').innerText = document.getElementById('in-veiculo').value || '---';
+            document.getElementById('display-vendedor').innerText = document.getElementById('in-vendedor').value || '---';
+        }
+
+        function addItem() {
+            const desc = document.getElementById('item-desc').value;
+            const tipo = document.getElementById('item-tipo').value;
+            const qtd = parseFloat(document.getElementById('item-qtd').value);
+            const val = parseFloat(document.getElementById('item-val').value);
+
+            if (!desc || isNaN(val)) return alert("Preencha descrição e valor.");
+
+            items.push({ desc, tipo, qtd, val });
+            renderTable();
+            saveToLocalStorage();
+            
+            document.getElementById('item-desc').value = '';
+            document.getElementById('item-val').value = '';
+            document.getElementById('item-desc').focus();
+        }
+
+        function removeItem(idx) {
+            items.splice(idx, 1);
+            renderTable();
+            saveToLocalStorage();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            let tP = 0, tS = 0;
+
+            const renderCat = (catItems, title) => {
+                if (catItems.length === 0) return;
+                tbody.innerHTML += `<tr class="category-title"><td colspan="5">${title}</td></tr>`;
+                catItems.forEach(item => {
+                    const total = item.qtd * item.val;
+                    if(item.tipo === 'peça') tP += total; else tS += total;
+                    
+                    const originalIdx = items.indexOf(item);
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.desc}</td>
+                            <td class="text-right">${item.qtd}</td>
+                            <td class="text-right font-mono">${item.val.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                            <td class="text-right font-mono">${total.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                            <td class="text-right btn-remove"><button class="btn-remove" onclick="removeItem(${originalIdx})">✕</button></td>
+                        </tr>`;
+                });
+            };
+
+            renderCat(items.filter(i => i.tipo === 'peça'), "Peças e Insumos");
+            renderCat(items.filter(i => i.tipo === 'serviço'), "Serviços e Mão de Obra");
+
+            const fmt = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('total-pecas').innerText = fmt(tP);
+            document.getElementById('total-servicos').innerText = fmt(tS);
+            document.getElementById('total-geral').innerText = fmt(tP + tS);
+        }
+
+        // --- PERSISTÊNCIA E BACKUP ---
+
+        function saveToLocalStorage() {
+            const data = {
+                header: {
+                    pedido: document.getElementById('in-pedido').value,
+                    cliente: document.getElementById('in-cliente').value,
+                    veiculo: document.getElementById('in-veiculo').value,
+                    vendedor: document.getElementById('in-vendedor').value
+                },
+                items: items
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('in-pedido').value = data.header.pedido || '';
+                document.getElementById('in-cliente').value = data.header.cliente || '';
+                document.getElementById('in-veiculo').value = data.header.veiculo || '';
+                document.getElementById('in-vendedor').value = data.header.vendedor || '';
+                items = data.items || [];
+                updateDisplay();
+                renderTable();
+            }
+        }
+
+        function exportData() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            if (!data) return alert("Nada para exportar.");
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OS_${document.getElementById('in-pedido').value || 'sem_numero'}.json`;
+            a.click();
+        }
+
+        function importData(event) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                localStorage.setItem(STORAGE_KEY, e.target.result);
+                loadFromLocalStorage();
+                alert("Orçamento importado com sucesso!");
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
+        function clearAll() {
+            if (confirm("Deseja limpar todo o orçamento atual?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
