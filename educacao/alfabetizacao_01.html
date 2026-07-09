@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Alfabetização</title>
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffe66d;
+            --bg: #f7f9fc;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+            border: 5px solid var(--secondary);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .menu {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        .btn-category {
+            background: var(--bg);
+            border: 2px solid var(--secondary);
+        }
+
+        .btn-category.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .card {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .palavra {
+            font-size: 5rem;
+            margin: 0;
+            color: #2d3436;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        .detalhe {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-top: 10px;
+            min-height: 1.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .detalhe.show {
+            opacity: 1;
+        }
+
+        .controles {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-principal {
+            background: var(--primary);
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+        }
+
+        .btn-ajuda {
+            background: var(--accent);
+            color: #5d5d5d;
+        }
+
+        .stats {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>JOGO DAS PALAVRAS</h1>
+
+        <div class="menu">
+            <button class="btn-category active" onclick="setCategory('todas', this)">Todas</button>
+            <button class="btn-category" onclick="setCategory('monossilabas', this)">1 Sílaba</button>
+            <button class="btn-category" onclick="setCategory('dissilabas', this)">2 Sílabas</button>
+            <button class="btn-category" onclick="setCategory('trissilabas', this)">3 Sílabas</button>
+        </div>
+
+        <div class="card">
+            <p class="palavra" id="txt-palavra">---</p>
+            <p class="detalhe" id="txt-detalhe"></p>
+        </div>
+
+        <div class="controles">
+            <button class="btn-ajuda" onclick="revelar()">VER AJUDA 💡</button>
+            <button class="btn-principal" onclick="proximaPalavra()">PRÓXIMA PALAVRA ➡️</button>
+        </div>
+
+        <div class="stats" id="stats"></div>
+    </div>
+
+    <script>
+        const dados =  {
+    "monossilabas": [
+	{ "palavra": "Sol", "exemplo": "O sol brilha." },
+	{ "palavra": "Pé", "exemplo": "Eu calço o pé." },
+	{ "palavra": "Pão", "exemplo": "Gosto de pão quente." },
+	{ "palavra": "Flor", "exemplo": "A flor é cheirosa." },
+	{ "palavra": "Mar", "exemplo": "A água do mar é salgada." },
+	{ "palavra": "Trem", "exemplo": "O trem faz piuí." },
+	{ "palavra": "Gol", "exemplo": "Ele fez um gol!" },
+	{ "palavra": "Mel", "exemplo": "O mel é doce." },
+	{ "palavra": "Mão", "exemplo": "Lave a mão antes de comer." },
+	{ "palavra": "Cão", "exemplo": "O cão é amigo." },
+	{ "palavra": "Luz", "exemplo": "A luz está acesa." },
+	{ "palavra": "Sal", "exemplo": "O sal é branco." },
+	{ "palavra": "Rei", "exemplo": "O rei usa uma coroa." },
+	{ "palavra": "Céu", "exemplo": "O céu está azul hoje." },
+	{ "palavra": "Pai", "exemplo": "Meu pai é muito legal." },
+	{ "palavra": "Mãe", "exemplo": "Amo muito a minha mãe." },
+	{ "palavra": "Chá", "exemplo": "O chá está bem quente." },
+	{ "palavra": "Nó", "exemplo": "O menino deu um nó na corda." },
+	{ "palavra": "Rã", "exemplo": "A rã pula no jardim." },
+	{ "palavra": "Pá", "exemplo": "Eu usei a pá na areia." },
+	{ "palavra": "Lar", "exemplo": "Meu lar é muito feliz." },
+	{ "palavra": "Cor", "exemplo": "Qual é a sua cor favorita?" },
+	{ "palavra": "Vez", "exemplo": "Era uma vez um gigante." },
+	{ "palavra": "Sim", "exemplo": "Eu disse sim para o passeio." },
+	{ "palavra": "Não", "exemplo": "Não pise na grama." },
+	{ "palavra": "Fé", "exemplo": "Eu tenho muita fé." },
+	{ "palavra": "Um", "exemplo": "Eu tenho um brinquedo novo." },
+	{ "palavra": "Mau", "exemplo": "O lobo mau fugiu." },
+	{ "palavra": "Bom", "exemplo": "O lanche está muito bom." },
+	{ "palavra": "Boi", "exemplo": "O boi vive no pasto." },
+	{ "palavra": "Meu", "exemplo": "Este lápis é meu." },
+	{ "palavra": "Teu", "exemplo": "Onde está o teu gato?" },
+	{ "palavra": "Seu", "exemplo": "Pega o seu casaco agora." },
+	{ "palavra": "Tem", "exemplo": "Ela tem uma boneca linda." },
+	{ "palavra": "Vem", "exemplo": "Vem brincar comigo hoje." },
+	{ "palavra": "Bem", "exemplo": "Eu estou me sentindo bem." },
+	{ "palavra": "Som", "exemplo": "O som do rádio está alto." },
+	{ "palavra": "Paz", "exemplo": "A pomba é o símbolo da paz." },
+	{ "palavra": "Voz", "exemplo": "A voz da vovó é doce." },
+	{ "palavra": "Fio", "exemplo": "O fio do telefone é curto." },
+	{ "palavra": "Rio", "exemplo": "O peixe nada no rio." },
+	{ "palavra": "Mil", "exemplo": "O menino contou até mil." },
+	{ "palavra": "Gel", "exemplo": "Passei gel no meu cabelo." },
+	{ "palavra": "Lei", "exemplo": "Todos devem seguir a lei." },
+	{ "palavra": "Viu", "exemplo": "Você viu o meu cachorro?" },
+	{ "palavra": "Leu", "exemplo": "Ele leu o livro inteiro." },
+	{ "palavra": "Diz", "exemplo": "Ela diz que gosta de você." },
+	{ "palavra": "Qual", "exemplo": "Qual é o seu nome?" },
+	{ "palavra": "Nas", "exemplo": "As roupas estão nas caixas." },
+	{ "palavra": "Gás", "exemplo": "O balão está cheio de gás." }
+    ],
+    "dissilabas": [
+	{ "palavra": "Bola", "silabas": "Bo-la" },
+	{ "palavra": "Casa", "silabas": "Ca-sa" },
+	{ "palavra": "Gato", "silabas": "Ga-to" },
+	{ "palavra": "Sapo", "silabas": "Sa-po" },
+	{ "palavra": "Dado", "silabas": "Da-do" },
+	{ "palavra": "Foca", "silabas": "Fo-ca" },
+	{ "palavra": "Leite", "silabas": "Lei-te" },
+	{ "palavra": "Mala", "silabas": "Ma-la" },
+	{ "palavra": "Pato", "silabas": "Pa-to" },
+	{ "palavra": "Vaca", "silabas": "Va-ca" },
+	{ "palavra": "Bala", "silabas": "Ba-la" },
+	{ "palavra": "Bolo", "silabas": "Bo-lo" },
+	{ "palavra": "Dedo", "silabas": "De-do" },
+	{ "palavra": "Fogo", "silabas": "Fo-go" },
+	{ "palavra": "Jogo", "silabas": "Jo-go" },
+	{ "palavra": "Lama", "silabas": "La-ma" },
+	{ "palavra": "Mola", "silabas": "Mo-la" },
+	{ "palavra": "Nave", "silabas": "Na-ve" },
+	{ "palavra": "Rato", "silabas": "Ra-to" },
+	{ "palavra": "Suco", "silabas": "Su-co" },
+	{ "palavra": "Tela", "silabas": "Te-la" },
+	{ "palavra": "Uva", "silabas": "U-va" },
+	{ "palavra": "Vela", "silabas": "Ve-la" },
+	{ "palavra": "Bico", "silabas": "Bi-co" },
+	{ "palavra": "Cama", "silabas": "Ca-ma" },
+	{ "palavra": "Dama", "silabas": "Da-ma" },
+	{ "palavra": "Foto", "silabas": "Fo-to" },
+	{ "palavra": "Gelo", "silabas": "Ge-lo" },
+	{ "palavra": "Jaca", "silabas": "Ja-ca" },
+	{ "palavra": "Lata", "silabas": "La-ta" },
+	{ "palavra": "Muro", "silabas": "Mu-ro" },
+	{ "palavra": "Neta", "silabas": "Ne-ta" },
+	{ "palavra": "Pera", "silabas": "Pe-ra" },
+	{ "palavra": "Roda", "silabas": "Ro-da" },
+	{ "palavra": "Seta", "silabas": "Se-ta" },
+	{ "palavra": "Tatu", "silabas": "Ta-tu" },
+	{ "palavra": "Vaso", "silabas": "Va-so" },
+	{ "palavra": "Boca", "silabas": "Bo-ca" },
+	{ "palavra": "Cabo", "silabas": "Ca-bo" },
+	{ "palavra": "Faca", "silabas": "Fa-ca" },
+	{ "palavra": "Gota", "silabas": "Go-ta" },
+	{ "palavra": "Lixo", "silabas": "Li-xo" },
+	{ "palavra": "Mapa", "silabas": "Ma-pa" },
+	{ "palavra": "Neve", "silabas": "Ne-ve" },
+	{ "palavra": "Pano", "silabas": "Pa-no" },
+	{ "palavra": "Saco", "silabas": "Sa-co" },
+	{ "palavra": "Teto", "silabas": "Te-to" },
+	{ "palavra": "Lobo", "silabas": "Lo-bo" },
+	{ "palavra": "Café", "silabas": "Ca-fé" },
+	{ "palavra": "Bote", "silabas": "Bo-te" }
+    ],
+    "trissilabas": [
+	{ "palavra": "Boneca", "silabas": "Bo-ne-ca" },
+	{ "palavra": "Pipoca", "silabas": "Pi-po-ca" },
+	{ "palavra": "Cavalo", "silabas": "Ca-va-lo" },
+	{ "palavra": "Panela", "silabas": "Pa-ne-la" },
+	{ "palavra": "Sapato", "silabas": "Sa-pa-to" },
+	{ "palavra": "Caneta", "silabas": "Ca-ne-ta" },
+	{ "palavra": "Macaco", "silabas": "Ma-ca-co" },
+	{ "palavra": "Janela", "silabas": "Ja-ne-la" },
+	{ "palavra": "Batata", "silabas": "Ba-ta-ta" },
+	{ "palavra": "Girafa", "silabas": "Gi-ra-fa" },
+	{ "palavra": "Abafa", "silabas": "A-ba-fa" },
+	{ "palavra": "Amigo", "silabas": "A-mi-go" },
+	{ "palavra": "Banana", "silabas": "Ba-na-na" },
+	{ "palavra": "Bigode", "silabas": "Bi-go-de" },
+	{ "palavra": "Buzina", "silabas": "Bu-zi-na" },
+	{ "palavra": "Cabana", "silabas": "Ca-ba-na" },
+	{ "palavra": "Cabelo", "silabas": "Ca-be-lo" },
+	{ "palavra": "Cabide", "silabas": "Ca-bi-de" },
+	{ "palavra": "Camelo", "silabas": "Ca-me-lo" },
+	{ "palavra": "Caneca", "silabas": "Ca-ne-ca" },
+	{ "palavra": "Canudo", "silabas": "Ca-nu-do" },
+	{ "palavra": "Cidade", "silabas": "Ci-da-de" },
+	{ "palavra": "Comida", "silabas": "Co-mi-da" },
+	{ "palavra": "Cueca", "silabas": "Cu-e-ca" },
+	{ "palavra": "Dezena", "silabas": "De-ze-na" },
+	{ "palavra": "Dominó", "silabas": "Do-mi-nó" },
+	{ "palavra": "Dúvida", "silabas": "Dú-vi-da" },
+	{ "palavra": "Farelo", "silabas": "Fa-re-lo" },
+	{ "palavra": "Fivela", "silabas": "Fi-ve-la" },
+	{ "palavra": "Gaveta", "silabas": "Ga-ve-ta" },
+	{ "palavra": "Gelado", "silabas": "Ge-la-do" },
+	{ "palavra": "Jujuba", "silabas": "Ju-ju-ba" },
+	{ "palavra": "Lagoa", "silabas": "La-go-a" },
+	{ "palavra": "Maleta", "silabas": "Ma-le-ta" },
+	{ "palavra": "Melado", "silabas": "Me-la-do" },
+	{ "palavra": "Menina", "silabas": "Me-ni-na" },
+	{ "palavra": "Menino", "silabas": "Me-ni-no" },
+	{ "palavra": "Novelo", "silabas": "No-ve-lo" },
+	{ "palavra": "Pagode", "silabas": "Pa-go-de" },
+	{ "palavra": "Peteca", "silabas": "Pe-te-ca" },
+	{ "palavra": "Picolé", "silabas": "Pi-co-lé" },
+	{ "palavra": "Pirata", "silabas": "Pi-ra-ta" },
+	{ "palavra": "Recado", "silabas": "Re-ca-do" },
+	{ "palavra": "Sabugo", "silabas": "Sa-bu-go" },
+	{ "palavra": "Sacola", "silabas": "Sa-co-la" },
+	{ "palavra": "Salada", "silabas": "Sa-la-da" },
+	{ "palavra": "Tapete", "silabas": "Ta-pe-te" },
+	{ "palavra": "Tomate", "silabas": "To-ma-te" },
+	{ "palavra": "Tucano", "silabas": "Tu-ca-no" },
+	{ "palavra": "Vacina", "silabas": "Va-ci-na" }
+    ]
+  };
+
+        let categoriaAtual = 'todas';
+        let listaAtual = [];
+        let palavraAtiva = null;
+
+        function setCategory(cat, btn) {
+            categoriaAtual = cat;
+            
+            // Estilo dos botões
+            document.querySelectorAll('.btn-category').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            proximaPalavra();
+        }
+
+        function prepararLista() {
+            if (categoriaAtual === 'todas') {
+                listaAtual = [...dados.monossilabas, ...dados.dissilabas, ...dados.trissilabas];
+            } else {
+                listaAtual = [...dados[categoriaAtual]];
+            }
+        }
+
+        function proximaPalavra() {
+            prepararLista();
+            
+            // Sorteia uma palavra
+            const index = Math.floor(Math.random() * listaAtual.length);
+            palavraAtiva = listaAtual[index];
+
+            // Atualiza tela
+            const txtPalavra = document.getElementById('txt-palavra');
+            const txtDetalhe = document.getElementById('txt-detalhe');
+            
+            txtPalavra.innerText = palavraAtiva.palavra;
+            txtDetalhe.innerText = palavraAtiva.silabas || palavraAtiva.exemplo;
+            
+            // Esconde o detalhe para a criança tentar ler primeiro
+            txtDetalhe.classList.remove('show');
+
+            document.getElementById('stats').innerText = `Modo: ${categoriaAtual} | Total: ${listaAtual.length} palavras`;
+        }
+
+        function revelar() {
+            document.getElementById('txt-detalhe').classList.add('show');
+        }
+
+        // Iniciar jogo
+        proximaPalavra();
+    </script>
+</body>
+</html>
