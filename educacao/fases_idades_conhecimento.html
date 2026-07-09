@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Aprendizado por Idade</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e67e22;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .age-section {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .age-header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 1rem;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .subject-card {
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        .subject-card h3 {
+            color: var(--secondary);
+            margin-top: 0;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Guia de Desenvolvimento Escolar</h1>
+    <p>O que aprender em cada fase da infância e adolescência</p>
+</header>
+
+<div class="container">
+
+    <!-- FAIXA ETÁRIA: 6 A 8 ANOS -->
+    <section class="age-section">
+        <h2 class="age-header">6 a 8 Anos (Anos Iniciais)</h2>
+        <div class="grid-container">
+            <div class="subject-card">
+                <h3>Português</h3>
+                <ul>
+                    <li>Alfabetização e letramento.</li>
+                    <li>Leitura de textos curtos e interpretação oral.</li>
+                    <li>Escrita de palavras e frases simples.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Matemática e Álgebra</h3>
+                <ul>
+                    <li>Contagem até 100 e operações de soma/subtração.</li>
+                    <li>Reconhecimento de padrões e sequências (Início da Álgebra).</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Geometria</h3>
+                <ul>
+                    <li>Identificação de figuras planas (círculo, quadrado).</li>
+                    <li>Noções de espacialidade (em cima, embaixo, direita).</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>História e Geografia</h3>
+                <ul>
+                    <li>História da própria família e da escola.</li>
+                    <li>Noções de moradia, bairro e o eu no mundo.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Biologia (Ciências)</h3>
+                <ul>
+                    <li>Partes do corpo humano.</li>
+                    <li>Cuidado com plantas e animais.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAIXA ETÁRIA: 9 A 11 ANOS -->
+    <section class="age-section">
+        <h2 class="age-header">9 a 11 Anos (Ensino Fundamental I)</h2>
+        <div class="grid-container">
+            <div class="subject-card">
+                <h3>Português</h3>
+                <ul>
+                    <li>Gramática (verbos, substantivos, adjetivos).</li>
+                    <li>Produção de textos narrativos e descritivos.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Matemática e Álgebra</h3>
+                <ul>
+                    <li>Multiplicação, divisão e introdução a frações.</li>
+                    <li>Expressões numéricas simples e variáveis básicas.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Geometria</h3>
+                <ul>
+                    <li>Cálculo de perímetro e áreas simples.</li>
+                    <li>Sólidos geométricos (cubo, esfera, pirâmide).</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>História e Geografia</h3>
+                <ul>
+                    <li>História do Brasil (Indígenas, Colonização).</li>
+                    <li>Mapas, regiões brasileiras e clima.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Biologia (Ciências)</h3>
+                <ul>
+                    <li>Sistemas do corpo humano (digestivo, respiratório).</li>
+                    <li>Cadeia alimentar e meio ambiente.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAIXA ETÁRIA: 12 A 14 ANOS -->
+    <section class="age-section">
+        <h2 class="age-header">12 a 14 Anos (Ensino Fundamental II)</h2>
+        <div class="grid-container">
+            <div class="subject-card">
+                <h3>Português</h3>
+                <ul>
+                    <li>Análise sintática e figuras de linguagem.</li>
+                    <li>Literatura brasileira e gêneros textuais complexos.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Álgebra e Matemática</h3>
+                <ul>
+                    <li>Números negativos, potências e raízes.</li>
+                    <li>Equações de 1º e 2º grau e funções lineares.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Geometria</h3>
+                <ul>
+                    <li>Teorema de Pitágoras e semelhança de triângulos.</li>
+                    <li>Cálculo de volumes e ângulos.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>História e Geografia</h3>
+                <ul>
+                    <li>Idade Média, Renascimento e Revoluções.</li>
+                    <li>Geografia mundial, geopolítica e urbanização.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Biologia</h3>
+                <ul>
+                    <li>Células, DNA e introdução à Genética.</li>
+                    <li>Reinos dos seres vivos (Bactérias, Fungos, Plantas).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAIXA ETÁRIA: 15 A 17 ANOS -->
+    <section class="age-section">
+        <h2 class="age-header">15 a 17 Anos (Ensino Médio)</h2>
+        <div class="grid-container">
+            <div class="subject-card">
+                <h3>Português e Literatura</h3>
+                <ul>
+                    <li>Redação dissertativa-argumentativa (estilo ENEM).</li>
+                    <li>Escolas literárias (Barroco ao Modernismo).</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Álgebra e Matemática</h3>
+                <ul>
+                    <li>Logaritmos, matrizes e análise combinatória.</li>
+                    <li>Funções trigonométricas e estatística avançada.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Geometria</h3>
+                <ul>
+                    <li>Geometria Analítica (pontos e retas no plano cartesiano).</li>
+                    <li>Geometria Espacial complexa.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>História e Geografia</h3>
+                <ul>
+                    <li>Guerras Mundiais, Guerra Fria e Brasil Contemporâneo.</li>
+                    <li>Globalização, questões ambientais e economia global.</li>
+                </ul>
+            </div>
+            <div class="subject-card">
+                <h3>Biologia</h3>
+                <ul>
+                    <li>Evolução, Ecologia profunda e Fisiologia complexa.</li>
+                    <li>Biotecnologia e Bioética.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; Guia Educacional Ilustrativo - Baseado em competências gerais de ensino.</p>
+</footer>
+
+</body>
+</html>
