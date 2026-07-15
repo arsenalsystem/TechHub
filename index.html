@@ -1,58 +1,258 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumário de Arquivos</title>
+    <title>Sumário de Projetos</title>
+    <!-- Tailwind CSS para um design ultra-moderno e limpo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f4f4f9; }
-        h1 { color: #333; border-bottom: 2px solid #333; }
-        h2 { color: #0056b3; margin-top: 30px; text-transform: capitalize; }
-        ul { list-style: none; padding-left: 0; }
-        li { background: #fff; margin-bottom: 8px; padding: 10px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        a { text-decoration: none; color: #444; font-weight: 500; display: block; }
-        a:hover { color: #0056b3; }
-        .footer { margin-top: 50px; font-size: 0.9em; color: #666; }
+        body {
+            background-color: #0f172a;
+        }
     </style>
 </head>
-<body>
+<body class="text-slate-200 min-h-screen flex flex-col font-sans">
 
-    <h1>Índice de Projetos</h1>
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600/10 p-2 rounded-lg border border-indigo-500/20">
+                    <i data-lucide="layout-grid" class="text-indigo-400 w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white">Hub de Projetos</h1>
+                    <p class="text-xs text-slate-400">Índice completo de arquivos e ferramentas</p>
+                </div>
+            </div>
+            <a href="README.md" class="flex items-center gap-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-2 rounded-lg border border-slate-700 transition-all">
+                <i data-lucide="file-text" class="w-4 h-4"></i> Ver README.md
+            </a>
+        </div>
+    </header>
 
-    <h2>Automacao</h2>
-    <ul>
-        <li><a href="automacao/evo_api_vps.html">Evo API VPS</a></li>
-        <li><a href="automacao/modo_oracao.html">Modo Oração</a></li>
-    </ul>
+    <!-- Main Content -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-10 space-y-12">
 
-    <h2>Desenvolvimento</h2>
-    <ul>
-        <li><a href="desenvolvimento/agentes.md">Agentes (Markdown), sem interface grafica</a></li>
-        <li><a href="desenvolvimento/contextualizacao_chat_temporario.html">Contextualização Chat Temporário</a></li>
-        <li><a href="desenvolvimento/modo_de_desenvolver.html">Modo de Desenvolver</a></li>
-        <li><a href="desenvolvimento/processo_migracao.html">Processo de Migração</a></li>
-    </ul>
+        <!-- Grid de Categorias -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    <h2>Financas</h2>
-    <ul>
-        <li><a href="financas/balancete.html">Balancete</a></li>
-        <li><a href="financas/explicando_fisco.html">Explicando Fisco, quem tem medo de pix</a></li>
-    </ul>
+            <!-- Categoria: Automação -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-amber-500/10 p-2 rounded-lg border border-amber-500/20 text-amber-400">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Automação</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="automacao/evo_api_vps.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Evo API VPS</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="automacao/modelo_crm_moderno.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">MIND-CRM B2B Pro</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="automacao/modo_oracao.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Modo Oração</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
 
-    <h2>Seguranca</h2>
-    <ul>
-        <li><a href="seguranca/gerenciador_senhas_seguras.html">Gerenciador de Senhas Seguras</a></li>
-        <li><a href="seguranca/ia_rodando_localmente.html">IA Rodando Localmente</a></li>
-        <li><a href="seguranca/navega%C3%A7%C3%A3o_em_RAM_PSD.html">Navegação em RAM PSD</a></li>
-        <li><a href="seguranca/seguranca_email.html">Segurança de E-mail</a></li>
-        <li><a href="seguranca/sem_meta_dados.html">Sem Meta Dados</a></li>
-        <li><a href="seguranca/trilha_aprendizado_seguranca_dados.html">Trilha Aprendizado Segurança</a></li>
-        <li><a href="seguranca/uuid_v5.html">UUID v5 criptogravando senhas</a></li>
-    </ul>
+            <!-- Categoria: Desenvolvimento -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-indigo-500/10 p-2 rounded-lg border border-indigo-500/20 text-indigo-400">
+                        <i data-lucide="code-2" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Desenvolvimento</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="desenvolvimento/agentes.md" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Agentes (Markdown)</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="desenvolvimento/contextualizacao_chat_temporario.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Contextualização Chat Temp.</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="desenvolvimento/editor.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Editor de Código</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="desenvolvimento/modo_de_desenvolver.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Modo de Desenvolver</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="desenvolvimento/processo_migracao.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Processo de Migração</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="desenvolvimento/qrpix.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Gerador QRPix</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
 
-    <div class="footer">
-        <p><a href="README.md">📄 Ver README.md</a></p>
-    </div>
+            <!-- Categoria: Educação -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20 text-emerald-400">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Educação</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="educacao/alfabetizacao_01.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Alfabetização Infantil</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="educacao/fases_idades_conhecimento.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Idades e Conhecimento</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
 
+            <!-- Categoria: Finanças -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-teal-500/10 p-2 rounded-lg border border-teal-500/20 text-teal-400">
+                        <i data-lucide="coins" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Finanças</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="financas/balancete.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Balancete</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="financas/explicando_fisco.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Explicando o Fisco (PIX)</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Categoria: Segurança -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-rose-500/10 p-2 rounded-lg border border-rose-500/20 text-rose-400">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Segurança</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="seguranca/gerenciador_senhas_seguras.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Gerenciador de Senhas</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/ia_rodando_localmente.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">IA Rodando Localmente</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/navega%C3%A7%C3%A3o_em_RAM_PSD.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Navegação em RAM PSD</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/seguranca_email.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Segurança de E-mail</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/sem_meta_dados.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Sem Meta Dados</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/trilha_aprendizado_seguranca_dados.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Trilha Segurança de Dados</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seguranca/uuid_v5.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">UUID v5 e Senhas</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Categoria: Utilidades (Root Files) -->
+            <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 hover:border-slate-750 transition-all flex flex-col gap-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+                    <div class="bg-sky-500/10 p-2 rounded-lg border border-sky-500/20 text-sky-400">
+                        <i data-lucide="wrench" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="font-bold text-lg text-white">Utilidades</h2>
+                </div>
+                <ul class="space-y-2 flex-1">
+                    <li>
+                        <a href="ferramenta_oficina.html" class="group flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-800/50 transition-all">
+                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Ferramenta Oficina</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-all"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/40 py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; Sumário de Projetos Organizado.</p>
+            <div class="flex gap-4">
+                <a href="README.md" class="hover:underline">README.md</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inicialização dos ícones Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
