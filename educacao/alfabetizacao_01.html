@@ -30,8 +30,8 @@
             padding: 2rem;
             border-radius: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 600px;
             border: 5px solid var(--secondary);
         }
 
@@ -53,8 +53,8 @@
             cursor: pointer;
             border: none;
             border-radius: 15px;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 10px 15px;
+            font-size: 0.9rem;
             font-weight: bold;
             transition: transform 0.2s, background 0.2s;
         }
@@ -81,7 +81,7 @@
         }
 
         .palavra {
-            font-size: 5rem;
+            font-size: 4.5rem;
             margin: 0;
             color: #2d3436;
             text-transform: uppercase;
@@ -93,12 +93,7 @@
             color: var(--primary);
             margin-top: 10px;
             min-height: 1.8rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .detalhe.show {
-            opacity: 1;
+            opacity: 1; /* Modificado: Sempre visível */
         }
 
         .controles {
@@ -112,11 +107,7 @@
             color: white;
             font-size: 1.2rem;
             padding: 15px 30px;
-        }
-
-        .btn-ajuda {
-            background: var(--accent);
-            color: #5d5d5d;
+            width: 100%;
         }
 
         .stats {
@@ -136,6 +127,11 @@
             <button class="btn-category" onclick="setCategory('monossilabas', this)">1 Sílaba</button>
             <button class="btn-category" onclick="setCategory('dissilabas', this)">2 Sílabas</button>
             <button class="btn-category" onclick="setCategory('trissilabas', this)">3 Sílabas</button>
+            <button class="btn-category" onclick="setCategory('encontros_vocalicos', this)">Enc. Vocálicos</button>
+            <button class="btn-category" onclick="setCategory('artigos_e_conectivos', this)">Conectivos/Artigos</button>
+            <button class="btn-category" onclick="setCategory('pessoas_e_posses', this)">Pessoas/Posses</button>
+            <button class="btn-category" onclick="setCategory('verbos_curtos', this)">Ações (Verbos)</button>
+            <button class="btn-category" onclick="setCategory('tempo_lugar_opiniao', this)">Tempo/Lugar</button>
         </div>
 
         <div class="card">
@@ -144,7 +140,6 @@
         </div>
 
         <div class="controles">
-            <button class="btn-ajuda" onclick="revelar()">VER AJUDA 💡</button>
             <button class="btn-principal" onclick="proximaPalavra()">PRÓXIMA PALAVRA ➡️</button>
         </div>
 
@@ -152,213 +147,359 @@
     </div>
 
     <script>
-        const dados =  {
-    "monossilabas": [
-	{ "palavra": "Sol", "exemplo": "O sol brilha." },
-	{ "palavra": "Pé", "exemplo": "Eu calço o pé." },
-	{ "palavra": "Pão", "exemplo": "Gosto de pão quente." },
-	{ "palavra": "Flor", "exemplo": "A flor é cheirosa." },
-	{ "palavra": "Mar", "exemplo": "A água do mar é salgada." },
-	{ "palavra": "Trem", "exemplo": "O trem faz piuí." },
-	{ "palavra": "Gol", "exemplo": "Ele fez um gol!" },
-	{ "palavra": "Mel", "exemplo": "O mel é doce." },
-	{ "palavra": "Mão", "exemplo": "Lave a mão antes de comer." },
-	{ "palavra": "Cão", "exemplo": "O cão é amigo." },
-	{ "palavra": "Luz", "exemplo": "A luz está acesa." },
-	{ "palavra": "Sal", "exemplo": "O sal é branco." },
-	{ "palavra": "Rei", "exemplo": "O rei usa uma coroa." },
-	{ "palavra": "Céu", "exemplo": "O céu está azul hoje." },
-	{ "palavra": "Pai", "exemplo": "Meu pai é muito legal." },
-	{ "palavra": "Mãe", "exemplo": "Amo muito a minha mãe." },
-	{ "palavra": "Chá", "exemplo": "O chá está bem quente." },
-	{ "palavra": "Nó", "exemplo": "O menino deu um nó na corda." },
-	{ "palavra": "Rã", "exemplo": "A rã pula no jardim." },
-	{ "palavra": "Pá", "exemplo": "Eu usei a pá na areia." },
-	{ "palavra": "Lar", "exemplo": "Meu lar é muito feliz." },
-	{ "palavra": "Cor", "exemplo": "Qual é a sua cor favorita?" },
-	{ "palavra": "Vez", "exemplo": "Era uma vez um gigante." },
-	{ "palavra": "Sim", "exemplo": "Eu disse sim para o passeio." },
-	{ "palavra": "Não", "exemplo": "Não pise na grama." },
-	{ "palavra": "Fé", "exemplo": "Eu tenho muita fé." },
-	{ "palavra": "Um", "exemplo": "Eu tenho um brinquedo novo." },
-	{ "palavra": "Mau", "exemplo": "O lobo mau fugiu." },
-	{ "palavra": "Bom", "exemplo": "O lanche está muito bom." },
-	{ "palavra": "Boi", "exemplo": "O boi vive no pasto." },
-	{ "palavra": "Meu", "exemplo": "Este lápis é meu." },
-	{ "palavra": "Teu", "exemplo": "Onde está o teu gato?" },
-	{ "palavra": "Seu", "exemplo": "Pega o seu casaco agora." },
-	{ "palavra": "Tem", "exemplo": "Ela tem uma boneca linda." },
-	{ "palavra": "Vem", "exemplo": "Vem brincar comigo hoje." },
-	{ "palavra": "Bem", "exemplo": "Eu estou me sentindo bem." },
-	{ "palavra": "Som", "exemplo": "O som do rádio está alto." },
-	{ "palavra": "Paz", "exemplo": "A pomba é o símbolo da paz." },
-	{ "palavra": "Voz", "exemplo": "A voz da vovó é doce." },
-	{ "palavra": "Fio", "exemplo": "O fio do telefone é curto." },
-	{ "palavra": "Rio", "exemplo": "O peixe nada no rio." },
-	{ "palavra": "Mil", "exemplo": "O menino contou até mil." },
-	{ "palavra": "Gel", "exemplo": "Passei gel no meu cabelo." },
-	{ "palavra": "Lei", "exemplo": "Todos devem seguir a lei." },
-	{ "palavra": "Viu", "exemplo": "Você viu o meu cachorro?" },
-	{ "palavra": "Leu", "exemplo": "Ele leu o livro inteiro." },
-	{ "palavra": "Diz", "exemplo": "Ela diz que gosta de você." },
-	{ "palavra": "Qual", "exemplo": "Qual é o seu nome?" },
-	{ "palavra": "Nas", "exemplo": "As roupas estão nas caixas." },
-	{ "palavra": "Gás", "exemplo": "O balão está cheio de gás." }
-    ],
-    "dissilabas": [
-	{ "palavra": "Bola", "silabas": "Bo-la" },
-	{ "palavra": "Casa", "silabas": "Ca-sa" },
-	{ "palavra": "Gato", "silabas": "Ga-to" },
-	{ "palavra": "Sapo", "silabas": "Sa-po" },
-	{ "palavra": "Dado", "silabas": "Da-do" },
-	{ "palavra": "Foca", "silabas": "Fo-ca" },
-	{ "palavra": "Leite", "silabas": "Lei-te" },
-	{ "palavra": "Mala", "silabas": "Ma-la" },
-	{ "palavra": "Pato", "silabas": "Pa-to" },
-	{ "palavra": "Vaca", "silabas": "Va-ca" },
-	{ "palavra": "Bala", "silabas": "Ba-la" },
-	{ "palavra": "Bolo", "silabas": "Bo-lo" },
-	{ "palavra": "Dedo", "silabas": "De-do" },
-	{ "palavra": "Fogo", "silabas": "Fo-go" },
-	{ "palavra": "Jogo", "silabas": "Jo-go" },
-	{ "palavra": "Lama", "silabas": "La-ma" },
-	{ "palavra": "Mola", "silabas": "Mo-la" },
-	{ "palavra": "Nave", "silabas": "Na-ve" },
-	{ "palavra": "Rato", "silabas": "Ra-to" },
-	{ "palavra": "Suco", "silabas": "Su-co" },
-	{ "palavra": "Tela", "silabas": "Te-la" },
-	{ "palavra": "Uva", "silabas": "U-va" },
-	{ "palavra": "Vela", "silabas": "Ve-la" },
-	{ "palavra": "Bico", "silabas": "Bi-co" },
-	{ "palavra": "Cama", "silabas": "Ca-ma" },
-	{ "palavra": "Dama", "silabas": "Da-ma" },
-	{ "palavra": "Foto", "silabas": "Fo-to" },
-	{ "palavra": "Gelo", "silabas": "Ge-lo" },
-	{ "palavra": "Jaca", "silabas": "Ja-ca" },
-	{ "palavra": "Lata", "silabas": "La-ta" },
-	{ "palavra": "Muro", "silabas": "Mu-ro" },
-	{ "palavra": "Neta", "silabas": "Ne-ta" },
-	{ "palavra": "Pera", "silabas": "Pe-ra" },
-	{ "palavra": "Roda", "silabas": "Ro-da" },
-	{ "palavra": "Seta", "silabas": "Se-ta" },
-	{ "palavra": "Tatu", "silabas": "Ta-tu" },
-	{ "palavra": "Vaso", "silabas": "Va-so" },
-	{ "palavra": "Boca", "silabas": "Bo-ca" },
-	{ "palavra": "Cabo", "silabas": "Ca-bo" },
-	{ "palavra": "Faca", "silabas": "Fa-ca" },
-	{ "palavra": "Gota", "silabas": "Go-ta" },
-	{ "palavra": "Lixo", "silabas": "Li-xo" },
-	{ "palavra": "Mapa", "silabas": "Ma-pa" },
-	{ "palavra": "Neve", "silabas": "Ne-ve" },
-	{ "palavra": "Pano", "silabas": "Pa-no" },
-	{ "palavra": "Saco", "silabas": "Sa-co" },
-	{ "palavra": "Teto", "silabas": "Te-to" },
-	{ "palavra": "Lobo", "silabas": "Lo-bo" },
-	{ "palavra": "Café", "silabas": "Ca-fé" },
-	{ "palavra": "Bote", "silabas": "Bo-te" }
-    ],
-    "trissilabas": [
-	{ "palavra": "Boneca", "silabas": "Bo-ne-ca" },
-	{ "palavra": "Pipoca", "silabas": "Pi-po-ca" },
-	{ "palavra": "Cavalo", "silabas": "Ca-va-lo" },
-	{ "palavra": "Panela", "silabas": "Pa-ne-la" },
-	{ "palavra": "Sapato", "silabas": "Sa-pa-to" },
-	{ "palavra": "Caneta", "silabas": "Ca-ne-ta" },
-	{ "palavra": "Macaco", "silabas": "Ma-ca-co" },
-	{ "palavra": "Janela", "silabas": "Ja-ne-la" },
-	{ "palavra": "Batata", "silabas": "Ba-ta-ta" },
-	{ "palavra": "Girafa", "silabas": "Gi-ra-fa" },
-	{ "palavra": "Abafa", "silabas": "A-ba-fa" },
-	{ "palavra": "Amigo", "silabas": "A-mi-go" },
-	{ "palavra": "Banana", "silabas": "Ba-na-na" },
-	{ "palavra": "Bigode", "silabas": "Bi-go-de" },
-	{ "palavra": "Buzina", "silabas": "Bu-zi-na" },
-	{ "palavra": "Cabana", "silabas": "Ca-ba-na" },
-	{ "palavra": "Cabelo", "silabas": "Ca-be-lo" },
-	{ "palavra": "Cabide", "silabas": "Ca-bi-de" },
-	{ "palavra": "Camelo", "silabas": "Ca-me-lo" },
-	{ "palavra": "Caneca", "silabas": "Ca-ne-ca" },
-	{ "palavra": "Canudo", "silabas": "Ca-nu-do" },
-	{ "palavra": "Cidade", "silabas": "Ci-da-de" },
-	{ "palavra": "Comida", "silabas": "Co-mi-da" },
-	{ "palavra": "Cueca", "silabas": "Cu-e-ca" },
-	{ "palavra": "Dezena", "silabas": "De-ze-na" },
-	{ "palavra": "Dominó", "silabas": "Do-mi-nó" },
-	{ "palavra": "Dúvida", "silabas": "Dú-vi-da" },
-	{ "palavra": "Farelo", "silabas": "Fa-re-lo" },
-	{ "palavra": "Fivela", "silabas": "Fi-ve-la" },
-	{ "palavra": "Gaveta", "silabas": "Ga-ve-ta" },
-	{ "palavra": "Gelado", "silabas": "Ge-la-do" },
-	{ "palavra": "Jujuba", "silabas": "Ju-ju-ba" },
-	{ "palavra": "Lagoa", "silabas": "La-go-a" },
-	{ "palavra": "Maleta", "silabas": "Ma-le-ta" },
-	{ "palavra": "Melado", "silabas": "Me-la-do" },
-	{ "palavra": "Menina", "silabas": "Me-ni-na" },
-	{ "palavra": "Menino", "silabas": "Me-ni-no" },
-	{ "palavra": "Novelo", "silabas": "No-ve-lo" },
-	{ "palavra": "Pagode", "silabas": "Pa-go-de" },
-	{ "palavra": "Peteca", "silabas": "Pe-te-ca" },
-	{ "palavra": "Picolé", "silabas": "Pi-co-lé" },
-	{ "palavra": "Pirata", "silabas": "Pi-ra-ta" },
-	{ "palavra": "Recado", "silabas": "Re-ca-do" },
-	{ "palavra": "Sabugo", "silabas": "Sa-bu-go" },
-	{ "palavra": "Sacola", "silabas": "Sa-co-la" },
-	{ "palavra": "Salada", "silabas": "Sa-la-da" },
-	{ "palavra": "Tapete", "silabas": "Ta-pe-te" },
-	{ "palavra": "Tomate", "silabas": "To-ma-te" },
-	{ "palavra": "Tucano", "silabas": "Tu-ca-no" },
-	{ "palavra": "Vacina", "silabas": "Va-ci-na" }
-    ]
-  };
+       const dados = {
+  "monossilabas": [
+    { "palavra": "Sol", "silabas": "Sol" },
+    { "palavra": "Pé", "silabas": "Pé" },
+    { "palavra": "Pão", "silabas": "Pão" },
+    { "palavra": "Flor", "silabas": "Flor" },
+    { "palavra": "Mar", "silabas": "Mar" },
+    { "palavra": "Trem", "silabas": "Trem" },
+    { "palavra": "Gol", "silabas": "Gol" },
+    { "palavra": "Mel", "silabas": "Mel" },
+    { "palavra": "Mão", "silabas": "Mão" },
+    { "palavra": "Cão", "silabas": "Cão" },
+    { "palavra": "Luz", "silabas": "Luz" },
+    { "palavra": "Sal", "silabas": "Sal" },
+    { "palavra": "Rei", "silabas": "Rei" },
+    { "palavra": "Céu", "silabas": "Céu" },
+    { "palavra": "Pai", "silabas": "Pai" },
+    { "palavra": "Mãe", "silabas": "Mãe" },
+    { "palavra": "Chá", "silabas": "Chá" },
+    { "palavra": "Nó", "silabas": "Nó" },
+    { "palavra": "Rã", "silabas": "Rã" },
+    { "palavra": "Pá", "silabas": "Pá" },
+    { "palavra": "Lar", "silabas": "Lar" },
+    { "palavra": "Cor", "silabas": "Cor" },
+    { "palavra": "Vez", "silabas": "Vez" },
+    { "palavra": "Sim", "silabas": "Sim" },
+    { "palavra": "Não", "silabas": "Não" },
+    { "palavra": "Fé", "silabas": "Fé" },
+    { "palavra": "Um", "silabas": "Um" },
+    { "palavra": "Mau", "silabas": "Mau" },
+    { "palavra": "Bom", "silabas": "Bom" },
+    { "palavra": "Boi", "silabas": "Boi" },
+    { "palavra": "Meu", "silabas": "Meu" },
+    { "palavra": "Teu", "silabas": "Teu" },
+    { "palavra": "Seu", "silabas": "Seu" },
+    { "palavra": "Tem", "silabas": "Tem" },
+    { "palavra": "Vem", "silabas": "Vem" },
+    { "palavra": "Bem", "silabas": "Bem" },
+    { "palavra": "Som", "silabas": "Som" },
+    { "palavra": "Paz", "silabas": "Paz" },
+    { "palavra": "Voz", "silabas": "Voz" },
+    { "palavra": "Fio", "silabas": "Fio" },
+    { "palavra": "Rio", "silabas": "Rio" },
+    { "palavra": "Mil", "silabas": "Mil" },
+    { "palavra": "Gel", "silabas": "Gel" },
+    { "palavra": "Lei", "silabas": "Lei" },
+    { "palavra": "Viu", "silabas": "Viu" },
+    { "palavra": "Leu", "silabas": "Leu" },
+    { "palavra": "Diz", "silabas": "Diz" },
+    { "palavra": "Qual", "silabas": "Qual" },
+    { "palavra": "Nas", "silabas": "Nas" },
+    { "palavra": "Gás", "silabas": "Gás" }
+  ],
+  "dissilabas": [
+    { "palavra": "Bule", "silabas": "Bu-le" },
+    { "palavra": "Capa", "silabas": "Ca-pa" },
+    { "palavra": "Cedo", "silabas": "Ce-do" },
+    { "palavra": "Cola", "silabas": "Co-la" },
+    { "palavra": "Doce", "silabas": "Do-ce" },
+    { "palavra": "Duna", "silabas": "Du-na" },
+    { "palavra": "Fada", "silabas": "Fa-da" },
+    { "palavra": "Fera", "silabas": "Fe-ra" },
+    { "palavra": "Figo", "silabas": "Fi-go" },
+    { "palavra": "Gula", "silabas": "Gu-la" },
+    { "palavra": "Juba", "silabas": "Ju-ba" },
+    { "palavra": "Laje", "silabas": "La-je" },
+    { "palavra": "Luva", "silabas": "Lu-va" },
+    { "palavra": "Mato", "silabas": "Ma-to" },
+    { "palavra": "Meta", "silabas": "Me-ta" },
+    { "palavra": "Moda", "silabas": "Mo-da" },
+    { "palavra": "Nota", "silabas": "No-ta" },
+    { "palavra": "Pena", "silabas": "Pe-na" },
+    { "palavra": "Pico", "silabas": "Pi-co" },
+    { "palavra": "Pipa", "silabas": "Pi-pa" },
+    { "palavra": "Pulo", "silabas": "Pu-lo" },
+    { "palavra": "Ralo", "silabas": "Ra-lo" },
+    { "palavra": "Rede", "silabas": "Re-de" },
+    { "palavra": "Rifa", "silabas": "Ri-fa" },
+    { "palavra": "Sala", "silabas": "Sa-la" },
+    { "palavra": "Selo", "silabas": "Se-lo" },
+    { "palavra": "Sino", "silabas": "Si-no" },
+    { "palavra": "Sofá", "silabas": "So-fá" },
+    { "palavra": "Time", "silabas": "Ti-me" },
+    { "palavra": "Toca", "silabas": "To-ca" },
+    { "palavra": "Bola", "silabas": "Bo-la" },
+    { "palavra": "Casa", "silabas": "Ca-sa" },
+    { "palavra": "Gato", "silabas": "Ga-to" },
+    { "palavra": "Sapo", "silabas": "Sa-po" },
+    { "palavra": "Dado", "silabas": "Da-do" },
+    { "palavra": "Foca", "silabas": "Fo-ca" },
+    { "palavra": "Leite", "silabas": "Lei-te" },
+    { "palavra": "Mala", "silabas": "Ma-la" },
+    { "palavra": "Pato", "silabas": "Pa-to" },
+    { "palavra": "Vaca", "silabas": "Va-ca" },
+    { "palavra": "Bala", "silabas": "Ba-la" },
+    { "palavra": "Bolo", "silabas": "Bo-lo" },
+    { "palavra": "Dedo", "silabas": "De-do" },
+    { "palavra": "Fogo", "silabas": "Fo-go" },
+    { "palavra": "Jogo", "silabas": "Jo-go" },
+    { "palavra": "Lama", "silabas": "La-ma" },
+    { "palavra": "Mola", "silabas": "Mo-la" },
+    { "palavra": "Nave", "silabas": "Na-ve" },
+    { "palavra": "Rato", "silabas": "Ra-to" },
+    { "palavra": "Suco", "silabas": "Su-co" },
+    { "palavra": "Tela", "silabas": "Te-la" },
+    { "palavra": "Uva", "silabas": "U-va" },
+    { "palavra": "Vela", "silabas": "Ve-la" },
+    { "palavra": "Bico", "silabas": "Bi-co" },
+    { "palavra": "Cama", "silabas": "Ca-ma" },
+    { "palavra": "Dama", "silabas": "Da-ma" },
+    { "palavra": "Foto", "silabas": "Fo-to" },
+    { "palavra": "Gelo", "silabas": "Ge-lo" },
+    { "palavra": "Jaca", "silabas": "Ja-ca" },
+    { "palavra": "Lata", "silabas": "La-ta" },
+    { "palavra": "Muro", "silabas": "Mu-ro" },
+    { "palavra": "Neta", "silabas": "Ne-ta" },
+    { "palavra": "Pera", "silabas": "Pe-ra" },
+    { "palavra": "Roda", "silabas": "Ro-da" },
+    { "palavra": "Seta", "silabas": "Se-ta" },
+    { "palavra": "Tatu", "silabas": "Ta-tu" },
+    { "palavra": "Vaso", "silabas": "Va-so" },
+    { "palavra": "Boca", "silabas": "Bo-ca" },
+    { "palavra": "Cabo", "silabas": "Ca-bo" },
+    { "palavra": "Faca", "silabas": "Fa-ca" },
+    { "palavra": "Gota", "silabas": "Go-ta" },
+    { "palavra": "Lixo", "silabas": "Li-xo" },
+    { "palavra": "Mapa", "silabas": "Ma-pa" },
+    { "palavra": "Neve", "silabas": "Ne-ve" },
+    { "palavra": "Pano", "silabas": "Pa-no" },
+    { "palavra": "Saco", "silabas": "Sa-co" },
+    { "palavra": "Teto", "silabas": "Te-to" },
+    { "palavra": "Lobo", "silabas": "Lo-bo" },
+    { "palavra": "Café", "silabas": "Ca-fé" },
+    { "palavra": "Bote", "silabas": "Bo-te" }
+  ],
+  "trissilabas": [
+    { "palavra": "Boneca", "silabas": "Bo-ne-ca" },
+    { "palavra": "Pipoca", "silabas": "Pi-po-ca" },
+    { "palavra": "Cavalo", "silabas": "Ca-va-lo" },
+    { "palavra": "Panela", "silabas": "Pa-ne-la" },
+    { "palavra": "Sapato", "silabas": "Sa-pa-to" },
+    { "palavra": "Caneta", "silabas": "Ca-ne-ta" },
+    { "palavra": "Macaco", "silabas": "Ma-ca-co" },
+    { "palavra": "Janela", "silabas": "Ja-ne-la" },
+    { "palavra": "Batata", "silabas": "Ba-ta-ta" },
+    { "palavra": "Girafa", "silabas": "Gi-ra-fa" },
+    { "palavra": "Abafa", "silabas": "A-ba-fa" },
+    { "palavra": "Amigo", "silabas": "A-mi-go" },
+    { "palavra": "Banana", "silabas": "Ba-na-na" },
+    { "palavra": "Bigode", "silabas": "Bi-go-de" },
+    { "palavra": "Buzina", "silabas": "Bu-zi-na" },
+    { "palavra": "Cabana", "silabas": "Ca-ba-na" },
+    { "palavra": "Cabelo", "silabas": "Ca-be-lo" },
+    { "palavra": "Cabide", "silabas": "Ca-bi-de" },
+    { "palavra": "Camelo", "silabas": "Ca-me-lo" },
+    { "palavra": "Caneca", "silabas": "Ca-ne-ca" },
+    { "palavra": "Canudo", "silabas": "Ca-nu-do" },
+    { "palavra": "Cidade", "silabas": "Ci-da-de" },
+    { "palavra": "Comida", "silabas": "Co-mi-da" },
+    { "palavra": "Cueca", "silabas": "Cu-e-ca" },
+    { "palavra": "Dezena", "silabas": "De-ze-na" },
+    { "palavra": "Dominó", "silabas": "Do-mi-nó" },
+    { "palavra": "Dúvida", "silabas": "Dú-vi-da" },
+    { "palavra": "Farelo", "silabas": "Fa-re-lo" },
+    { "palavra": "Fivela", "silabas": "Fi-ve-la" },
+    { "palavra": "Gaveta", "silabas": "Ga-ve-ta" },
+    { "palavra": "Gelado", "silabas": "Ge-la-do" },
+    { "palavra": "Jujuba", "silabas": "Ju-ju-ba" },
+    { "palavra": "Lagoa", "silabas": "La-go-a" },
+    { "palavra": "Maleta", "silabas": "Ma-le-ta" },
+    { "palavra": "Melado", "silabas": "Me-la-do" },
+    { "palavra": "Menina", "silabas": "Me-ni-na" },
+    { "palavra": "Menino", "silabas": "Me-ni-no" },
+    { "palavra": "Novelo", "silabas": "No-ve-lo" },
+    { "palavra": "Pagode", "silabas": "Pa-go-de" },
+    { "palavra": "Peteca", "silabas": "Pe-te-ca" },
+    { "palavra": "Picolé", "silabas": "Pi-co-lé" },
+    { "palavra": "Pirata", "silabas": "Pi-ra-ta" },
+    { "palavra": "Recado", "silabas": "Re-ca-do" },
+    { "palavra": "Sabugo", "silabas": "Sa-bu-go" },
+    { "palavra": "Sacola", "silabas": "Sa-co-la" },
+    { "palavra": "Salada", "silabas": "Sa-la-da" },
+    { "palavra": "Tapete", "silabas": "Ta-pe-te" },
+    { "palavra": "Tomate", "silabas": "To-ma-te" },
+    { "palavra": "Tucano", "silabas": "Tu-ca-no" },
+    { "palavra": "Vacina", "silabas": "Va-ci-na" },
+    { "palavra": "Abada", "silabas": "A-ba-da" },
+    { "palavra": "Abano", "silabas": "A-ba-no" },
+    { "palavra": "Abatê", "silabas": "A-ba-tê" },
+    { "palavra": "Ameixa", "silabas": "A-mei-xa" },
+    { "palavra": "Amora", "silabas": "A-mo-ra" },
+    { "palavra": "Apito", "silabas": "A-pi-to" },
+    { "palavra": "Azeite", "silabas": "A-zei-te" },
+    { "palavra": "Bacia", "silabas": "Ba-ci-a" },
+    { "palavra": "Baleia", "silabas": "Ba-lei-a" },
+    { "palavra": "Barata", "silabas": "Ba-ra-ta" },
+    { "palavra": "Beleza", "silabas": "Be-le-za" },
+    { "palavra": "Bexiga", "silabas": "Be-xi-ga" },
+    { "palavra": "Biscoito", "silabas": "Bis-coi-to" },
+    { "palavra": "Bolacha", "silabas": "Bo-la-cha" },
+    { "palavra": "Boneco", "silabas": "Bo-ne-co" },
+    { "palavra": "Caderno", "silabas": "Ca-der-no" },
+    { "palavra": "Camada", "silabas": "Ca-ma-da" },
+    { "palavra": "Camisa", "silabas": "Ca-mi-sa" },
+    { "palavra": "Careca", "silabas": "Ca-re-ca" },
+    { "palavra": "Carimbo", "silabas": "Ca-rim-bo" },
+    { "palavra": "Casaco", "silabas": "Ca-sa-co" },
+    { "palavra": "Cebola", "silabas": "Ce-bo-la" },
+    { "palavra": "Cegonha", "silabas": "Ce-go-nha" },
+    { "palavra": "Cenoura", "silabas": "Ce-nou-ra" },
+    { "palavra": "Chupeta", "silabas": "Chu-pe-ta" },
+    { "palavra": "Cinema", "silabas": "Ci-ne-ma" },
+    { "palavra": "Colega", "silabas": "Co-le-ga" },
+    { "palavra": "Colete", "silabas": "Co-le-te" },
+    { "palavra": "Coruja", "silabas": "Co-ru-ja" },
+    { "palavra": "Cortina", "silabas": "Cor-ti-na" },
+    { "palavra": "Defeito", "silabas": "De-fei-to" },
+    { "palavra": "Doceira", "silabas": "Do-cei-ra" },
+    { "palavra": "Escola", "silabas": "Es-co-la" },
+    { "palavra": "Esmola", "silabas": "Es-mo-la" },
+    { "palavra": "Espada", "silabas": "Es-pa-da" },
+    { "palavra": "Farofa", "silabas": "Fa-ro-fa" },
+    { "palavra": "Fumaça", "silabas": "Fu-ma-ça" },
+    { "palavra": "Garrafa", "silabas": "Gar-ra-fa" },
+    { "palavra": "Goiaba", "silabas": "Goi-a-ba" },
+    { "palavra": "Gorila", "silabas": "Go-ri-la" },
+    { "palavra": "Galinha", "silabas": "Ga-li-nha" },
+    { "palavra": "Gatinho", "silabas": "Ga-ti-nho" },
+    { "palavra": "Inverno", "silabas": "In-ver-no" },
+    { "palavra": "Jacaré", "silabas": "Ja-ca-ré" }
+  ],
+  "encontros_vocalicos": [
+    { "palavra": "Noite", "silabas": "Noi-te" },
+    { "palavra": "Caixa", "silabas": "Cai-xa" },
+    { "palavra": "Peixe", "silabas": "Pei-xe" },
+    { "palavra": "Muito", "silabas": "Mui-to" },
+    { "palavra": "Flauta", "silabas": "Flau-ta" },
+    { "palavra": "Saúde", "silabas": "Sa-ú-de" },
+    { "palavra": "Ciúme", "silabas": "Ci-ú-me" },
+    { "palavra": "Baú", "silabas": "Ba-ú" }
+  ],
+  "artigos_e_conectivos": [
+    { "palavra": "Uma", "silabas": "U-ma" },
+    { "palavra": "Para", "silabas": "Pa-ra" },
+    { "palavra": "Com", "silabas": "Com" },
+    { "palavra": "Mas", "silabas": "Mas" },
+    { "palavra": "Como", "silabas": "Co-mo" },
+    { "palavra": "Pelos", "silabas": "Pe-los" },
+    { "palavra": "Umas", "silabas": "U-mas" }
+  ],
+  "pessoas_e_posses": [
+    { "palavra": "Você", "silabas": "Vo-cê" },
+    { "palavra": "Eles", "silabas": "E-les" },
+    { "palavra": "Nós", "silabas": "Nós" },
+    { "palavra": "Minha", "silabas": "Mi-nha" },
+    { "palavra": "Nossa", "silabas": "Nos-sa" },
+    { "palavra": "Deles", "silabas": "De-les" },
+    { "palavra": "Eu", "silabas": "Eu" }
+  ],
+  "verbos_curtos": [
+    { "palavra": "Caiu", "silabas": "Caiu" },
+    { "palavra": "Fechou", "silabas": "Fe-chou" },
+    { "palavra": "Olha", "silabas": "O-lha" },
+    { "palavra": "Pula", "silabas": "Pu-la" },
+    { "palavra": "Corre", "silabas": "Cor-re" },
+    { "palavra": "Come", "silabas": "Co-me" },
+    { "palavra": "Fala", "silabas": "Fa-la" },
+    { "palavra": "Dorme", "silabas": "Dor-me" }
+  ],
+  "tempo_lugar_opiniao": [
+    { "palavra": "Hoje", "silabas": "Ho-je" },
+    { "palavra": "Aqui", "silabas": "A-qui" },
+    { "palavra": "Lá", "silabas": "Lá" },
+    { "palavra": "Amanhã", "silabas": "A-ma-nhã" },
+    { "palavra": "Cedo", "silabas": "Ce-do" },
+    { "palavra": "Longe", "silabas": "Lon-ge" },
+    { "palavra": "Legal", "silabas": "Le-gal" },
+    { "palavra": "Ruim", "silabas": "Ru-im" }
+  ]
+};
 
         let categoriaAtual = 'todas';
         let listaAtual = [];
-        let palavraAtiva = null;
+        
+        // Controladores de índice sequencial por categoria
+        const indices = {
+            todas: 0, monossilabas: 0, dissilabas: 0, trissilabas: 0,
+            encontros_vocalicos: 0, artigos_e_conectivos: 0, 
+            pessoas_e_posses: 0, verbos_curtos: 0, tempo_lugar_opiniao: 0
+        };
 
         function setCategory(cat, btn) {
             categoriaAtual = cat;
             
-            // Estilo dos botões
             document.querySelectorAll('.btn-category').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            proximaPalavra();
+            // Renderiza direto a palavra salva do índice atual da categoria escolhida
+            renderizarPalavra();
         }
 
         function prepararLista() {
             if (categoriaAtual === 'todas') {
-                listaAtual = [...dados.monossilabas, ...dados.dissilabas, ...dados.trissilabas];
+                listaAtual = [
+                    ...dados.monossilabas, 
+                    ...dados.dissilabas, 
+                    ...dados.trissilabas,
+                    ...dados.encontros_vocalicos,
+                    ...dados.artigos_e_conectivos,
+                    ...dados.pessoas_e_posses,
+                    ...dados.verbos_curtos,
+                    ...dados.tempo_lugar_opiniao
+                ];
             } else {
                 listaAtual = [...dados[categoriaAtual]];
             }
         }
 
-        function proximaPalavra() {
+        function renderizarPalavra() {
             prepararLista();
-            
-            // Sorteia uma palavra
-            const index = Math.floor(Math.random() * listaAtual.length);
-            palavraAtiva = listaAtual[index];
 
-            // Atualiza tela
+            // Evita que o índice estoure caso a lista mude de tamanho
+            if (indices[categoriaAtual] >= listaAtual.length) {
+                indices[categoriaAtual] = 0; 
+            }
+
+            const palavraAtiva = listaAtual[indices[categoriaAtual]];
+
             const txtPalavra = document.getElementById('txt-palavra');
             const txtDetalhe = document.getElementById('txt-detalhe');
             
             txtPalavra.innerText = palavraAtiva.palavra;
-            txtDetalhe.innerText = palavraAtiva.silabas || palavraAtiva.exemplo;
+            txtDetalhe.innerText = palavraAtiva.silabas;
+
+            // Mostra a contagem correta e o progresso linear
+            const posicaoAtual = listaAtual.length > 0 ? indices[categoriaAtual] + 1 : 0;
+            document.getElementById('stats').innerText = `Modo: ${categoriaAtual.replace(/_/g, ' ')} | Palavra: ${posicaoAtual} de ${listaAtual.length}`;
+        }
+
+        function proximaPalavra() {
+            prepararLista();
             
-            // Esconde o detalhe para a criança tentar ler primeiro
-            txtDetalhe.classList.remove('show');
-
-            document.getElementById('stats').innerText = `Modo: ${categoriaAtual} | Total: ${listaAtual.length} palavras`;
+            // Avança sequencialmente
+            indices[categoriaAtual]++;
+            if (indices[categoriaAtual] >= listaAtual.length) {
+                indices[categoriaAtual] = 0; // Volta ao início da lista
+            }
+            
+            renderizarPalavra();
         }
 
-        function revelar() {
-            document.getElementById('txt-detalhe').classList.add('show');
-        }
-
-        // Iniciar jogo
-        proximaPalavra();
+        // Iniciar jogo com a primeira palavra da categoria 'todas'
+        renderizarPalavra();
     </script>
 </body>
 </html>
