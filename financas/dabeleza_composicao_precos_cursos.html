@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Composição de Preços - Cursos e Turmas</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-dark: #1e3a8a;
+            --primary-medium: #2563eb;
+            --primary-light: #3b82f6;
+            --bg-light: #f8fafc;
+            --border-color: #cbd5e1;
+            --text-main: #1e293b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-dark);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--primary-dark);
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .btn-primary { background-color: var(--primary-medium); color: white; }
+        .btn-primary:hover { background-color: var(--primary-dark); }
+        .btn-danger { background-color: #ef4444; color: white; }
+        .btn-danger:hover { background-color: #dc2626; }
+
+        /* Card de Despesas Compartilhadas */
+        .global-expenses-card {
+            background-color: #f1f5f9;
+            border-left: 5px solid var(--primary-medium);
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .global-expenses-card .info {
+            max-width: 60%;
+        }
+
+        .global-expenses-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .global-expenses-card p {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .global-expenses-card .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .global-expenses-card label {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .global-expenses-card input {
+            width: 180px;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        /* Seção de Semanas */
+        .weeks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .week-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafafa;
+            transition: border-color 0.2s;
+        }
+
+        .week-card.active {
+            border-color: var(--primary-medium);
+            background: #f0f7ff;
+        }
+
+        .week-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #334155;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: right;
+        }
+
+        /* DRE e Resultados */
+        .dre-section {
+            margin-top: 30px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dre-header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .dre-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .dre-table th, .dre-table td {
+            padding: 10px 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        .dre-table th:first-child, .dre-table td:first-child {
+            text-align: left;
+        }
+
+        .dre-table th {
+            background-color: #f1f5f9;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        .dre-row-bold {
+            font-weight: bold;
+            background-color: #f8fafc;
+        }
+
+        .dre-row-highlight {
+            font-weight: bold;
+            background-color: #dbeafe !important;
+            color: var(--primary-dark);
+        }
+
+        .dre-row-success {
+            font-weight: bold;
+            background-color: #d1fae5 !important;
+            color: #065f46;
+        }
+
+        /* Grafico */
+        .chart-section {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border-color);
+            page-break-inside: avoid;
+        }
+
+        .chart-section h2 {
+            color: var(--primary-dark);
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        /* Impressao */
+        @media print {
+            body { background-color: white; padding: 0; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; }
+            .no-print { display: none !important; }
+            input { border: none !important; background: transparent !important; }
+            .week-card { border: 1px solid #cbd5e1 !important; }
+            .dre-row-highlight { background-color: #dbeafe !important; -webkit-print-color-adjust: exact; }
+            .dre-row-success { background-color: #d1fae5 !important; -webkit-print-color-adjust: exact; }
+            th, .dre-header { background-color: #1e3a8a !important; color: white !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Composição de Preços & DRE de Cursos (4 Semanas)</h1>
+        <div class="actions no-print">
+            <button class="btn btn-danger" onclick="clearData()">Limpar Tudo</button>
+            <button class="btn btn-primary" onclick="window.print()">🖨️ Salvar em PDF / Imprimir</button>
+        </div>
+    </div>
+
+    <!-- Despesas Fixas / Rateadas -->
+    <div class="global-expenses-card">
+        <div class="info">
+            <h3>Despesas Fixas Globais a Ratear</h3>
+            <p>Valor total das despesas operacionais/administrativas do período que serão rateadas entre todas as turmas ativas.</p>
+        </div>
+        <div class="input-group">
+            <label for="globalExpenses">Despesas Totais (R$)</label>
+            <input type="number" id="globalExpenses" step="0.01" placeholder="0,00" onchange="updateAll()">
+        </div>
+    </div>
+
+    <!-- Entrada de Dados por Semanas (1 a 4) -->
+    <div class="weeks-grid" id="weeksGrid">
+        <!-- Gerado via JS -->
+    </div>
+
+    <!-- Tabela DRE do Serviço -->
+    <div class="dre-section">
+        <div class="dre-header">Demonstrativo do Resultado (DRE por Semana e Total)</div>
+        <table class="dre-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">DRE - Etapas de Formação de Preço</th>
+                    <th>Semana 1</th>
+                    <th>Semana 2</th>
+                    <th>Semana 3</th>
+                    <th>Semana 4</th>
+                    <th>TOTAL GERAL</th>
+                </tr>
+            </thead>
+            <tbody id="dreBody">
+                <!-- Gerado via JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Grafico -->
+    <div class="chart-section">
+        <h2>Evolução Financeira por Semana (R$)</h2>
+        <div class="chart-container">
+            <canvas id="financialChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Estrutura inicial de dados vazia
+    let data = {
+        globalExpenses: 0,
+        weeks: [
+            { turmas: 0, servicosPorTurma: 0, precoUnitario: 0, custoExecucao: 0, comissaoPercent: 0, pagtoProfessores: 0 },
+            { turmas: 0, servicosPorTurma: 0, precoUnitario: 0, custoExecucao: 0, comissaoPercent: 0, pagtoProfessores: 0 },
+            { turmas: 0, servicosPorTurma: 0, precoUnitario: 0, custoExecucao: 0, comissaoPercent: 0, pagtoProfessores: 0 },
+            { turmas: 0, servicosPorTurma: 0, precoUnitario: 0, custoExecucao: 0, comissaoPercent: 0, pagtoProfessores: 0 }
+        ]
+    };
+
+    let chartInstance = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadData();
+        renderWeeksForm();
+        initChart();
+        updateAll();
+    });
+
+    function loadData() {
+        const saved = localStorage.getItem("pricing_courses_data");
+        if (saved) {
+            try {
+                data = JSON.parse(saved);
+            } catch (e) {
+                data = getDefaultData();
+            }
+        } else {
+            data = getDefaultData();
+        }
+        document.getElementById("globalExpenses").value = data.globalExpenses || "";
+    }
+
+    function getDefaultData() {
+        return {
+            globalExpenses: 0,
+            weeks: Array(4).fill(null).map(() => ({
+                turmas: 0, servicosPorTurma: 0, precoUnitario: 0, custoExecucao: 0, comissaoPercent: 0, pagtoProfessores: 0
+            }))
+        };
+    }
+
+    function saveData() {
+        localStorage.setItem("pricing_courses_data", JSON.stringify(data));
+    }
+
+    function renderWeeksForm() {
+        const grid = document.getElementById("weeksGrid");
+        grid.innerHTML = "";
+
+        data.weeks.forEach((w, index) => {
+            const card = document.createElement("div");
+            card.className = "week-card";
+            card.innerHTML = `
+                <div class="week-title">Semana ${index + 1}</div>
+                <div class="form-group">
+                    <label>Nº de Turmas</label>
+                    <input type="number" value="${w.turmas || ''}" placeholder="0" onchange="updateWeekData(${index}, 'turmas', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Alunos/Serviços por Turma</label>
+                    <input type="number" value="${w.servicosPorTurma || ''}" placeholder="0" onchange="updateWeekData(${index}, 'servicosPorTurma', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Preço Unitário (R$)</label>
+                    <input type="number" step="0.01" value="${w.precoUnitario || ''}" placeholder="0,00" onchange="updateWeekData(${index}, 'precoUnitario', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Custo Produção/Execução (R$)</label>
+                    <input type="number" step="0.01" value="${w.custoExecucao || ''}" placeholder="0,00" onchange="updateWeekData(${index}, 'custoExecucao', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Comissão (%)</label>
+                    <input type="number" step="0.1" value="${w.comissaoPercent || ''}" placeholder="0%" onchange="updateWeekData(${index}, 'comissaoPercent', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Pagamento Professores (R$)</label>
+                    <input type="number" step="0.01" value="${w.pagtoProfessores || ''}" placeholder="0,00" onchange="updateWeekData(${index}, 'pagtoProfessores', this.value)">
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function updateWeekData(index, field, value) {
+        data.weeks[index][field] = parseFloat(value) || 0;
+        updateAll();
+    }
+
+    function clearData() {
+        if (confirm("Deseja apagar todos os dados informados?")) {
+            data = getDefaultData();
+            document.getElementById("globalExpenses").value = "";
+            renderWeeksForm();
+            updateAll();
+        }
+    }
+
+    function updateAll() {
+        data.globalExpenses = parseFloat(document.getElementById("globalExpenses").value) || 0;
+        saveData();
+
+        // Calcular totais e DRE
+        const calculations = calculateDRE();
+        renderDRETable(calculations);
+        updateChart(calculations);
+    }
+
+    function calculateDRE() {
+        const weeksCalc = data.weeks.map(w => {
+            const totalServicos = (w.turmas || 0) * (w.servicosPorTurma || 0);
+            const receitaBruta = totalServicos * (w.precoUnitario || 0);
+            const comissaoValor = receitaBruta * ((w.comissaoPercent || 0) / 100);
+            const margemContribuiucao = receitaBruta - (w.custoExecucao || 0) - (w.pagtoProfessores || 0) - comissaoValor;
+            return {
+                ...w,
+                totalServicos,
+                receitaBruta,
+                comissaoValor,
+                margemContribuiucao
+            };
+        });
+
+        // Contar total de turmas no mês/período para rateio
+        const totalTurmasAtivas = weeksCalc.reduce((sum, w) => sum + w.turmas, 0);
+
+        // Rateio de despesas globais por turma
+        const despesaPorTurma = totalTurmasAtivas > 0 ? (data.globalExpenses / totalTurmasAtivas) : 0;
+
+        // Adicionar despesas rateadas e lucro por semana
+        weeksCalc.forEach(w => {
+            w.despesasRateadas = w.turmas * despesaPorTurma;
+            w.lucroBruto = w.margemContribuiucao - w.despesasRateadas;
+        });
+
+        // Totais Consolidados
+        const totalGeral = weeksCalc.reduce((acc, w) => {
+            acc.receitaBruta += w.receitaBruta;
+            acc.custoExecucao += w.custoExecucao;
+            acc.pagtoProfessores += w.pagtoProfessores;
+            acc.comissaoValor += w.comissaoValor;
+            acc.margemContribuiucao += w.margemContribuiucao;
+            acc.despesasRateadas += w.despesasRateadas;
+            acc.lucroBruto += w.lucroBruto;
+            return acc;
+        }, { receitaBruta: 0, custoExecucao: 0, pagtoProfessores: 0, comissaoValor: 0, margemContribuiucao: 0, despesasRateadas: 0, lucroBruto: 0 });
+
+        return { weeksCalc, totalGeral };
+    }
+
+    function fmt(val) {
+        return val.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function renderDRETable({ weeksCalc, totalGeral }) {
+        const tbody = document.getElementById("dreBody");
+
+        const rows = [
+            { label: "1. Receita Total (Bruta)", key: "receitaBruta", class: "dre-row-bold" },
+            { label: "(-) Custo Produção & Execução", key: "custoExecucao", prefix: "-" },
+            { label: "(-) Pagamento de Professores", key: "pagtoProfessores", prefix: "-" },
+            { label: "(-) Comissões Vendas/Plataforma", key: "comissaoValor", prefix: "-" },
+            { label: "(=) MARGEM DE CONTRIBUIÇÃO", key: "margemContribuiucao", class: "dre-row-highlight" },
+            { label: "(-) Despesas Fixas Rateadas", key: "despesasRateadas", prefix: "-" },
+            { label: "(=) LUCRO BRUTO DO SERVIÇO", key: "lucroBruto", class: "dre-row-success" }
+        ];
+
+        let html = "";
+
+        rows.forEach(r => {
+            html += `<tr class="${r.class || ''}">`;
+            html += `<td>${r.label}</td>`;
+
+            weeksCalc.forEach(w => {
+                const val = w[r.key];
+                const displayVal = (r.prefix ? "- " : "") + fmt(val);
+                html += `<td>${displayVal}</td>`;
+            });
+
+            const totalVal = totalGeral[r.key];
+            const displayTotal = (r.prefix ? "- " : "") + fmt(totalVal);
+            html += `<td>${displayTotal}</td>`;
+            html += `</tr>`;
+        });
+
+        tbody.innerHTML = html;
+    }
+
+    function initChart() {
+        const ctx = document.getElementById("financialChart").getContext("2d");
+        chartInstance = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+                datasets: [
+                    {
+                        label: "Receita Bruta (R$)",
+                        data: [0, 0, 0, 0],
+                        backgroundColor: "#3b82f6"
+                    },
+                    {
+                        label: "Margem Contribuição (R$)",
+                        data: [0, 0, 0, 0],
+                        backgroundColor: "#d97706"
+                    },
+                    {
+                        label: "Lucro Bruto (R$)",
+                        data: [0, 0, 0, 0],
+                        backgroundColor: "#059669"
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                return ctx.dataset.label + ': ' + fmt(ctx.raw);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: value => fmt(value)
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateChart({ weeksCalc }) {
+        if (!chartInstance) return;
+
+        chartInstance.data.datasets[0].data = weeksCalc.map(w => w.receitaBruta);
+        chartInstance.data.datasets[1].data = weeksCalc.map(w => w.margemContribuiucao);
+        chartInstance.data.datasets[2].data = weeksCalc.map(w => w.lucroBruto);
+        chartInstance.update();
+    }
+</script>
+
+</body>
+</html>
