@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dabeleza Cursos - Cursos Práticos na Área da Beleza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A2B59;
+            --primary-dark: #331A3F;
+            --secondary: #D4A359;
+            --secondary-light: #F3E5C8;
+            --accent: #E5BA73;
+            --bg-light: #FAFAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #2B2D42;
+            --text-muted: #6C757D;
+            --border: #E8E5EC;
+            --shadow: 0 10px 30px rgba(74, 43, 89, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-butterfly {
+            width: 42px;
+            height: 42px;
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 20px;
+            background: rgba(212, 163, 89, 0.1);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #FFFFFF;
+            line-height: 1.1;
+        }
+
+        .logo-text .sub {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        .btn-contact {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: var(--primary-dark);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 163, 89, 0.4);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(74, 43, 89, 0.95), rgba(51, 26, 63, 0.9)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1600&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 5rem 1.5rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(212, 163, 89, 0.2);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .features-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.95rem;
+        }
+
+        .feature-badge i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(74, 43, 89, 0.12);
+        }
+
+        .card-header-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .course-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .course-title {
+            font-size: 1.35rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            padding-right: 80px;
+        }
+
+        .course-foco {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2E7D32;
+            background: #E8F5E9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+
+        .course-desc {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item i {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .info-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .course-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .price-tag {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .price-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn-view {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+        }
+
+        .btn-view:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: var(--radius);
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 1.5rem;
+            padding-left: 20px;
+            border-left: 2px solid var(--secondary);
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 2px solid white;
+        }
+
+        .timeline-week {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: 2px;
+        }
+
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 1.5rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .footer-logo span {
+            color: var(--secondary);
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .courses-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+        }
+        /* Estilos da Seção Diferenciais */
+        .diferenciais-section {
+            padding: 4rem 1.5rem;
+            background-color: var(--bg-light);
+        }
+
+        .container-diferenciais {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .diferenciais-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .diferencial-card {
+            background: var(--card-bg);
+            padding: 2.5rem 1.8rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .diferencial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(74, 43, 89, 0.12);
+        }
+
+        .diferencial-icon {
+            width: 65px;
+            height: 65px;
+            background: rgba(212, 163, 89, 0.15);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .diferencial-card h3 {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .diferencial-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Estilos da Seção Sobre Nós */
+        .sobre-section {
+            padding: 5rem 1.5rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5EFE6 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .container-sobre {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        .sobre-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            line-height: 1.3;
+        }
+
+        .sobre-content p {
+            color: var(--text-dark);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.85;
+        }
+
+        .sobre-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .sobre-card-highlight {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 3rem 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .highlight-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .sobre-card-highlight h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+        }
+
+        .sobre-card-highlight p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-butterfly">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand">Dabeleza</span>
+                    <span class="sub">CURSOS</span>
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#cursos">Cursos</a></li>
+                    <li><a href="#diferenciais">Diferenciais</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                </ul>
+            </nav>
+            <a href="#cursos" class="btn-contact">Ver Cursos</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tag"><i class="fa-solid fa-star"></i> Formação Profissional</span>
+            <h1>Aprenda na Prática e Transforme sua Carreira na Beleza</h1>
+            <p>Cursos presenciais 100% práticos desenvolvidos para você dominar as técnicas mais buscadas do mercado com rápida inserção profissional.</p>
+            
+            <div class="features-bar">
+                <div class="feature-badge">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <span>100% Aulas Práticas</span>
+                </div>
+                <div class="feature-badge">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>6 Semanas (1x/Sem)</span>
+                </div>
+                <div class="feature-badge">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>18h Carga Horária</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container" id="cursos">
+        <div class="section-header">
+            <h2>Nossos Cursos Profissionalizantes</h2>
+            <p>Selecione o curso ideal para você e veja o cronograma completo de aulas.</p>
+        </div>
+
+        <div class="courses-grid" id="coursesGrid">
+            <!-- Os cards de curso serão renderizados dinamicamente pelo JS usando o arquivo JSON -->
+        </div>
+    </main>
+
+    <!-- Modal de Cronograma -->
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Cronograma do Curso</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fa-regular fa-calendar"></i>
+                        <div>
+                            <span class="info-label">Duração</span>
+                            <span class="info-value" id="modalDuracao">-</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-regular fa-clock"></i>
+                        <div>
+                            <span class="info-label">Carga Horária</span>
+                            <span class="info-value" id="modalCarga">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Cronograma das Aulas (6 Semanas):</h3>
+                <div class="timeline" id="modalTimeline">
+                    <!-- Conteúdo preenchido dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- SEÇÃO DIFERENCIAIS -->
+    <section id="diferenciais" class="diferenciais-section">
+        <div class="container-diferenciais">
+            <div class="section-header">
+                <h2>Por que escolher a Dabeleza?</h2>
+                <p>Estrutura e metodologia pensadas para garantir sua transformação profissional.</p>
+            </div>
+
+            <div class="diferenciais-grid">
+                <div class="diferencial-card">
+                    <div class="diferencial-icon">
+                        <i class="fa-solid fa-hands-holding-sparkles"></i>
+                    </div>
+                    <h3>Metodologia Prática</h3>
+                    <p>Aulas focadas na prática real desde o início, permitindo que você adquira segurança técnica rapidamente.</p>
+                </div>
+
+                <div class="diferencial-card">
+                    <div class="diferencial-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3>Certificação Reconhecida</h3>
+                    <p>Receba um certificado profissional ao concluir seu curso, pronto para valorizar seu currículo e abrir portas.</p>
+                </div>
+
+                <div class="diferencial-card">
+                    <div class="diferencial-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3>Aulas 1x por Semana</h3>
+                    <p>Carga horária otimizada de 3 horas por aula, perfeita para você conciliar a formação com a sua rotina.</p>
+                </div>
+
+                <div class="diferencial-card">
+                    <div class="diferencial-icon">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <h3>Instrutores Qualificados</h3>
+                    <p>Aprenda com profissionais atuantes no mercado da beleza que ensinam técnicas modernas e tendências atuais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE NÓS -->
+    <section id="sobre" class="sobre-section">
+        <div class="container-sobre">
+            <div class="sobre-content">
+                <div class="hero-tag">Nossa História</div>
+                <h2>Transformando Paixão em Profissão de Sucesso</h2>
+                <p>A <strong>Dabeleza Cursos</strong> nasceu com a missão de capacitar e empoderar pessoas através da arte da beleza. Acreditamos que o conhecimento prático e acessível é a chave para a independência financeira e o crescimento profissional.</p>
+                <p>Oferecemos um ambiente acolhedor, materiais de qualidade e um acompanhamento próximo para que cada aluno desenvolva seu potencial máximo, dominando do básico ao avançado no segmento da estética e bem-estar.</p>
+                
+                <div class="sobre-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Foco Prático</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">9+</span>
+                        <span class="stat-label">Cursos Especializados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1x</span>
+                        <span class="stat-label">Aula Semanal</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sobre-card-highlight">
+                <div class="highlight-badge"><i class="fa-solid fa-gem"></i> Nosso Compromisso</div>
+                <h3>Excelência em cada detalhe</h3>
+                <p>Nossos cursos são estruturados para atender desde quem está começando do zero até profissionais que buscam atualização e novas oportunidades no mercado.</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                Dabeleza
+                <span>CURSOS</span>
+            </div>
+            <p style="color: rgba(255,255,255,0.7); max-width: 500px;">
+                Formando os melhores profissionais do mercado da beleza com cursos práticos e de alta qualidade.
+            </p>
+            <div class="copyright">
+                &copy; 2026 Dabeleza Cursos. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+<script id="dadosCursos" type="application/json">
+{
+  "escola": {
+    "nome": "Dabeleza Cursos",
+    "slogan": "Transforme sua paixão pela beleza em uma profissão de sucesso.",
+    "destaque_principal": "Cursos 100% Práticos com Certificado Reconhecido",
+    "formato_padrao": {
+      "duracao_semanas": 6,
+      "frequencia_semanal": "1 aula por semana",
+      "duracao_aula_horas": 3,
+      "carga_horaria_total": 18
+    }
+  },
+  "cursos": [
+    {
+      "id": "manicure-pedicure",
+      "nome": "Manicure e Pedicure",
+      "categoria": "Unhas",
+      "duracao_semanas": 8,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 24,
+      "valor": "R$ 649,99",
+      "foco": "Curso 90% Prático",
+      "descricao": "Aprenda as técnicas essenciais de cutilagem, esmaltação, biossegurança e cuidados com as mãos e pés.",
+      "cronograma": [
+        {"semana": 1, "tema": "Biossegurança, Anátomo-fisiologia das unhas e Preparação do material"},
+        {"semana": 2, "tema": "Técnicas de Cutilagem Contínua e Higienização Profunda"},
+        {"semana": 3, "tema": "Prática de Esmaltação Perfeita e Limpeza Eficiente"},
+        {"semana": 4, "tema": "Plástica dos Pés e Cuidados com Pele Ressecada"},
+        {"semana": 5, "tema": "Nail Art Básica e Tendências do Mercado"},
+        {"semana": 6, "tema": "Atendimento Profissional, Precificação e Avaliação Prática"}
+      ]
+    },
+    {
+      "id": "alongamento-unha",
+      "nome": "Alongamento de Unha",
+      "categoria": "Unhas",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 549,99",
+      "foco": "Curso 100% Prático",
+      "descricao": "Domine as principais técnicas de extensão como Gel na Moldagem, Fibra de Vidro e Tip com acabamento natural.",
+      "cronograma": [
+        {"semana": 1, "tema": "Apresentação dos Materiais, Química dos Gel e Biossegurança"},
+        {"semana": 2, "tema": "Preparação da Unha Natural e Aplicação da Fibra de Vidro"},
+        {"semana": 3, "tema": "Estrutura do Gel, Ponto de Tensão e Curvatura C"},
+        {"semana": 4, "tema": "Lixamento Técnico Manual e com Motor Profissional"},
+        {"semana": 5, "tema": "Manutenção e Remoção Correta sem Danificar a Unha Natural"},
+        {"semana": 6, "tema": "Prática Completa em Modelo e Finalização com Encapsulada"}
+      ]
+    },
+    {
+      "id": "massoterapia",
+      "nome": "Massagem Relaxante",
+      "categoria": "Bem-Estar",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 549,99",
+      "foco": "Curso 100% Prático",
+      "descricao": "Aprenda técnicas manuais relaxantes, terapêuticas e modeladoras para proporcionar saúde e bem-estar.",
+      "cronograma": [
+        {"semana": 1, "tema": "Anatomia Muscular Aplicada e Ética Profissional"},
+        {"semana": 2, "tema": "Técnicas de Massagem Relaxante e Anti-estresse"},
+        {"semana": 3, "tema": "Massagem Modeladora e Redutora de Medidas"},
+        {"semana": 4, "tema": "Drenagem Linfática Manual (Conceitos e Prática Corpo Completo)"},
+        {"semana": 5, "tema": "Quick Massage e Alívio de Dores Musculares Locais"},
+        {"semana": 6, "tema": "Atendimento Prático Supervisionado em Clientes Real"}
+      ]
+    },
+    {
+      "id": "designer-sobrancelha",
+      "nome": "Designer de Sobrancelha",
+      "categoria": "Olhar",
+      "duracao_semanas": 4,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 12,
+      "valor": "R$ 400,00",
+      "foco": "Curso 100% Prático",
+      "descricao": "Aprenda visagismo facial, mapeamento com linha, aplicação de Henna e coloração profissional.",
+      "cronograma": [
+        {"semana": 1, "tema": "Mapeamento Facial com Linha e Paquímetro (Visagismo)"},
+        {"semana": 2, "tema": "Técnicas de Epilação com Pinça e Correção de Simetria"},
+        {"semana": 3, "tema": "Preparação, Aplicação e Efeito Ombré com Henna"},
+        {"semana": 4, "tema": "Coloração Própria para Sobrancelhas e Fios Brancos"},
+        {"semana": 5, "tema": "Introdução à Brow Lamination e Nutrição de Fios"},
+        {"semana": 6, "tema": "Prática Intensiva em Modelos e Portfólio Profissional"}
+      ]
+    },
+    {
+      "id": "extensao-cilios",
+      "nome": "Extensão de Cílios",
+      "categoria": "Olhar",
+      "duracao_semanas": 5,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 15,
+      "valor": "R$ 549,99",
+      "foco": "Curso 100% Prático",
+      "descricao": "Capacite-se no isolamento correto, acoplagem perfeita e mapeamento do Fio a Fio e Volume Russo.",
+      "cronograma": [
+        {"semana": 1, "tema": "Anatomia do Cílio, Biossegurança e Materiais Essenciais"},
+        {"semana": 2, "tema": "Técnica de Isolamento, Direcionamento e Acoplagem Segura"},
+        {"semana": 3, "tema": "Aplicação Prática de Cílios Fio a Fio Clássico"},
+        {"semana": 4, "tema": "Mapping (Gatinho, Esquilo, Boneca) e Volume Brasileiro/Tecnológico"},
+        {"semana": 5, "tema": "Manutenção, Remoção Química e Cuidados Pós-procedimento"},
+        {"semana": 6, "tema": "Atendimento Completo em Modelo Real e Certificação"}
+      ]
+    },
+    {
+      "id": "estetica-facial",
+      "nome": "Estética Facial",
+      "categoria": "Pele",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 650,00",
+      "foco": "Curso 100% Prático",
+      "descricao": "Aprenda avaliação da pele, limpeza profunda, peeling ultrassônico, hidratação e máscaras emolientes.",
+      "cronograma": [
+        {"semana": 1, "tema": "Análise do Biotipo Cutâneo e Anamnese Facial Profunda"},
+        {"semana": 2, "tema": "Passo a Passo da Limpeza de Pele Profissional (Extração Segura)"},
+        {"semana": 3, "tema": "Uso de Vapor de Ozônio e Alta Frequência na Prática"},
+        {"semana": 4, "tema": "Máscaras Terapêuticas, Argiloterapia e Hidratação"},
+        {"semana": 5, "tema": "Massagem Modeladora Facial e Drenagem Linfática Facial"},
+        {"semana": 6, "tema": "Protocolos Personalizados e Prática Completa em Modelo"}
+      ]
+    },
+    {
+      "id": "depilacao",
+      "nome": "Depilação",
+      "categoria": "Pele",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 549,99",
+      "foco": "Curso 100% Prático",
+      "descricao": "Técnicas de depilação com cera quente, roll-on e depilação egípcia (linha) com máxima biossegurança.",
+      "cronograma": [
+        {"semana": 1, "tema": "Anatomia da Pele, Pelo e Normas da Vigilância Sanitária"},
+        {"semana": 2, "tema": "Depilação Corporal com Cera Quente e Roll-On (Pernas e Braços)"},
+        {"semana": 3, "tema": "Técnicas Suaves para Áreas Sensíveis (Axilas e Buço)"},
+        {"semana": 4, "tema": "Depilação Íntima Feminina Completa e Cuidados Anti-encravamento"},
+        {"semana": 5, "tema": "Introdução à Depilação Egípcia (Com Linha Facial)"},
+        {"semana": 6, "tema": "Prática Supervisionada de Atendimento Rápido e Eficiente"}
+      ]
+    },
+    {
+      "id": "maquiagem",
+      "nome": "Maquiagem Profissional",
+      "categoria": "Beleza",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 590,00",
+      "foco": "Curso 100% Prático",
+      "descricao": "Domine a preparação de pele perfeita, contorno, iluminação, esfumados e maquiagem social para eventos.",
+      "cronograma": [
+        {"semana": 1, "tema": "Colorimetria, Tipos de Pele e Preparação de Pele (Skincare)"},
+        {"semana": 2, "tema": "Cobertura, Camuflagem de Manchas, Contorno e Iluminação"},
+        {"semana": 3, "tema": "Técnicas de Olhos: Esfumado Clássico e Delineado Perfeito"},
+        {"semana": 4, "tema": "Maquiagem Social para Festas, Noivas e Eventos"},
+        {"semana": 5, "tema": "Aplicação de Cílios Postiços e Batom de Longa Duração"},
+        {"semana": 6, "tema": "Montagem de Kit Profissional e Produção de Modelo Final"}
+      ]
+    },
+    {
+      "id": "barbearia",
+      "nome": "Barbearia",
+      "categoria": "Cabelo",
+      "duracao_semanas": 6,
+      "frequencia": "1x por semana",
+      "horas_por_aula": 3,
+      "carga_horaria_total": 18,
+      "valor": "R$ 620,00",
+      "foco": "Curso 100% Prático",
+      "descricao": "Aprenda cortes masculinos modernos, desfaçamento (fade), barboterapia e manuseio da navalha.",
+      "cronograma": [
+        {"semana": 1, "tema": "Biossegurança, Ferramentas da Barbearia e Divisões de Cabelo"},
+        {"semana": 2, "tema": "Técnicas de Corte na Tesoura e Pente Livre"},
+        {"semana": 3, "tema": "Degradê / Fade Profissional (Low Fade, Mid Fade, High Fade)"},
+        {"semana": 4, "tema": "Design de Barba, Barboterapia e Toalha Quente"},
+        {"semana": 5, "tema": "Acabamentos, Pezinho e Manuseio Seguro da Navalha"},
+        {"semana": 6, "tema": "Prática de Atendimento Completo em Barbearia"}
+      ]
+    }
+  ]
+}
+</script>
+    <script>
+        // Estrutura de Dados em JSON (Renderização Dinâmica)
+        let schoolData = {};
+        function loadCourses() {
+            try {
+                // 1. Pega o elemento script que contém o JSON
+                const jsonScript = document.getElementById('dadosCursos');
+
+                // 2. Converte o texto contido nele para um objeto JavaScript
+                schoolData = JSON.parse(jsonScript.textContent);
+
+                // 3. Renderiza os cursos
+                renderCourses(schoolData.cursos);
+            } catch (err) {
+                console.error("Erro ao ler o JSON embutido no HTML:", err);
+            }
+        }
+
+        function renderCourses(courses) {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = '';
+
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.innerHTML = `
+                    <span class="card-header-badge">${course.categoria}</span>
+                    <div class="course-body">
+                        <h3 class="course-title">${course.nome}</h3>
+                        <div class="course-foco">
+                            <i class="fa-solid fa-check-circle"></i> ${course.foco}
+                        </div>
+                        <p class="course-desc">${course.descricao}</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                <div>
+                                    <span class="info-label">Duração</span>
+                                    <span class="info-value">${course.duracao_semanas} Semanas</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fa-regular fa-clock"></i>
+                                <div>
+                                    <span class="info-label">Carga Horária</span>
+                                    <span class="info-value">${course.carga_horaria_total} horas</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fa-solid fa-rotate"></i>
+                                <div>
+                                    <span class="info-label">Frequência</span>
+                                    <span class="info-value">${course.frequencia}</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                                <div>
+                                    <span class="info-label">Aula</span>
+                                    <span class="info-value">${course.horas_por_aula}h / dia</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-footer">
+                            <div class="price-tag">
+                                <span class="price-label">Investimento</span>
+                                <span class="price-value">${course.valor}</span>
+                            </div>
+                            <button class="btn-view" onclick="openModal('${course.id}')">
+                                Ver Cronograma <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(courseId) {
+            const course = schoolData.cursos.find(c => c.id === courseId);
+            if (!course) return;
+
+            document.getElementById('modalTitle').innerText = course.nome;
+            document.getElementById('modalDuracao').innerText = `${course.duracao_semanas} Semanas (${course.frequencia})`;
+            document.getElementById('modalCarga').innerText = `${course.carga_horaria_total} Horas Totais (${course.horas_por_aula}h/aula)`;
+
+            const timeline = document.getElementById('modalTimeline');
+            timeline.innerHTML = '';
+
+            course.cronograma.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'timeline-item';
+                el.innerHTML = `
+                    <div class="timeline-week">Semana ${item.semana}</div>
+                    <div class="timeline-title">${item.tema}</div>
+                `;
+                timeline.appendChild(el);
+            });
+
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+        }
+
+        // Initialize on load
+        window.onload = loadCourses;
+    </script>
+</body>
+</html>
