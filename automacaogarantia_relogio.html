@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Certificado de Garantia (2 Vias - A4)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Formulário de Input */
+        .form-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        .form-card h2 {
+            font-family: 'Cinzel', serif;
+            color: #c5a059;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            background-color: #0f172a;
+            border: 1px solid #475569;
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #c5a059;
+        }
+
+        .readonly-input {
+            background-color: #1e293b;
+            color: #c5a059;
+            font-weight: bold;
+            border-color: #334155;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #c5a059 0%, #9a7b3e 100%);
+            color: #0f172a;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.95rem;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: #fff;
+            flex: 0.5;
+        }
+
+        .btn-action:hover {
+            opacity: 0.95;
+        }
+
+        /* Página de Impressão A4 Retrato */
+        .a4-page {
+            background-color: #ffffff;
+            color: #1e293b;
+            width: 210mm;
+            height: 297mm;
+            padding: 8mm;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 0 auto;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Cada Via ocupa metade da folha (A5 landscape no A4) */
+        .via-certificate {
+            height: 137mm;
+            width: 100%;
+            border: 2px solid #c5a059;
+            padding: 3mm;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
+        .border-inner {
+            border: 1px solid #cbd5e1;
+            height: 100%;
+            padding: 4mm 6mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .via-tag {
+            position: absolute;
+            top: 4mm;
+            right: 6mm;
+            font-size: 6.5pt;
+            font-weight: 700;
+            color: #c5a059;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #c5a059;
+            padding: 1px 5px;
+            border-radius: 2px;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-size: 36pt;
+            color: rgba(197, 160, 89, 0.04);
+            font-weight: 700;
+            letter-spacing: 10px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Cabeçalho */
+        .cert-header {
+            text-align: center;
+            border-bottom: 1.5px solid #c5a059;
+            padding-bottom: 2mm;
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            font-size: 14pt;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+
+        .brand-sub {
+            font-size: 6.5pt;
+            letter-spacing: 1.5px;
+            color: #c5a059;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 0.5mm;
+        }
+
+        .cert-title {
+            font-size: 9pt;
+            letter-spacing: 3px;
+            color: #475569;
+            text-transform: uppercase;
+            margin-top: 1.5mm;
+            font-weight: 600;
+        }
+
+        /* Dados */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3mm;
+            margin-top: 1.5mm;
+        }
+
+        .details-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3mm;
+            margin-top: 1.5mm;
+        }
+
+        .field-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-label {
+            font-size: 6pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #475569;
+            letter-spacing: 0.5px;
+        }
+
+        .field-value {
+            border-bottom: 1px solid #cbd5e1;
+            font-size: 8.5pt;
+            font-weight: 600;
+            color: #0f172a;
+            min-height: 16px;
+            padding-top: 1px;
+            padding-left: 2px;
+        }
+
+        /* Termos */
+        .terms-container {
+            background-color: #f8fafc;
+            border-left: 2.5px solid #c5a059;
+            padding: 2mm 3mm;
+            border-radius: 0 3px 3px 0;
+            margin-top: 1mm;
+        }
+
+        .terms-h {
+            font-size: 6.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8mm;
+        }
+
+        .terms-ul {
+            font-size: 6pt;
+            color: #334155;
+            line-height: 1.3;
+            padding-left: 3mm;
+        }
+
+        .terms-ul li {
+            margin-bottom: 0.5mm;
+        }
+
+        /* Linha de Corte Entre as Vias */
+        .cut-line {
+            height: 12mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .cut-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            border-top: 1px dashed #94a3b8;
+        }
+
+        .cut-text {
+            background-color: #ffffff;
+            padding: 0 10px;
+            font-size: 6.5pt;
+            color: #64748b;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        /* Assinaturas */
+        .signatures-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10mm;
+            margin-top: 1.5mm;
+            text-align: center;
+        }
+
+        .sig-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sig-line {
+            border-top: 1px solid #94a3b8;
+            width: 100%;
+            padding-top: 1mm;
+            font-size: 6.5pt;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* REGRAS DE IMPRESSÃO A4 */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+            .form-card {
+                display: none !important;
+            }
+            .a4-page {
+                box-shadow: none;
+                margin: 0;
+                width: 210mm;
+                height: 297mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Formulário Interativo -->
+        <div class="form-card">
+            <h2>Preencher Certificado (2 Vias na Folha A4)</h2>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>Nome da Loja / Relojoaria</label>
+                    <input type="text" id="inputLoja" value="TEMPO CERTO" oninput="updateCert()">
+                </div>
+                <div class="form-group">
+                    <label>Nome / Modelo do Relógio</label>
+                    <input type="text" id="inputModelo" placeholder="Ex: TAG Heuer Carrera Calibre 16" oninput="updateCert()">
+                </div>
+                <div class="form-group">
+                    <label>Código do Relógio (Automático)</label>
+                    <input type="text" id="inputCodigo" class="readonly-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Data da Compra</label>
+                    <input type="date" id="inputDataCompra" onchange="calculateExpiration()">
+                </div>
+                <div class="form-group">
+                    <label>Tempo de Garantia</label>
+                    <select id="inputTempoSelect" onchange="calculateExpiration()">
+                        <option value="3">3 Meses (90 Dias)</option>
+                        <option value="6">6 Meses</option>
+                        <option value="12" selected>12 Meses (1 Ano)</option>
+                        <option value="24">24 Meses (2 Anos)</option>
+                        <option value="36">36 Meses (3 Anos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Final (Calculada Automática)</label>
+                    <input type="text" id="inputDataFinal" class="readonly-input" readonly placeholder="Preencha a data de compra">
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-action btn-secondary" onclick="generateNewCode()">🔄 Gerar Novo Código</button>
+                <button class="btn-action" onclick="window.print()">🖨️ Imprimir 2 Vias (A4)</button>
+            </div>
+        </div>
+
+        <!-- Página A4 com 2 Vias -->
+        <div class="a4-page">
+            
+            <!-- VIA 1: CLIENTE -->
+            <div class="via-certificate">
+                <div class="border-inner">
+                    <div class="via-tag">1ª VIA - CLIENTE</div>
+                    <div class="watermark">GARANTIA</div>
+
+                    <div class="cert-header">
+                        <div class="brand-name viewLoja">Sua Relojoaria</div>
+                        <div class="brand-sub">Assistência Técnica & Alta Relojoaria</div>
+                        <div class="cert-title">Certificado de Garantia</div>
+                    </div>
+
+                    <div>
+                        <div class="details-grid">
+                            <div class="field-box">
+                                <span class="field-label">Nome / Modelo do Relógio:</span>
+                                <div class="field-value viewModelo"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Código / Nº Série:</span>
+                                <div class="field-value viewCodigo"></div>
+                            </div>
+                        </div>
+
+                        <div class="details-grid-3">
+                            <div class="field-box">
+                                <span class="field-label">Data da Compra:</span>
+                                <div class="field-value viewDataCompra"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Tempo de Garantia:</span>
+                                <div class="field-value viewTempo"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Data Final (Validade):</span>
+                                <div class="field-value viewDataFinal"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terms-container">
+                        <div class="terms-h">Termos e Cobertura da Garantia</div>
+                        <ul class="terms-ul">
+                            <li><strong>Funcionamento Mecânico/Quartz:</strong> Cobertura integral para defeitos de maquinário e precisão, prestada diretamente por nossa Assistência Técnica Própria.</li>
+                            <li><strong>Entrada de Água:</strong> Garantia de vedação contra entrada de água, desde que mantidas coroas/botões fechados e respeitados os limites do modelo.</li>
+                            <li><strong>Exclusões:</strong> Não cobre acidentes, mau uso, quedas, riscos em vidro/caixa, pulseiras ou intervenções de terceiros não autorizados.</li>
+                        </ul>
+                    </div>
+
+                    <div class="signatures-grid">
+                        <div class="sig-box">
+                            <div class="sig-line">Assinatura do Cliente</div>
+                        </div>
+                        <div class="sig-box">
+                            <div class="sig-line">Assistência Técnica / Carimbo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINHA DE CORTE -->
+            <div class="cut-line">
+                <span class="cut-text">✂ Linha de Corte — Destaque Aqui ✂</span>
+            </div>
+
+            <!-- VIA 2: LOJA / ASSISTÊNCIA -->
+            <div class="via-certificate">
+                <div class="border-inner">
+                    <div class="via-tag">2ª VIA - LOJA / ASSISTÊNCIA</div>
+                    <div class="watermark">GARANTIA</div>
+
+                    <div class="cert-header">
+                        <div class="brand-name viewLoja">Sua Relojoaria</div>
+                        <div class="brand-sub">Assistência Técnica & Alta Relojoaria</div>
+                        <div class="cert-title">Certificado de Garantia</div>
+                    </div>
+
+                    <div>
+                        <div class="details-grid">
+                            <div class="field-box">
+                                <span class="field-label">Nome / Modelo do Relógio:</span>
+                                <div class="field-value viewModelo"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Código / Nº Série:</span>
+                                <div class="field-value viewCodigo"></div>
+                            </div>
+                        </div>
+
+                        <div class="details-grid-3">
+                            <div class="field-box">
+                                <span class="field-label">Data da Compra:</span>
+                                <div class="field-value viewDataCompra"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Tempo de Garantia:</span>
+                                <div class="field-value viewTempo"></div>
+                            </div>
+                            <div class="field-box">
+                                <span class="field-label">Data Final (Validade):</span>
+                                <div class="field-value viewDataFinal"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terms-container">
+                        <div class="terms-h">Termos e Cobertura da Garantia</div>
+                        <ul class="terms-ul">
+                            <li><strong>Funcionamento Mecânico/Quartz:</strong> Cobertura integral para defeitos de maquinário e precisão, prestada diretamente por nossa Assistência Técnica Própria.</li>
+                            <li><strong>Entrada de Água:</strong> Garantia de vedação contra entrada de água, desde que mantidas coroas/botões fechados e respeitados os limites do modelo.</li>
+                            <li><strong>Exclusões:</strong> Não cobre acidentes, mau uso, quedas, riscos em vidro/caixa, pulseiras ou intervenções de terceiros não autorizados.</li>
+                        </ul>
+                    </div>
+
+                    <div class="signatures-grid">
+                        <div class="sig-box">
+                            <div class="sig-line">Assinatura do Cliente</div>
+                        </div>
+                        <div class="sig-box">
+                            <div class="sig-line">Assistência Técnica / Carimbo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scripts de Automação -->
+    <script>
+        // Data atual por padrão no campo de compra
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inputDataCompra').value = today;
+            generateNewCode();
+            calculateExpiration();
+        };
+
+        // Gerador Automático de Código Único
+        function generateNewCode() {
+            const prefix = "RLG";
+            const dateStr = new Date().getFullYear().toString().slice(-2);
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            const code = `${prefix}-${dateStr}${randomNum}`;
+            document.getElementById('inputCodigo').value = code;
+            updateCert();
+        }
+
+        // Cálculo Automático da Data Final de Validade
+        function calculateExpiration() {
+            const dateInput = document.getElementById('inputDataCompra').value;
+            const months = parseInt(document.getElementById('inputTempoSelect').value);
+
+            if (!dateInput) return;
+
+            const purchaseDate = new Date(dateInput + "T00:00:00");
+            const expDate = new Date(purchaseDate);
+            expDate.setMonth(expDate.getMonth() + months);
+
+            // Formatação PT-BR (DD/MM/AAAA)
+            const day = String(expDate.getDate()).padStart(2, '0');
+            const month = String(expDate.getMonth() + 1).padStart(2, '0');
+            const year = expDate.getFullYear();
+
+            const formattedExp = `${day}/${month}/${year}`;
+            document.getElementById('inputDataFinal').value = formattedExp;
+
+            updateCert();
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return dateString;
+        }
+
+        // Atualização em Tempo Real nas 2 Vias
+        function updateCert() {
+            const loja = document.getElementById('inputLoja').value || 'Sua Relojoaria';
+            const modelo = document.getElementById('inputModelo').value;
+            const codigo = document.getElementById('inputCodigo').value;
+            const dataCompra = formatDate(document.getElementById('inputDataCompra').value);
+            
+            const tempoSelect = document.getElementById('inputTempoSelect');
+            const tempoTexto = tempoSelect.options[tempoSelect.selectedIndex].text.split('(')[0].trim();
+            
+            const dataFinal = document.getElementById('inputDataFinal').value;
+
+            // Atualiza todos os elementos da 1ª e 2ª via
+            document.querySelectorAll('.viewLoja').forEach(el => el.innerText = loja);
+            document.querySelectorAll('.viewModelo').forEach(el => el.innerText = modelo);
+            document.querySelectorAll('.viewCodigo').forEach(el => el.innerText = codigo);
+            document.querySelectorAll('.viewDataCompra').forEach(el => el.innerText = dataCompra);
+            document.querySelectorAll('.viewTempo').forEach(el => el.innerText = tempoTexto);
+            document.querySelectorAll('.viewDataFinal').forEach(el => el.innerText = dataFinal);
+        }
+    </script>
+</body>
+</html>
