@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador e Comparador de Anúncios</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --primary-dark: #1e3a8a;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Layout do Formulário e Ações */
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 { color: var(--primary); margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group { display: flex; flex-direction: column; }
+    label { font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; text-transform: uppercase; }
+    input, select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
+    input:focus, select:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    button {
+      background-color: var(--primary); color: white; border: none; padding: 10px 16px;
+      border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    button:hover { background-color: var(--primary-dark); }
+    button.secondary { background-color: #e2e8f0; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background-color: #cbd5e1; }
+    button.danger { background-color: #ef4444; color: white; }
+    button.danger:hover { background-color: #dc2626; }
+
+    /* Tabela de Comparação */
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 10px; text-align: left; font-size: 0.85rem; }
+    th { background-color: #eff6ff; color: var(--primary-dark); font-weight: 700; }
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    /* Estilo do Relatório Individual de Impressão */
+    .print-only { display: none; }
+
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      body { background-color: white; padding: 0; }
+      .card { border: none; box-shadow: none; padding: 0; }
+      
+      .print-report {
+        padding: 20px;
+        border: 2px solid var(--primary);
+        border-radius: 8px;
+      }
+      .print-header { text-align: center; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+      .print-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+      .print-item { border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+      .print-item label { font-size: 0.75rem; color: var(--text-muted); }
+      .print-item p { font-size: 1rem; font-weight: bold; color: var(--primary-dark); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- PAINEL DE CONTROLE E FORMULÁRIO (Sumir na impressão) -->
+  <div class="no-print">
+    
+    <div class="card">
+      <h2>Cadastrar / Editar Anúncio</h2>
+      <form id="anuncioForm">
+        <input type="hidden" id="anuncioId">
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Título do Anúncio</label>
+            <input type="text" id="titulo" required placeholder="Ex: Campanha WhatsApp - Produto X">
+          </div>
+          <div class="form-group">
+            <label>Valor Total Estimado (R$)</label>
+            <input type="text" id="valorEstimado" required placeholder="Ex: 5*50 ou 250">
+          </div>
+          <div class="form-group">
+            <label>Orçamento Diário (R$)</label>
+            <input type="text" id="orcamentoDiario" required placeholder="Ex: 100/2 ou 50">
+          </div>
+          <div class="form-group">
+            <label>Valor Gasto (R$)</label>
+            <input type="text" id="valorGasto" required placeholder="Ex: 10+15+20 ou 45">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tipo de Resultado</label>
+            <select id="tipoResultado" required>
+              <option value="Contatos">Contatos</option>
+              <option value="Cadastros">Cadastros</option>
+              <option value="Seguidores">Seguidores</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Resultados (Qtde)</label>
+            <input type="text" id="resultados" required placeholder="Ex: 5+5 ou 10">
+          </div>
+          <div class="form-group">
+            <label>Impressões</label>
+            <input type="text" id="impressoes" required placeholder="Ex: 1000*2 ou 2000">
+          </div>
+          <div class="form-group">
+            <label>Alcance</label>
+            <input type="text" id="alcance" required placeholder="Ex: 500+300 ou 800">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Contatos por Mensagem</label>
+            <input type="text" id="contatosMensagem" required placeholder="Ex: 3+4 ou 7">
+          </div>
+          <div class="form-group">
+            <label>Total de Vendas (Qtde)</label>
+            <input type="text" id="totalVendas" required placeholder="Ex: 2+1 ou 3">
+          </div>
+          <div class="form-group">
+            <label>Valor Total das Vendas (R$)</label>
+            <input type="text" id="valorVendas" required placeholder="Ex: 3*150 ou 450">
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" id="btnSalvar">Salvar Anúncio</button>
+          <button type="button" class="secondary" onclick="limparFormulario()">Cancelar/Limpar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- GESTÃO E ARQUIVOS -->
+    <div class="card">
+      <h2>Backup & Dados</h2>
+      <div class="btn-group">
+        <button class="secondary" onclick="exportarJSON()">Exportar Dados (JSON)</button>
+        <button class="secondary" onclick="document.getElementById('fileInput').click()">Importar JSON</button>
+        <input type="file" id="fileInput" style="display:none" accept=".json" onchange="importarJSON(event)">
+        <button class="danger" onclick="limparTudo()">Limpar Todos os Anúncios</button>
+      </div>
+    </div>
+
+    <!-- COMPARATIVO -->
+    <div class="card">
+      <h2>Comparativo de Anúncios Cadastrados</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Investido / Est.</th>
+              <th>Resultados</th>
+              <th>Custo/Res.</th>
+              <th>Impressões</th>
+              <th>Alcance</th>
+              <th>Contatos Msg</th>
+              <th>Vendas (Qtde)</th>
+              <th>Faturamento</th>
+              <th>Ticket Médio</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaAnuncios">
+            <!-- Dados populados via Javascript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ÁREA EXCLUSIVA DE IMPRESSÃO (SÓ APARECE AO IMPRIMIR O RELATÓRIO SELECIONADO) -->
+  <div id="printArea" class="print-only">
+    <!-- Relatório individual montado via JS -->
+  </div>
+
+</div>
+
+<script>
+  let anuncios = JSON.parse(localStorage.getItem('meta_anuncios_db')) || [];
+
+  document.addEventListener('DOMContentLoaded', renderizar);
+
+  // Função para avaliar expressões matemáticas com segurança
+  function avaliarExpressao(val) {
+    if (typeof val === 'number') return val;
+    if (!val || String(val).trim() === '') return 0;
+    try {
+      // Permite apenas números e operadores matemáticos básicos
+      const sanitizado = String(val).replace(/,/g, '.').replace(/[^0-9+\-*/().]/g, '');
+      if (!sanitizado) return 0;
+      const res = Function(`'use strict'; return (${sanitizado})`)();
+      return isNaN(res) ? 0 : parseFloat(res);
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  // Manipular Form
+  document.getElementById('anuncioForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const id = document.getElementById('anuncioId').value;
+    const item = {
+      id: id ? parseInt(id) : Date.now(),
+      titulo: document.getElementById('titulo').value,
+      valorEstimado: avaliarExpressao(document.getElementById('valorEstimado').value),
+      orcamentoDiario: avaliarExpressao(document.getElementById('orcamentoDiario').value),
+      valorGasto: avaliarExpressao(document.getElementById('valorGasto').value),
+      tipoResultado: document.getElementById('tipoResultado').value,
+      resultados: avaliarExpressao(document.getElementById('resultados').value),
+      impressoes: avaliarExpressao(document.getElementById('impressoes').value),
+      alcance: avaliarExpressao(document.getElementById('alcance').value),
+      contatosMensagem: avaliarExpressao(document.getElementById('contatosMensagem').value),
+      totalVendas: avaliarExpressao(document.getElementById('totalVendas').value),
+      valorVendas: avaliarExpressao(document.getElementById('valorVendas').value)
+    };
+
+    if(id) {
+      const idx = anuncios.findIndex(a => a.id === parseInt(id));
+      anuncios[idx] = item;
+    } else {
+      anuncios.push(item);
+    }
+
+    salvar();
+    limparFormulario();
+    renderizar();
+  });
+
+  function salvar() {
+    localStorage.setItem('meta_anuncios_db', JSON.stringify(anuncios));
+  }
+
+  function fmtMoeda(val) {
+    return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function renderizar() {
+    const tbody = document.getElementById('tabelaAnuncios');
+    tbody.innerHTML = '';
+
+    if(anuncios.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;">Nenhum anúncio cadastrado.</td></tr>';
+      return;
+    }
+
+    anuncios.forEach(a => {
+      const custoPorResultado = a.resultados > 0 ? a.valorGasto / a.resultados : 0;
+      const ticketMedio = a.totalVendas > 0 ? a.valorVendas / a.totalVendas : 0;
+      
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${a.titulo}</strong></td>
+        <td>${fmtMoeda(a.valorGasto)} / <br><small>${fmtMoeda(a.valorEstimado)}</small></td>
+        <td>${a.resultados} <br><small>(${a.tipoResultado})</small></td>
+        <td>${fmtMoeda(custoPorResultado)}</td>
+        <td>${a.impressoes.toLocaleString('pt-BR')}</td>
+        <td>${a.alcance.toLocaleString('pt-BR')}</td>
+        <td>${a.contatosMensagem.toLocaleString('pt-BR')}</td>
+        <td>${a.totalVendas}</td>
+        <td><strong>${fmtMoeda(a.valorVendas)}</strong></td>
+        <td><strong>${fmtMoeda(ticketMedio)}</strong></td>
+        <td>
+          <button class="secondary" style="padding: 3px 6px; font-size: 0.75rem;" onclick="imprimirRelatorio(${a.id})">Imprimir</button>
+          <button class="secondary" style="padding: 3px 6px; font-size: 0.75rem;" onclick="editar(${a.id})">Editar</button>
+          <button class="danger" style="padding: 3px 6px; font-size: 0.75rem;" onclick="excluir(${a.id})">X</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function editar(id) {
+    const a = anuncios.find(item => item.id === id);
+    if(!a) return;
+
+    document.getElementById('anuncioId').value = a.id;
+    document.getElementById('titulo').value = a.titulo;
+    document.getElementById('valorEstimado').value = a.valorEstimado;
+    document.getElementById('orcamentoDiario').value = a.orcamentoDiario;
+    document.getElementById('valorGasto').value = a.valorGasto;
+    document.getElementById('tipoResultado').value = a.tipoResultado;
+    document.getElementById('resultados').value = a.resultados;
+    document.getElementById('impressoes').value = a.impressoes;
+    document.getElementById('alcance').value = a.alcance;
+    document.getElementById('contatosMensagem').value = a.contatosMensagem;
+    document.getElementById('totalVendas').value = a.totalVendas;
+    document.getElementById('valorVendas').value = a.valorVendas;
+
+    document.getElementById('btnSalvar').innerText = "Atualizar Anúncio";
+  }
+
+  function limparFormulario() {
+    document.getElementById('anuncioForm').reset();
+    document.getElementById('anuncioId').value = '';
+    document.getElementById('btnSalvar').innerText = "Salvar Anúncio";
+  }
+
+  function excluir(id) {
+    if(confirm('Deseja realmente remover este anúncio?')) {
+      anuncios = anuncios.filter(a => a.id !== id);
+      salvar();
+      renderizar();
+    }
+  }
+
+  function limparTudo() {
+    if(confirm('Atenção: Isso excluirá TODOS os anúncios salvos localmente. Continuar?')) {
+      anuncios = [];
+      salvar();
+      renderizar();
+    }
+  }
+
+  // IMPRESSÃO INDIVIDUAL
+  function imprimirRelatorio(id) {
+    const a = anuncios.find(item => item.id === id);
+    if(!a) return;
+
+    const custoPorResultado = a.resultados > 0 ? a.valorGasto / a.resultados : 0;
+    const ticketMedio = a.totalVendas > 0 ? a.valorVendas / a.totalVendas : 0;
+    const printArea = document.getElementById('printArea');
+
+    printArea.innerHTML = `
+      <div class="print-report">
+        <div class="print-header">
+          <h1>Relatório do Anúncio</h1>
+          <h2>${a.titulo}</h2>
+        </div>
+        <div class="print-grid">
+          <div class="print-item"><label>Valor Total Estimado:</label><p>${fmtMoeda(a.valorEstimado)}</p></div>
+          <div class="print-item"><label>Orçamento Diário:</label><p>${fmtMoeda(a.orcamentoDiario)}</p></div>
+          <div class="print-item"><label>Valor Gasto:</label><p>${fmtMoeda(a.valorGasto)}</p></div>
+          <div class="print-item"><label>Tipo de Resultado:</label><p>${a.tipoResultado}</p></div>
+          <div class="print-item"><label>Resultados:</label><p>${a.resultados}</p></div>
+          <div class="print-item"><label>Custo por Resultado:</label><p>${fmtMoeda(custoPorResultado)}</p></div>
+          <div class="print-item"><label>Impressões:</label><p>${a.impressoes.toLocaleString('pt-BR')}</p></div>
+          <div class="print-item"><label>Alcance:</label><p>${a.alcance.toLocaleString('pt-BR')}</p></div>
+          <div class="print-item"><label>Total de contatos por mensagem:</label><p>${a.contatosMensagem.toLocaleString('pt-BR')}</p></div>
+          <div class="print-item"><label>Total de vendas:</label><p>${a.totalVendas}</p></div>
+          <div class="print-item"><label>Ticket Médio:</label><p style="font-size: 1.1rem;">${fmtMoeda(ticketMedio)}</p></div>
+          <div class="print-item"><label>Valor total das vendas (Faturamento):</label><p style="font-size: 1.1rem;">${fmtMoeda(a.valorVendas)}</p></div>
+        </div>
+      </div>
+    `;
+
+    window.print();
+  }
+
+  // IMPORTAR / EXPORTAR JSON
+  function exportarJSON() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(anuncios, null, 2));
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = `relatorio_anuncios_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function importarJSON(e) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      try {
+        const dados = JSON.parse(event.target.result);
+        if(Array.isArray(dados)) {
+          anuncios = dados;
+          salvar();
+          renderizar();
+          alert('Dados importados com sucesso!');
+        }
+      } catch(err) {
+        alert('Erro ao carregar o arquivo JSON.');
+      }
+    };
+    reader.readAsText(event.target.files[0]);
+  }
+</script>
+
+</body>
+</html>
